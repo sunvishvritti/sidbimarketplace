@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300..500,0..1,0&display=block" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#F3F6F9;font-family:'IBM Plex Sans',system-ui,sans-serif;color:#0B2A42;-webkit-font-smoothing:antialiased}
+a{color:#0A5A7A;text-decoration:none}a:hover{color:#0B3B5C;text-decoration:underline}
+.material-symbols-outlined{font-size:20px;line-height:1;vertical-align:middle}
+input,select,textarea,button{font-family:inherit}
+::placeholder{color:#94A4B0}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+<header style="position:sticky;top:0;z-index:40;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid #E2E9EF">
+  <div style="height:66px;display:flex;align-items:center;gap:18px;padding:0 24px">
+    <a href="index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0">
+      <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#0B3B5C,#0E7A9A);display:grid;place-items:center;color:#fff;font-weight:700;font-size:12px">BDS</div>
+      <div style="display:{{ wideD }}"><div style="font-weight:700;font-size:15.5px;color:#0B3B5C;line-height:1.1">BDS Marketplace</div><div style="font-size:10px;letter-spacing:1.6px;color:#6B7F8E;font-weight:600;margin-top:3px">SELLER ONBOARDING</div></div>
+    </a>
+    <div style="flex:1;min-width:120px;display:flex;align-items:center;gap:12px">
+      <div style="flex:1;height:6px;border-radius:6px;background:#E6EDF2;overflow:hidden"><div style="height:100%;width:{{ pctW }};background:linear-gradient(90deg,#0B4F71,#0E8AAE);border-radius:6px;transition:width .4s ease"></div></div>
+      <span style="font-size:13px;font-weight:600;color:#0B3B5C;white-space:nowrap">{{ pct }}% complete</span>
+    </div>
+    <span style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:#6B7F8E;white-space:nowrap"><span class="material-symbols-outlined" style="font-size:17px;color:{{ savedFg }}">{{ savedIcon }}</span>{{ savedText }}</span>
+    <image-slot id="sidbi-logo-onb2" shape="rect" placeholder="SIDBI logo" fit="contain" style="width:92px;height:40px;flex-shrink:0;display:{{ wideD }}"></image-slot>
+    <a href="seller-portal.html?pending=1" onClick="{{ saveExit }}" style="height:38px;padding:0 14px;border:1px solid #CBD8E2;border-radius:10px;background:#fff;color:#0B3B5C;font-weight:600;font-size:13px;display:inline-flex;align-items:center;text-decoration:none;white-space:nowrap">Save &amp; exit</a>
+  </div>
+</header>
+
+<sc-if value="{{ isFlow }}" hint-placeholder-val="{{ true }}">
+<div style="flex:1;width:100%;max-width:1440px;margin:0 auto;padding:24px;display:grid;grid-template-columns:{{ cols }};gap:24px;align-items:start">
+
+  <aside style="display:{{ railD }};position:sticky;top:90px;flex-direction:column;gap:14px">
+    <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:10px">
+      <sc-for list="{{ steps }}" as="st" hint-placeholder-count="7">
+        <button onClick="{{ st.go }}" style="width:100%;display:flex;align-items:flex-start;gap:12px;padding:12px;border:0;border-radius:12px;background:{{ st.bg }};cursor:{{ st.cur }};text-align:left;position:relative;transition:background .15s" style-hover="background:{{ st.hov }}">
+          <span style="width:30px;height:30px;border-radius:50%;flex-shrink:0;display:grid;place-items:center;background:{{ st.cbg }};color:{{ st.cfg }};border:{{ st.cbd }};font-size:13px;font-weight:700;transition:all .2s"><span class="material-symbols-outlined" style="font-size:17px;display:{{ st.iconD }}">{{ st.icon }}</span><span style="display:{{ st.numD }}">{{ st.n }}</span></span>
+          <span style="flex:1;min-width:0;padding-top:1px"><span style="display:block;font-size:14px;font-weight:600;color:{{ st.fg }}">{{ st.label }}</span><span style="display:block;margin-top:2px;font-size:12px;color:{{ st.subFg }}">{{ st.sub }}</span></span>
+        </button>
+      </sc-for>
+    </div>
+    <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:18px">
+      <div style="display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;border-radius:10px;background:#FDF1E4;color:#B4610E;display:grid;place-items:center"><span class="material-symbols-outlined">support_agent</span></div><div><div style="font-weight:600;font-size:14px">Need help?</div><div style="font-size:12.5px;color:#6B7F8E">Mon–Sat, 9:30–6:00</div></div></div>
+      <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px">
+        <button onClick="{{ openGuide }}" style="display:flex;align-items:center;gap:8px;height:38px;padding:0 12px;border:1px solid #E2E9EF;border-radius:10px;background:#fff;color:#0B3B5C;font-weight:600;font-size:13px;cursor:pointer"><span class="material-symbols-outlined" style="font-size:18px;color:#0B6E8E">play_circle</span>Watch 3-min guide</button>
+        <button onClick="{{ openChat }}" style="display:flex;align-items:center;gap:8px;height:38px;padding:0 12px;border:1px solid #E2E9EF;border-radius:10px;background:#fff;color:#0B3B5C;font-weight:600;font-size:13px;cursor:pointer"><span class="material-symbols-outlined" style="font-size:18px;color:#0B6E8E">chat</span>Chat with onboarding team</button>
+      </div>
+    </div>
+  </aside>
+
+  <section style="min-width:0;display:flex;flex-direction:column;gap:16px">
+    <div style="display:{{ miniD }};gap:6px;overflow-x:auto;padding-bottom:2px">
+      <sc-for list="{{ steps }}" as="st" hint-placeholder-count="7"><button onClick="{{ st.go }}" style="flex-shrink:0;display:flex;align-items:center;gap:6px;height:34px;padding:0 12px 0 6px;border:1px solid {{ st.mbc }};border-radius:99px;background:{{ st.mbg }};color:{{ st.fg }};font-size:12.5px;font-weight:600;cursor:pointer"><span style="width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:{{ st.cbg }};color:{{ st.cfg }};font-size:11px"><span class="material-symbols-outlined" style="font-size:14px;display:{{ st.iconD }}">{{ st.icon }}</span><span style="display:{{ st.numD }}">{{ st.n }}</span></span>{{ st.short }}</button></sc-for>
+    </div>
+
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap">
+      <div style="min-width:0">
+        <div style="font-size:12px;letter-spacing:1.4px;font-weight:700;color:#0B6E8E">{{ stepEyebrow }}</div>
+        <h1 style="margin:6px 0 0;font-size:28px;line-height:1.2;font-weight:700;letter-spacing:-.2px">{{ stepTitle }}</h1>
+        <p style="margin:6px 0 0;font-size:14.5px;line-height:1.55;color:#5A7083;max-width:620px;text-wrap:pretty">{{ stepDesc }}</p>
+      </div>
+      <button onClick="{{ autofill }}" style="display:{{ autoD }};align-items:center;gap:6px;height:36px;padding:0 12px;border:1px dashed #9CCFE0;border-radius:10px;background:#F4FAFC;color:#0A5A7A;font-weight:600;font-size:12.5px;cursor:pointer"><span class="material-symbols-outlined" style="font-size:17px">auto_fix_high</span>Autofill sample</button>
+    </div>
+
+    <sc-if value="{{ sStart }}" hint-placeholder-val="{{ true }}">
+      <div style="position:relative;overflow:hidden;border-radius:20px;background:linear-gradient(120deg,#0B3B5C 0%,#0B4F71 55%,#0E6E8E 100%);padding:28px 30px;color:#fff">
+        <div style="position:absolute;right:-70px;top:-100px;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.07)"></div>
+        <div style="position:absolute;right:160px;bottom:-140px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.05)"></div>
+        <div style="position:relative;font-size:22px;font-weight:700">Welcome, {{ firstName }}</div>
+        <div style="position:relative;margin-top:6px;font-size:14.5px;color:#D5EAF2;max-width:560px;line-height:1.55">Your account is ready. Complete your provider profile once, and use it for every RFQ you respond to.</div>
+        <div style="position:relative;margin-top:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px">
+          <sc-for list="{{ promises }}" as="p" hint-placeholder-count="3"><div style="display:flex;gap:10px;align-items:center;padding:12px 14px;border-radius:12px;background:rgba(255,255,255,.1)"><span class="material-symbols-outlined" style="color:#A8DCEC">{{ p.icon }}</span><div><div style="font-weight:600;font-size:14px">{{ p.t }}</div><div style="font-size:12px;color:#C7E2EC">{{ p.d }}</div></div></div></sc-for>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:24px">
+        <div style="font-weight:600;font-size:16px">What best describes you?</div>
+        <div style="margin-top:4px;font-size:13.5px;color:#5A7083">This decides which documents you'll need.</div>
+        <div style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+          <sc-for list="{{ kinds }}" as="k" hint-placeholder-count="3">
+            <button onClick="{{ k.pick }}" style="position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:18px;border:1.5px solid {{ k.bc }};border-radius:14px;background:{{ k.bg }};cursor:pointer;text-align:left;transition:all .15s;box-shadow:{{ k.sh }}" style-hover="border-color:#0B6E8E">
+              <span class="material-symbols-outlined" style="position:absolute;top:14px;right:14px;font-size:22px;color:#0B6E8E;font-variation-settings:'FILL' 1;display:{{ k.ckD }}">check_circle</span>
+              <span style="width:44px;height:44px;border-radius:12px;background:{{ k.ibg }};color:{{ k.ifg }};display:grid;place-items:center"><span class="material-symbols-outlined" style="font-size:24px">{{ k.icon }}</span></span>
+              <span style="font-weight:600;font-size:15px;color:#0B2A42">{{ k.label }}</span>
+              <span style="font-size:12.5px;line-height:1.5;color:#5A7083">{{ k.d }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:24px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap"><div style="font-weight:600;font-size:16px">Keep these handy</div><span style="font-size:12.5px;color:#6B7F8E">{{ readyCount }} of {{ readyTotal }} ready</span></div>
+        <div style="margin-top:4px;font-size:13.5px;color:#5A7083">Tick what you have now. You can still start without everything.</div>
+        <div style="margin-top:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px">
+          <sc-for list="{{ readyList }}" as="d" hint-placeholder-count="6">
+            <label style="display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid {{ d.bc }};border-radius:12px;background:{{ d.bg }};cursor:pointer;transition:all .15s"><input type="checkbox" checked="{{ d.on }}" onChange="{{ d.toggle }}" style="accent-color:#17704A;width:17px;height:17px"><span class="material-symbols-outlined" style="color:#0B6E8E;font-size:20px">{{ d.icon }}</span><span style="flex:1;font-size:13.5px;color:#0B2A42">{{ d.label }}</span><span style="font-size:11px;font-weight:700;letter-spacing:.3px;color:{{ d.tagFg }}">{{ d.tag }}</span></label>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ sBiz }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:24px">
+        <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap">
+          <div style="display:flex;gap:12px;align-items:center"><div style="width:40px;height:40px;border-radius:11px;background:#E1F2F8;color:#0B5E7E;display:grid;place-items:center"><span class="material-symbols-outlined">bolt</span></div><div><div style="font-weight:600;font-size:15.5px">Quick start with your GSTIN</div><div style="font-size:12.5px;color:#6B7F8E">We fetch your legal name, PAN, state and address from GST records.</div></div></div>
+          <div style="display:flex;padding:3px;background:#F1F5F8;border-radius:10px"><sc-for list="{{ gstOpts }}" as="o" hint-placeholder-count="2"><button onClick="{{ o.pick }}" style="height:32px;padding:0 12px;border:0;border-radius:8px;background:{{ o.bg }};color:{{ o.fg }};box-shadow:{{ o.sh }};font-weight:600;font-size:12.5px;cursor:pointer">{{ o.label }}</button></sc-for></div>
+        </div>
+        <sc-if value="{{ gstYes }}" hint-placeholder-val="{{ true }}">
+          <div style="margin-top:16px;display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap">
+            <div style="flex:1 1 260px;position:relative">
+              <input name="gstin" value="{{ f.gstin }}" onChange="{{ setUp }}" onFocus="{{ focus }}" placeholder="e.g. 09AABCA1234K1Z5" style="width:100%;height:48px;padding:0 42px 0 14px;border:1.5px solid {{ b.gstin }};border-radius:11px;font-size:15px;letter-spacing:.6px;font-family:'IBM Plex Mono',monospace;outline:none;color:#0B2A42;transition:border-color .15s,box-shadow .15s" style-focus="border-color:#0B6E8E;box-shadow:0 0 0 4px #E1F2F8">
+              <span class="material-symbols-outlined" style="position:absolute;right:12px;top:14px;color:#17704A;font-variation-settings:'FILL' 1;display:{{ ok.gstin }}">check_circle</span>
+              <div style="margin-top:6px;font-size:12px;color:{{ hc.gstin }}">{{ h.gstin }}</div>
+            </div>
+            <button onClick="{{ fetchGst }}" style="height:48px;padding:0 18px;border:0;border-radius:11px;background:{{ fetchBg }};color:#fff;font-weight:600;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;white-space:nowrap"><span class="material-symbols-outlined" style="font-size:19px;animation:{{ spinAnim }}">{{ fetchIcon }}</span>{{ fetchLabel }}</button>
+          </div>
+          <sc-if value="{{ fetched }}" hint-placeholder-val="{{ false }}"><div style="margin-top:12px;display:flex;gap:10px;align-items:center;padding:11px 14px;border-radius:11px;background:#EAF7F0;color:#14583A;font-size:13px"><span class="material-symbols-outlined" style="font-size:19px;color:#17704A">task_alt</span>Fetched from GST records · Active since 2017. Please review the highlighted fields below.</div></sc-if>
+        </sc-if>
+      </div>
+
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:24px">
+        <div style="font-weight:600;font-size:15.5px">Legal details</div>
+        <div style="margin-top:18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px">
+          <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:7px"><span style="display:flex;gap:8px;align-items:center;font-size:13px;font-weight:600;color:#1E3A50">Legal name of business <span style="color:#C2412D">*</span><span style="display:{{ af.org }};font-size:11px;font-weight:600;color:#17704A;background:#E5F5EC;padding:2px 7px;border-radius:6px">From GST</span></span><span style="position:relative;display:block"><input name="org" value="{{ f.org }}" onChange="{{ set }}" onFocus="{{ focus }}" style="width:100%;height:46px;padding:0 40px 0 14px;border:1.5px solid {{ b.org }};border-radius:11px;font-size:14.5px;outline:none;background:{{ bg.org }};color:#0B2A42;transition:border-color .15s,box-shadow .15s" style-focus="border-color:#0B6E8E;box-shadow:0 0 0 4px #E1F2F8"><span class="material-symbols-outlined" style="position:absolute;right:12px;top:13px;color:#17704A;font-variation-settings:'FILL' 1;display:{{ ok.org }}">check_circle</span></span><span style="font-size:12px;color:{{ hc.org }}">{{ h.org }}</span></label>
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="display:flex;gap:8px;align-items:center;font-size:13px;font-weight:600;color:#1E3A50">PAN <span style="color:#C2412D">*</span><span style="display:{{ af.pan }};font-size:11px;font-weight:600;color:#17704A;background:#E5F5EC;padding:2px 7px;border-radius:6px">From GST</span></span><span style="position:relative;display:block"><input name="pan" value="{{ f.pan }}" onChange="{{ setUp }}" onFocus="{{ focus }}" placeholder="AAAAA9999A" style="width:100%;height:46px;padding:0 40px 0 14px;border:1.5px solid {{ b.pan }};border-radius:11px;font-size:14.5px;letter-spacing:.6px;font-family:'IBM Plex Mono',monospace;outline:none;background:{{ bg.pan }};color:#0B2A42" style-focus="border-color:#0B6E8E;box-shadow:0 0 0 4px #E1F2F8"><span class="material-symbols-outlined" style="position:absolute;right:12px;top:13px;color:#17704A;font-variation-settings:'FILL' 1;display:{{ ok.pan }}">check_circle</span></span><span style="font-size:12px;color:{{ hc.pan }}">{{ h.pan }}</span></label>
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="display:flex;gap:8px;align-items:center;font-size:13px;font-weight:600;color:#1E3A50">Legal entity type <span style="color:#C2412D">*</span><span style="display:{{ af.constitution }};font-size:11px;font-weight:600;color:#17704A;background:#E5F5EC;padding:2px 7px;border-radius:6px">Suggested</span></span><select name="constitution" value="{{ f.constitution }}" onChange="{{ set }}" onFocus="{{ focus }}" style="width:100%;height:46px;padding:0 12px;border:1.5px solid {{ b.constitution }};border-radius:11px;font-size:14.5px;background:{{ bg.constitution }};color:#0B2A42;outline:none"><option value="">Select</option><sc-for list="{{ constitutions }}" as="o" hint-placeholder-count="0"><option value="{{ o }}">{{ o }}</option></sc-for></select><span style="font-size:12px;color:{{ hc.constitution }}">{{ h.constitution }}</span></label>
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:600;color:#1E3A50">Year established <span style="color:#C2412D">*</span></span><span style="position:relative;display:block"><input name="year" value="{{ f.year }}" onChange="{{ set }}" onFocus="{{ focus }}" placeholder="YYYY" inputmode="numeric" style="width:100%;height:46px;padding:0 40px 0 14px;border:1.5px solid {{ b.year }};border-radius:11px;font-size:14.5px;outline:none;color:#0B2A42" style-focus="border-color:#0B6E8E;box-shadow:0 0 0 4px #E1F2F8"><span class="material-symbols-outlined" style="position:absolute;right:12px;top:13px;color:#17704A;font-variation-settings:'FILL' 1;display:{{ ok.year }}">check_circle</span></span><span style="font-size:12px;color:{{ hc.year }}">{{ h.year }}</span></label>
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:600;color:#1E3A50">Nature of enterprise <span style="color:#C2412D">*</span></span><select name="nature" value="{{ f.nature }}" onChange="{{ set }}" onFocus="{{ focus }}" style="width:100%;height:46px;padding:0 12px;border:1.5px solid {{ b.nature }};border-radius:11px;font-size:14.5px;background:#fff;color:#0B2A42;outline:none"><option value="">Select</option><option>Services</option><option>Professional practice</option><option>Not-for-profit / Section 8</option><option>Academic or research institution</option></select><span style="font-size:12px;color:{{ hc.nature }}">{{ h.nature }}</span></label>
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:600;color:#1E3A50">Category of seller <span style="color:#C2412D">*</span></span><select name="ptype" value="{{ f.ptype }}" onChange="{{ set }}" onFocus="{{ focus }}" style="width:100%;height:46px;padding:0 12px;border:1.5px solid {{ b.ptype }};border-radius:11px;font-size:14.5px;background:#fff;color:#0B2A42;outline:none"><option value="">Select</option><sc-for list="{{ sellerTypes }}" as="o" hint-placeholder-count="0"><option value="{{ o }}">{{ o }}</option></sc-for></select><span style="font-size:12px;color:{{ hc.ptype }}">{{ h.ptype }}</span></label>
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="display:flex;gap:8px;align-items:center;font-size:13px;font-weight:600;color:#1E3A50">Udyam registration <span style="font-weight:500;color:#8A9BA8">Optional</span><span style="display:{{ udyamOkD }};font-size:11px;font-weight:600;color:#17704A;background:#E5F5EC;padding:2px 7px;border-radius:6px">Verified · {{ udyamClass }}</span></span><span style="display:flex;gap:8px"><input name="udyam" value="{{ f.udyam }}" onChange="{{ setUp }}" onFocus="{{ focus }}" placeholder="UDYAM-XX-00-0000000" style="flex:1;min-width:0;height:46px;padding:0 14px;border:1.5px solid {{ b.udyam }};border-radius:11px;font-size:14px;font-family:'IBM Plex Mono',monospace;outline:none;color:#0B2A42" style-focus="border-color:#0B6E8E;box-shadow:0 0 0 4px #E1F2F8"><button onClick="{{ verifyUdyam }}" style="height:46px;padding:0 14px;border:1px solid #CBD8E2;border-radius:11px;background:#fff;color:#0B3B5C;font-weight:600;font-size:13px;cursor:pointer;display:{{ udyamBtnD }}">Verify</button></span><span style="font-size:12px;color:{{ hc.udyam }}">{{ h.udyam }}</span></label>
+        </div>
+      </div>
+
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:24px">
+        <div style="font-weight:600;font-size:15.5px">Brand and introduction</div>
+        <div style="margin-top:4px;font-size:12.5px;color:#6B7F8E">Shown on your public profile once approved.</div>
+        <div style="margin-top:18px;display:grid;grid-template-columns:140px minmax(0,1fr);gap:14px">
+          <div style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:600;color:#1E3A50">Logo <span style="color:#C2412D">*</span></span><image-slot id="onb2-logo" shape="rounded" radius="16" placeholder="Drop logo" style="width:140px;height:140px"></image-slot></div>
+          <div style="display:flex;flex-direction:column;gap:7px;min-width:0"><span style="font-size:13px;font-weight:600;color:#1E3A50">Banner <span style="font-weight:500;color:#8A9BA8">1600 × 400</span></span><image-slot id="onb2-banner" shape="rounded" radius="16" placeholder="Drop a banner image" style="width:100%;height:140px"></image-slot></div>
+        </div>
+        <label style="margin-top:20px;display:flex;flex-direction:column;gap:7px"><span style="display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:#1E3A50"><span>Introduction <span style="color:#C2412D">*</span></span><span style="font-weight:500;color:{{ introFg }}">{{ introCount }}/1000</span></span><textarea name="intro" value="{{ f.intro }}" onChange="{{ set }}" onFocus="{{ focus }}" rows="4" placeholder="What you do, who you work with, and what makes your practice different." style="width:100%;padding:12px 14px;border:1.5px solid {{ b.intro }};border-radius:11px;font-size:14.5px;line-height:1.6;outline:none;resize:vertical;color:#0B2A42" style-focus="border-color:#0B6E8E;box-shadow:0 0 0 4px #E1F2F8"></textarea><span style="display:flex;align-items:center;gap:10px"><span style="flex:1;height:4px;border-radius:4px;background:#EEF2F5;overflow:hidden;max-width:180px"><span style="display:block;height:100%;width:{{ introW }};background:{{ introBar }};transition:width .2s"></span></span><span style="font-size:12px;color:{{ hc.intro }}">{{ h.intro }}</span></span></label>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ sContact }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:24px">
+        <div style="font-weight:600;font-size:15.5px">Primary contact</div>
+        <div style="margin-top:18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px">
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:600;color:#1E3A50">Full name <span style="color:#C2412D">*</span></span><span style="position:relative;display:block"><input name="cname" value="{{ f.cname }}" onChange="{{ set }}" onFocus="{{ focus }}" style="width:100%;height:46px;padding:0 40px 0 14px;border:1.5px solid {{ b.cname }};border-radius:11px;font-size:14.5px;outline:none;color:#0B2A42" style-focus="border-color:#0B6E8E;box-shadow:0 0 0 4px #E1F2F8"><span class="material-symbols-outlined" style="position:absolute;right:12px;top:13px;color:#17704A;font-variation-settings:'FILL' 1;display:{{ ok.cname }}">check_circle</span></span><span style="font-size:12px;color:{{ hc.cname }}">{{ h.cname }}</span></label>
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:600;color:#1E3A50">Designation <span style="color:#C2412D">*</span></span><span style="position:relative;display:block"><input name="cdesig" value="{{ f.cdesig }}" onChange="{{ set }}" onFocus="{{ focus }}" placeholder="e.g. Managing Partner" style="width:100%;height:46px;padding:0 40px 0 14px;border:1.5px solid {{ b.cdesig }};border-radius:11px;font-size:14.5px;outline:none;color:#0B2A42" style-focus="border-color:#0B6E8E;box-shadow:0 0 0 4px #E1F2F8"><span class="material-symbols-outlined" style="position:absolute;right:12px;top:13px;color:#17704A;font-variation-settings:'FILL' 1;display:{{ ok.cdesig }}">check_circle</span></span><span style="font-size:12px;color:{{ hc.cdesig }}">{{ h.cdesig }}</span></label>
+        </div>
+        <div style="margin-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px">
+          <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid #E2E9EF;border-radius:12px;background:#FAFCFD"><span class="material-symbols-outlined" style="color:#0B6E8E">smartphone</span><div style="flex:1;min-width:0"><div style="font-size:12px;color:#6B7F8E">Mobile</div><div style="font-weight:600;font-size:14px">+91 {{ f.cmobile }}</div></div><span style="display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:#17704A"><span class="material-symbols-outlined" style="font-size:17px;font-variation-settings:'FILL' 1">verified</span>Verified</span></div>
+          <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid #E2E9EF;border-radius:12px;background:#FAFCFD"><span class="material-symbols-outlined" style="color:#0B6E8E">mail</span><div style="flex:1;min-width:0"><div style="font-size:12px;color:#6B7F8E">Email</div><div style="font-weight:600;font-size:14px;overflow:hidden;text-overflow:ellipsis">{{ f.cemail }}</div></div><span style="display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:#17704A"><span class="material-symbols-outlined" style="font-size:17px;font-variation-settings:'FILL' 1">verified</span>Verified</span></div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:24px">
+        <div style="font-weight:600;font-size:15.5px">Additional contact channels</div>
+        <div style="margin-top:18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px">
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:600;color:#1E3A50">Alternate number <span style="font-weight:500;color:#8A9BA8">Optional</span></span><input name="alt" value="{{ f.alt }}" onChange="{{ set }}" onFocus="{{ focus }}" inputmode="numeric" style="width:100%;height:46px;padding:0 14px;border:1.5px solid {{ b.alt }};border-radius:11px;font-size:14.5px;outline:none;color:#0B2A42" style-focus="border-color:#0B6E8E;box-shadow:0 0 0 4px #E1F2F8"><span style="font-size:12px;color:{{ hc.alt }}">{{ h.alt }}</span></label>
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:600;color:#1E3A50">Website <span style="font-weight:500;color:#8A9BA8">Optional</span></span><input name="web" value="{{ f.web }}" onChange="{{ set }}" onFocus="{{ focus }}" placeholder="https://" style="width:100%;height:46px;padding:0 14px;border:1.5px solid #D3DEE6;border-radius:11px;font-size:14.5px;outline:none;color:#0B2A42" style-focus="border-color:#0B6E8E;box-shadow:0 0 0 4px #E1F2F8"></label>
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:600;color:#1E3A50">Enquiry email <span style="font-weight:500;color:#8A9BA8">Optional</span></span><input name="supEmail" value="{{ f.supEmail }}" onChange="{{ set }}" onFocus="{{ focus }}" style="width:100%;height:46px;padding:0 14px;border:1.5px solid #D3DEE6;border-radius:11px;font-size:14.5px;outline:none;color:#0B2A42" style-focus="border-color:#0B6E8E;box-shadow:0 0 0 4px #E1F2F8"></label>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ sAddress }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:24px">
+        <div style="display:flex;gap:8px;align-items:center;font-weight:600;font-size:15.5px">Registered address<span style="display:{{ af.addr1 }};font-size:11px;font-weight:600;color:#17704A;background:#E5F5EC;padding:2px 7px;border-radius:6px">From GST</span></div>
+        <div style="margin-top:18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px">
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:600;color:#1E3A50">PIN code <span style="color:#C2412D">*</span></span><span style="position:relative;display:block"><input name="pin" value="{{ f.pin }}" onChange="{{ setPin }}" onFocus="{{ focus }}" inputmode="numeric" placeholder="6 digits" style="width:100%;height:46px;padding:0 40px 0 14px;border:1.5px solid {{ b.pin }};border-radius:11px;font-size:15px;letter-spacing:1px;font-family:'IBM Plex Mono',monospace;outline:none;color:#0B2A42" style-focus="border-color:#0B6E8E;box-shadow:0 0 0 4px #E1F2F8"><span class="material-symbols-outlined" style="position:absolute;right:12px;top:13px;color:#17704A;font-variation-settings:'FILL' 1;display:{{ ok.pin }}">check_circle</span></span><span style="font-size:12px;color:{{ hc.pin }}">{{ h.pin }}</span></label>
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:600;color:#1E3A50">State <span style="color:#C2412D">*</span></span><select name="state" value="{{ f.state }}" onChange="{{ set }}" onFocus="{{ focus }}" style="width:100%;height:46px;padding:0 12px;border:1.5px solid {{ b.state }};border-radius:11px;font-size:14.5px;background:{{ bg.state }};color:#0B2A42;outline:none"><option value="">Select state</option><sc-for list="{{ states }}" as="o" hint-placeholder-count="0"><option value="{{ o }}">{{ o }}</option></sc-for></select><span style="font-size:12px;color:{{ hc.state }}">{{ h.state }}</span></label>
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:600;color:#1E3A50">District <span style="color:#C2412D">*</span></span><select name="district" value="{{ f.district }}" onChange="{{ set }}" onFocus="{{ focus }}" style="width:100%;height:46px;padding:0 12px;border:1.5px solid {{ b.district }};border-radius:11px;font-size:14.5px;background:{{ bg.district }};color:#0B2A42;outline:none"><option value="">Select district</option><sc-for list="{{ districts }}" as="o" hint-placeholder-count="0"><option value="{{ o }}">{{ o }}</option></sc-for></select><span style="font-size:12px;color:{{ hc.district }}">{{ h.district }}</span></label>
+          <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:600;color:#1E3A50">Address line 1 <span style="color:#C2412D">*</span></span><span style="position:relative;display:block"><input name="addr1" value="{{ f.addr1 }}" onChange="{{ set }}" onFocus="{{ focus }}" placeholder="Building, floor, street" style="width:100%;height:46px;padding:0 40px 0 14px;border:1.5px solid {{ b.addr1 }};border-radius:11px;font-size:14.5px;outline:none;background:{{ bg.addr1 }};color:#0B2A42" style-focus="border-color:#0B6E8E;box-shadow:0 0 0 4px #E1F2F8"><span class="material-symbols-outlined" style="position:absolute;right:12px;top:13px;color:#17704A;font-variation-settings:'FILL' 1;display:{{ ok.addr1 }}">check_circle</span></span><span style="font-size:12px;color:{{ hc.addr1 }}">{{ h.addr1 }}</span></label>
+          <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:600;color:#1E3A50">Address line 2 <span style="font-weight:500;color:#8A9BA8">Optional</span></span><input name="addr2" value="{{ f.addr2 }}" onChange="{{ set }}" onFocus="{{ focus }}" placeholder="Area, landmark" style="width:100%;height:46px;padding:0 14px;border:1.5px solid #D3DEE6;border-radius:11px;font-size:14.5px;outline:none;background:{{ bg.addr2 }};color:#0B2A42" style-focus="border-color:#0B6E8E;box-shadow:0 0 0 4px #E1F2F8"></label>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:24px">
+        <div onClick="{{ toggleSame }}" style="display:flex;align-items:center;gap:14px;cursor:pointer">
+          <span style="width:42px;height:24px;border-radius:12px;background:{{ sameBg }};position:relative;flex-shrink:0;transition:background .2s"><span style="position:absolute;top:3px;left:{{ sameX }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left .2s"></span></span>
+          <div><div style="font-weight:600;font-size:14.5px">Services are delivered from the registered address</div><div style="font-size:12.5px;color:#6B7F8E;margin-top:2px">Turn off to add a separate operating office</div></div>
+        </div>
+        <sc-if value="{{ showOps }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:18px;padding-top:18px;border-top:1px solid #EEF2F5;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px">
+            <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:600;color:#1E3A50">Operating address <span style="color:#C2412D">*</span></span><input name="opsAddr" value="{{ f.opsAddr }}" onChange="{{ set }}" onFocus="{{ focus }}" style="width:100%;height:46px;padding:0 14px;border:1.5px solid {{ b.opsAddr }};border-radius:11px;font-size:14.5px;outline:none;color:#0B2A42"><span style="font-size:12px;color:{{ hc.opsAddr }}">{{ h.opsAddr }}</span></label>
+            <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:600;color:#1E3A50">State <span style="color:#C2412D">*</span></span><select name="opsState" value="{{ f.opsState }}" onChange="{{ set }}" style="width:100%;height:46px;padding:0 12px;border:1.5px solid {{ b.opsState }};border-radius:11px;font-size:14.5px;background:#fff;color:#0B2A42;outline:none"><option value="">Select state</option><sc-for list="{{ states }}" as="o" hint-placeholder-count="0"><option value="{{ o }}">{{ o }}</option></sc-for></select><span style="font-size:12px;color:{{ hc.opsState }}">{{ h.opsState }}</span></label>
+          </div>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ sOps }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:24px">
+        <div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline"><div style="font-weight:600;font-size:15.5px">Main service category <span style="color:#C2412D">*</span></div><span style="font-size:12px;color:#C2412D">{{ e.mainCat }}</span></div>
+        <div style="margin-top:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px">
+          <sc-for list="{{ catCards }}" as="c" hint-placeholder-count="8">
+            <button onClick="{{ c.pick }}" style="position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:14px;border:1.5px solid {{ c.bc }};border-radius:13px;background:{{ c.bg }};cursor:pointer;text-align:left;min-height:104px;transition:all .15s" style-hover="border-color:#0B6E8E">
+              <span class="material-symbols-outlined" style="position:absolute;top:12px;right:12px;font-size:20px;color:#0B6E8E;font-variation-settings:'FILL' 1;display:{{ c.ckD }}">check_circle</span>
+              <span style="width:38px;height:38px;border-radius:10px;background:{{ c.ibg }};color:{{ c.ifg }};display:grid;place-items:center"><span class="material-symbols-outlined">{{ c.icon }}</span></span>
+              <span style="font-size:13.5px;font-weight:600;line-height:1.3;color:#0B2A42">{{ c.name }}</span>
+            </button>
+          </sc-for>
+        </div>
+        <sc-if value="{{ hasCat }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:20px;padding-top:18px;border-top:1px solid #EEF2F5">
+            <div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline"><div style="font-size:13px;font-weight:600;color:#1E3A50">Areas of expertise <span style="color:#C2412D">*</span> <span style="font-weight:500;color:#8A9BA8">Pick all that apply</span></div><span style="font-size:12px;color:#C2412D">{{ e.expertise }}</span></div>
+            <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px"><sc-for list="{{ expertiseOpts }}" as="x" hint-placeholder-count="0"><button onClick="{{ x.toggle }}" style="display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 14px;border:1.5px solid {{ x.bc }};border-radius:99px;background:{{ x.bg }};color:{{ x.fg }};font-size:13.5px;font-weight:500;cursor:pointer;transition:all .15s"><span class="material-symbols-outlined" style="font-size:17px">{{ x.icon }}</span>{{ x.label }}</button></sc-for></div>
+          </div>
+        </sc-if>
+      </div>
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:24px">
+        <div style="font-weight:600;font-size:15.5px">Capacity</div>
+        <div style="margin-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px">
+          <div style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:600;color:#1E3A50">Years of experience <span style="color:#C2412D">*</span></span>
+            <div style="display:flex;align-items:center;height:46px;border:1.5px solid {{ b.exp }};border-radius:11px;overflow:hidden;width:fit-content"><button onClick="{{ expDown }}" style="width:46px;height:100%;border:0;background:#F6F9FB;color:#0B3B5C;cursor:pointer"><span class="material-symbols-outlined">remove</span></button><input name="exp" value="{{ f.exp }}" onChange="{{ set }}" onFocus="{{ focus }}" inputmode="numeric" style="width:70px;height:100%;border:0;text-align:center;font-size:16px;font-weight:600;outline:none;color:#0B2A42"><button onClick="{{ expUp }}" style="width:46px;height:100%;border:0;background:#F6F9FB;color:#0B3B5C;cursor:pointer"><span class="material-symbols-outlined">add</span></button></div>
+            <span style="font-size:12px;color:{{ hc.exp }}">{{ h.exp }}</span></div>
+          <div style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:600;color:#1E3A50">Team size <span style="color:#C2412D">*</span></span>
+            <div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ teamOpts }}" as="t" hint-placeholder-count="5"><button onClick="{{ t.pick }}" style="height:40px;padding:0 13px;border:1.5px solid {{ t.bc }};border-radius:10px;background:{{ t.bg }};color:{{ t.fg }};font-weight:600;font-size:13px;cursor:pointer">{{ t.label }}</button></sc-for></div>
+            <span style="font-size:12px;color:#C2412D">{{ e.team }}</span></div>
+        </div>
+        <div style="margin-top:22px;display:flex;justify-content:space-between;gap:10px;align-items:baseline"><div style="font-size:13px;font-weight:600;color:#1E3A50">How do you deliver? <span style="color:#C2412D">*</span></div><span style="font-size:12px;color:#C2412D">{{ e.modes }}</span></div>
+        <div style="margin-top:10px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px">
+          <sc-for list="{{ modeCards }}" as="m" hint-placeholder-count="3"><button onClick="{{ m.toggle }}" style="display:flex;align-items:center;gap:12px;padding:14px;border:1.5px solid {{ m.bc }};border-radius:13px;background:{{ m.bg }};cursor:pointer;text-align:left"><span class="material-symbols-outlined" style="font-size:24px;color:{{ m.ifg }}">{{ m.icon }}</span><span style="flex:1"><span style="display:block;font-weight:600;font-size:14px;color:#0B2A42">{{ m.label }}</span><span style="display:block;font-size:12px;color:#6B7F8E;margin-top:2px">{{ m.d }}</span></span><span class="material-symbols-outlined" style="font-size:20px;color:#0B6E8E;font-variation-settings:'FILL' {{ m.fill }}">{{ m.ck }}</span></button></sc-for>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:24px">
+        <div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline"><div style="font-weight:600;font-size:15.5px">Where you work <span style="color:#C2412D">*</span></div><span style="font-size:12px;color:#C2412D">{{ e.coverage }}</span></div>
+        <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px"><sc-for list="{{ coverageOpts }}" as="x" hint-placeholder-count="10"><button onClick="{{ x.toggle }}" style="display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 14px;border:1.5px solid {{ x.bc }};border-radius:99px;background:{{ x.bg }};color:{{ x.fg }};font-size:13.5px;font-weight:500;cursor:pointer"><span class="material-symbols-outlined" style="font-size:17px">{{ x.icon }}</span>{{ x.label }}</button></sc-for></div>
+        <div style="margin-top:20px;font-weight:600;font-size:13px;color:#1E3A50">Industries you serve <span style="font-weight:500;color:#8A9BA8">Optional · improves RFQ matching</span></div>
+        <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px"><sc-for list="{{ industryOpts }}" as="x" hint-placeholder-count="7"><button onClick="{{ x.toggle }}" style="display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 14px;border:1.5px solid {{ x.bc }};border-radius:99px;background:{{ x.bg }};color:{{ x.fg }};font-size:13.5px;font-weight:500;cursor:pointer"><span class="material-symbols-outlined" style="font-size:17px">{{ x.icon }}</span>{{ x.label }}</button></sc-for></div>
+      </div>
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:24px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><div><div style="font-weight:600;font-size:15.5px">Certifications and empanelments</div><div style="font-size:12.5px;color:#6B7F8E;margin-top:2px">Optional. Expiry dates trigger renewal reminders.</div></div><button onClick="{{ addCert }}" style="display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px;border:1px solid #CBD8E2;border-radius:10px;background:#fff;color:#0B3B5C;font-weight:600;font-size:13px;cursor:pointer"><span class="material-symbols-outlined" style="font-size:18px">add</span>Add</button></div>
+        <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px">
+          <sc-for list="{{ certRows }}" as="c" hint-placeholder-count="0"><div style="display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) 150px 36px;gap:8px;padding:10px;border:1px solid #E2E9EF;border-radius:12px;align-items:center;background:#FAFCFD"><input value="{{ c.name }}" onChange="{{ c.onName }}" placeholder="Certification name" style="height:40px;padding:0 10px;border:1px solid #DCE5EC;border-radius:9px;font-size:13.5px;outline:none;min-width:0;background:#fff"><input value="{{ c.issuer }}" onChange="{{ c.onIssuer }}" placeholder="Issued by" style="height:40px;padding:0 10px;border:1px solid #DCE5EC;border-radius:9px;font-size:13.5px;outline:none;min-width:0;background:#fff"><input value="{{ c.valid }}" onChange="{{ c.onValid }}" type="date" style="height:40px;padding:0 8px;border:1px solid #DCE5EC;border-radius:9px;font-size:13px;outline:none;min-width:0;background:#fff"><button onClick="{{ c.remove }}" style="width:34px;height:34px;border:0;border-radius:9px;background:transparent;color:#8A9BA8;cursor:pointer"><span class="material-symbols-outlined" style="font-size:19px">delete</span></button></div></sc-for>
+          <sc-if value="{{ noCerts }}" hint-placeholder-val="{{ true }}"><div onClick="{{ addCert }}" style="padding:18px;border:1.5px dashed #CBD8E2;border-radius:12px;text-align:center;font-size:13px;color:#6B7F8E;cursor:pointer">ISO, ZED empanelment, ICAI peer review, BEE certification…</div></sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ sDocs }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:24px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap"><div style="font-weight:600;font-size:15.5px">Mandatory documents</div><span style="font-size:12.5px;font-weight:600;color:{{ docFg }}">{{ docDone }} of {{ docReq }} uploaded</span></div>
+        <div style="margin-top:4px;font-size:12.5px;color:#6B7F8E">Based on your answers. PDF, JPG or PNG up to 5 MB. Files are stored privately and scanned.</div>
+        <div style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px">
+          <sc-for list="{{ reqDocRows }}" as="d" hint-placeholder-count="5">
+            <div onClick="{{ d.act }}" style="position:relative;display:flex;flex-direction:column;gap:10px;padding:16px;border:1.5px {{ d.bs }} {{ d.bc }};border-radius:14px;background:{{ d.bg }};cursor:pointer;transition:all .15s;min-height:132px" style-hover="border-color:#0B6E8E">
+              <div style="display:flex;align-items:center;gap:10px"><span style="width:38px;height:38px;border-radius:10px;background:{{ d.ibg }};color:{{ d.ifg }};display:grid;place-items:center;flex-shrink:0"><span class="material-symbols-outlined">{{ d.icon }}</span></span><span style="flex:1;font-weight:600;font-size:14px;line-height:1.3">{{ d.label }}</span></div>
+              <div style="font-size:12.5px;line-height:1.45;color:{{ d.subFg }};flex:1">{{ d.sub }}</div>
+              <div style="display:{{ d.barD }};height:4px;border-radius:4px;background:#E6EDF2;overflow:hidden"><div style="height:100%;width:{{ d.pct }};background:#0B6E8E;transition:width .2s"></div></div>
+              <div style="display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:{{ d.cFg }}"><span class="material-symbols-outlined" style="font-size:17px">{{ d.cIcon }}</span>{{ d.cta }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="margin-top:8px;font-size:12px;color:#C2412D">{{ e.docs }}</div>
+      </div>
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:24px">
+        <div style="font-weight:600;font-size:15.5px">Strengthen your application <span style="font-weight:500;font-size:13px;color:#8A9BA8">Optional</span></div>
+        <div style="margin-top:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px">
+          <sc-for list="{{ optDocRows }}" as="d" hint-placeholder-count="2">
+            <div onClick="{{ d.act }}" style="display:flex;align-items:center;gap:12px;padding:14px;border:1.5px {{ d.bs }} {{ d.bc }};border-radius:14px;background:{{ d.bg }};cursor:pointer" style-hover="border-color:#0B6E8E"><span style="width:38px;height:38px;border-radius:10px;background:{{ d.ibg }};color:{{ d.ifg }};display:grid;place-items:center;flex-shrink:0"><span class="material-symbols-outlined">{{ d.icon }}</span></span><div style="flex:1;min-width:0"><div style="font-weight:600;font-size:14px">{{ d.label }}</div><div style="font-size:12px;color:{{ d.subFg }};margin-top:2px">{{ d.sub }}</div></div><span class="material-symbols-outlined" style="color:{{ d.cFg }}">{{ d.cIcon }}</span></div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ sReview }}" hint-placeholder-val="{{ false }}">
+      <sc-if value="{{ hasMissing }}" hint-placeholder-val="{{ false }}">
+        <div style="background:#FFF8EE;border:1px solid #F3D9AE;border-radius:18px;padding:20px 22px">
+          <div style="display:flex;gap:10px;align-items:center;font-weight:600;font-size:15px;color:#7A4A0C"><span class="material-symbols-outlined" style="color:#B4610E">error</span>{{ missingCount }} items need attention before you can submit</div>
+          <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px">
+            <sc-for list="{{ missing }}" as="m" hint-placeholder-count="2"><div style="display:flex;align-items:center;gap:10px;font-size:13.5px;color:#5C3A0A"><span style="width:6px;height:6px;border-radius:50%;background:#B4610E"></span><span style="flex:1"><b>{{ m.section }}:</b> {{ m.text }}</span><button onClick="{{ m.fix }}" style="height:30px;padding:0 12px;border:1px solid #E8C48C;border-radius:8px;background:#fff;color:#7A4A0C;font-weight:600;font-size:12.5px;cursor:pointer">Fix</button></div></sc-for>
+          </div>
+        </div>
+      </sc-if>
+      <sc-for list="{{ review }}" as="r" hint-placeholder-count="5">
+        <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;overflow:hidden">
+          <div style="display:flex;align-items:center;gap:12px;padding:16px 22px;border-bottom:1px solid #EEF2F5">
+            <span class="material-symbols-outlined" style="color:{{ r.sFg }};font-variation-settings:'FILL' 1">{{ r.sIcon }}</span>
+            <div style="flex:1;font-weight:600;font-size:15px">{{ r.title }}</div>
+            <button onClick="{{ r.edit }}" style="display:inline-flex;align-items:center;gap:4px;height:32px;padding:0 12px;border:1px solid #CBD8E2;border-radius:9px;background:#fff;color:#0B3B5C;font-weight:600;font-size:12.5px;cursor:pointer"><span class="material-symbols-outlined" style="font-size:16px">edit</span>Edit</button>
+          </div>
+          <div style="padding:14px 22px 18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px 20px">
+            <sc-for list="{{ r.items }}" as="i" hint-placeholder-count="4"><div style="min-width:0"><div style="font-size:12px;color:#6B7F8E">{{ i.k }}</div><div style="margin-top:3px;font-size:14px;font-weight:500;color:{{ i.fg }};overflow-wrap:anywhere">{{ i.v }}</div></div></sc-for>
+          </div>
+        </div>
+      </sc-for>
+      <label style="display:flex;gap:12px;align-items:flex-start;padding:18px 20px;border-radius:18px;background:#fff;border:1.5px solid {{ declBc }};font-size:13.5px;line-height:1.6;color:#2E4A5F;cursor:pointer"><input type="checkbox" checked="{{ f.declared }}" onChange="{{ toggleDeclare }}" style="accent-color:#0B4F71;width:18px;height:18px;margin-top:2px;flex-shrink:0"><span>I declare that the information and documents submitted are true and belong to the organisation named above. I understand that my services cannot be published, and I cannot respond to RFQs, until an administrator approves this application.</span></label>
+    </sc-if>
+
+    <div style="position:sticky;bottom:16px;z-index:20;margin-top:4px;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border:1px solid #E2E9EF;border-radius:16px;box-shadow:0 12px 32px rgba(11,42,66,.1);padding:12px 14px;display:flex;align-items:center;gap:10px">
+      <button onClick="{{ prev }}" style="display:{{ prevD }};align-items:center;gap:6px;height:44px;padding:0 16px;border:1px solid #CBD8E2;border-radius:11px;background:#fff;color:#0B3B5C;font-weight:600;font-size:14px;cursor:pointer"><span class="material-symbols-outlined" style="font-size:18px">arrow_back</span>Back</button>
+      <div style="flex:1;min-width:0;font-size:12.5px;color:#6B7F8E;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ footHint }}</div>
+      <button onClick="{{ next }}" style="display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 22px;border:0;border-radius:11px;background:{{ nextBg }};color:#fff;font-weight:600;font-size:14.5px;cursor:pointer;box-shadow:0 6px 16px {{ nextSh }};transition:transform .1s" style-active="transform:scale(.98)">{{ nextLabel }}<span class="material-symbols-outlined" style="font-size:18px">{{ nextIcon }}</span></button>
+    </div>
+  </section>
+
+  <aside style="display:{{ previewD }};position:sticky;top:90px;flex-direction:column;gap:14px">
+    <div style="font-size:12px;letter-spacing:1.4px;font-weight:700;color:#6B7F8E;padding-left:4px">LIVE PROFILE PREVIEW</div>
+    <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;overflow:hidden;box-shadow:0 10px 30px rgba(11,42,66,.06)">
+      <div style="height:78px;background:linear-gradient(120deg,#0B3B5C,#0E6E8E);position:relative"><div style="position:absolute;right:-30px;top:-40px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.08)"></div></div>
+      <div style="padding:0 18px 18px">
+        <div style="margin-top:-28px;width:56px;height:56px;border-radius:14px;background:#fff;border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,.12);display:grid;place-items:center;font-weight:700;font-size:18px;color:#0B3B5C;position:relative">{{ pv.ini }}</div>
+        <div style="margin-top:10px;font-weight:700;font-size:16px;line-height:1.3;color:{{ pv.nameFg }}">{{ pv.name }}</div>
+        <div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:6px;align-items:center"><span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:#B4610E;background:#FDEFD9;padding:3px 8px;border-radius:6px"><span class="material-symbols-outlined" style="font-size:14px">hourglass_top</span>Verification pending</span><span style="font-size:12px;color:#6B7F8E">{{ pv.type }}</span></div>
+        <div style="margin-top:12px;font-size:13px;line-height:1.55;color:{{ pv.introFg }}">{{ pv.intro }}</div>
+        <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ pv.chips }}" as="c" hint-placeholder-count="0"><span style="font-size:12px;padding:4px 9px;border-radius:7px;background:#E1F2F8;color:#0B5E7E;font-weight:500">{{ c }}</span></sc-for></div>
+        <div style="margin-top:14px;padding-top:12px;border-top:1px solid #EEF2F5;display:flex;flex-direction:column;gap:7px;font-size:12.5px;color:#4A6275">
+          <span style="display:flex;align-items:center;gap:6px"><span class="material-symbols-outlined" style="font-size:16px">location_on</span>{{ pv.loc }}</span>
+          <span style="display:flex;align-items:center;gap:6px"><span class="material-symbols-outlined" style="font-size:16px">work_history</span>{{ pv.exp }}</span>
+          <span style="display:flex;align-items:center;gap:6px"><span class="material-symbols-outlined" style="font-size:16px">lan</span>{{ pv.modes }}</span>
+        </div>
+      </div>
+    </div>
+    <div style="background:#F4F9FB;border:1px solid #D9EAF1;border-radius:18px;padding:18px">
+      <div style="display:flex;gap:8px;align-items:center;font-weight:600;font-size:14px;color:#0B3B5C"><span class="material-symbols-outlined" style="color:#0B6E8E">lightbulb</span>{{ tip.t }}</div>
+      <div style="margin-top:8px;font-size:13px;line-height:1.6;color:#2E4A5F">{{ tip.d }}</div>
+    </div>
+  </aside>
+</div>
+</sc-if>
+
+<sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+  <div style="flex:1;padding:32px 24px 60px">
+    <div style="max-width:820px;margin:0 auto;background:#fff;border:1px solid #E2E9EF;border-radius:24px;overflow:hidden;box-shadow:0 20px 50px rgba(11,42,66,.08)">
+      <div style="position:relative;overflow:hidden;background:linear-gradient(120deg,#0B3B5C,#0E6E8E);padding:40px;color:#fff;text-align:center">
+        <div style="position:absolute;left:-60px;top:-80px;width:240px;height:240px;border-radius:50%;background:rgba(255,255,255,.06)"></div>
+        <div style="position:absolute;right:-60px;bottom:-100px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.06)"></div>
+        <div style="position:relative;width:72px;height:72px;margin:0 auto;border-radius:50%;background:#fff;color:#17704A;display:grid;place-items:center"><span class="material-symbols-outlined" style="font-size:44px;font-variation-settings:'FILL' 1">check_circle</span></div>
+        <h1 style="position:relative;margin:18px 0 0;font-size:26px">Application submitted</h1>
+        <div style="position:relative;margin-top:8px;font-size:14.5px;color:#D5EAF2">Acknowledgement sent to {{ f.cemail }} and +91 {{ f.cmobile }}</div>
+        <div style="position:relative;margin:18px auto 0;display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:12px;background:rgba(255,255,255,.12);font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:600">BDS-SEL-26-00418<button onClick="{{ copyId }}" style="border:0;background:none;color:#A8DCEC;cursor:pointer;padding:0;display:grid"><span class="material-symbols-outlined" style="font-size:19px">content_copy</span></button></div>
+      </div>
+      <div style="padding:32px 40px 36px">
+        <div style="font-weight:600;font-size:16px">What happens next</div>
+        <div style="margin-top:16px;display:flex;flex-direction:column">
+          <sc-for list="{{ track }}" as="t" hint-placeholder-count="5">
+            <div style="display:flex;gap:14px">
+              <div style="display:flex;flex-direction:column;align-items:center"><div style="width:30px;height:30px;border-radius:50%;background:{{ t.bg }};color:{{ t.fg }};display:grid;place-items:center;flex-shrink:0"><span class="material-symbols-outlined" style="font-size:17px">{{ t.icon }}</span></div><div style="width:2px;flex:1;min-height:20px;background:{{ t.line }};display:{{ t.lineD }}"></div></div>
+              <div style="padding-bottom:20px"><div style="font-weight:600;font-size:14.5px;color:{{ t.tfg }}">{{ t.label }}</div><div style="font-size:13px;color:#6B7F8E;margin-top:2px">{{ t.sub }}</div></div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">
+          <div style="padding:16px;border-radius:14px;background:#F4F9FB;border:1px solid #D9EAF1"><div style="display:flex;gap:8px;align-items:center;font-weight:600;font-size:14px"><span class="material-symbols-outlined" style="color:#0B6E8E">edit_note</span>While you wait</div><div style="margin-top:6px;font-size:13px;line-height:1.5;color:#2E4A5F">Draft your service listings. They'll be ready to submit for moderation the moment you're approved.</div></div>
+          <div style="padding:16px;border-radius:14px;background:#FFF8EE;border:1px solid #F3D9AE"><div style="display:flex;gap:8px;align-items:center;font-weight:600;font-size:14px"><span class="material-symbols-outlined" style="color:#B4610E">lock</span>Locked until approval</div><div style="margin-top:6px;font-size:13px;line-height:1.5;color:#5C3A0A">Publishing services and responding to RFQs. Legal details can't be changed during review.</div></div>
+        </div>
+        <div style="margin-top:24px;display:flex;gap:10px;flex-wrap:wrap">
+          <a href="seller-portal.html?pending=1" style="height:46px;padding:0 22px;border-radius:12px;background:#0B4F71;color:#fff;font-weight:600;font-size:14.5px;display:inline-flex;align-items:center;gap:8px;text-decoration:none">Go to Seller Portal<span class="material-symbols-outlined" style="font-size:18px">arrow_forward</span></a>
+          <button onClick="{{ backToReview }}" style="height:46px;padding:0 18px;border:1px solid #CBD8E2;border-radius:12px;background:#fff;color:#0B3B5C;font-weight:600;font-size:14px;cursor:pointer">View submitted application</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ confirmOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;z-index:60;background:rgba(8,30,46,.5);display:grid;place-items:center;padding:20px">
+    <div style="width:100%;max-width:480px;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.25)">
+      <div style="padding:28px">
+        <div style="width:48px;height:48px;border-radius:13px;background:#E5F5EC;color:#17704A;display:grid;place-items:center"><span class="material-symbols-outlined" style="font-size:26px">send</span></div>
+        <h3 style="margin:16px 0 0;font-size:20px">Submit for verification?</h3>
+        <div style="margin-top:8px;font-size:14px;line-height:1.6;color:#5A7083">Legal name, entity type, PAN, GSTIN, Udyam and registered address are locked during review. You can still edit your introduction, contact channels and expertise.</div>
+        <div style="margin-top:22px;display:flex;justify-content:flex-end;gap:8px"><button onClick="{{ closeConfirm }}" style="height:44px;padding:0 18px;border:1px solid #CBD8E2;border-radius:11px;background:#fff;color:#0B3B5C;font-weight:600;font-size:14px;cursor:pointer">Not yet</button><button onClick="{{ doSubmit }}" style="height:44px;padding:0 20px;border:0;border-radius:11px;background:#17704A;color:#fff;font-weight:600;font-size:14px;cursor:pointer">Submit application</button></div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:50%;top:82px;transform:translateX(-50%);z-index:80;background:#0B2A42;color:#fff;padding:11px 16px;border-radius:12px;font-size:13.5px;box-shadow:0 14px 34px rgba(0,0,0,.25);display:flex;gap:8px;align-items:center"><span class="material-symbols-outlined" style="font-size:19px;color:{{ toastIc }}">{{ toastIcon }}</span>{{ toast }}</div>
+</sc-if>
+
+<div style="position:fixed;left:18px;bottom:18px;z-index:50;display:flex;align-items:center;gap:4px;padding:5px;background:#0B2A42;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.25);font-size:12.5px">
+  <span style="color:#8FA6B5;padding:0 8px;font-weight:600;letter-spacing:.6px;font-size:11px">PROTOTYPE</span>
+  <a href="index.html" style="padding:7px 10px;border-radius:8px;color:#CFE0EA;text-decoration:none">Public</a>
+  <a href="seller-onboarding.html" style="padding:7px 10px;border-radius:8px;background:#1C4560;color:#fff;text-decoration:none">Seller onboarding</a>
+  <a href="buyer-onboarding.html" style="padding:7px 10px;border-radius:8px;color:#CFE0EA;text-decoration:none">Buyer onboarding</a>
+  <a href="seller-portal.html" style="padding:7px 10px;border-radius:8px;color:#CFE0EA;text-decoration:none">Seller</a>
+  <a href="purchaser-portal.html" style="padding:7px 10px;border-radius:8px;color:#CFE0EA;text-decoration:none">Purchaser</a>
+  <a href="admin-portal.html" style="padding:7px 10px;border-radius:8px;color:#CFE0EA;text-decoration:none">Admin</a>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const CATS=[['bmc','Business & Management Consultancy','business_center',['Business plans','DPR / project reports','Feasibility studies','Strategy & process advisory']],['fin','Finance & Credit Facilitation','account_balance',['Loan documentation','Financial modelling','Subsidy guidance','Credit facilitation']],['ltc','Legal, Tax & Compliance','gavel',['GST','Accounting','Audit','Registrations','Legal & regulatory']],['dit','Digital Transformation & IT','devices',['Websites','ERP','CRM','Cybersecurity','Automation & cloud']],['mkt','Marketing & Market Access','campaign',['Branding','Advertising','Export consultancy','Market research','Buyer linkages']],['hr','HR & Skill Development','school',['Recruitment','Training','Capacity building','Workforce development']],['qp','Quality & Productivity','workspace_premium',['ISO','ZED','Lean manufacturing','Quality certification','Process improvement']],['sus','Sustainability & Energy','eco',['Energy audits','Renewable energy','Environmental compliance','ESG']]];
+const CONST=['Proprietorship','Partnership','LLP','Private Limited Company','Public Limited Company','Society / Trust / Section 8 Company','Individual Professional','Other eligible organisation'];
+const STYPES=['Consultancy firm','Chartered accountant firm','IT services company','Training institute','Certification consultant','Individual professional','Industry institution','Other eligible organisation'];
+const DIST={'Uttar Pradesh':['Lucknow','Kanpur Nagar','Barabanki'],'Maharashtra':['Pune','Mumbai','Nagpur'],'Karnataka':['Bengaluru','Mysuru','Belagavi'],'Gujarat':['Ahmedabad','Rajkot','Surat'],'Madhya Pradesh':['Bhopal','Indore','Jabalpur'],'Tamil Nadu':['Coimbatore','Chennai','Tiruppur'],'Rajasthan':['Jaipur','Jodhpur','Bhilwara'],'Delhi':['New Delhi','South Delhi'],'Telangana':['Hyderabad','Rangareddy'],'West Bengal':['Kolkata','Howrah']};
+const GSTST={'09':'Uttar Pradesh','27':'Maharashtra','29':'Karnataka','24':'Gujarat','23':'Madhya Pradesh','33':'Tamil Nadu','08':'Rajasthan','07':'Delhi','36':'Telangana','19':'West Bengal'};
+const PINS={'226001':['Uttar Pradesh','Lucknow'],'411001':['Maharashtra','Pune'],'400001':['Maharashtra','Mumbai'],'560001':['Karnataka','Bengaluru'],'380001':['Gujarat','Ahmedabad'],'462001':['Madhya Pradesh','Bhopal'],'641001':['Tamil Nadu','Coimbatore'],'302001':['Rajasthan','Jaipur'],'110001':['Delhi','New Delhi'],'500001':['Telangana','Hyderabad'],'700001':['West Bengal','Kolkata']};
+const PAN4={P:['Individual','Individual Professional'],F:['Firm / LLP','Partnership'],C:['Company','Private Limited Company'],T:['Trust','Society / Trust / Section 8 Company'],A:['Association of persons','Other eligible organisation'],H:['HUF','Other eligible organisation']};
+const COVER=['Pan-India','Uttar Pradesh','Maharashtra','Karnataka','Gujarat','Tamil Nadu','Delhi NCR','Rajasthan','Madhya Pradesh','Telangana'];
+const IND=['Manufacturing','Auto components','Textiles & apparel','Food processing','Engineering','Pharma & chemicals','Services & trade'];
+const STEPS=[['start','Get started','Start','About you and documents','1 min'],['biz','Business identity','Business','Legal details and brand','3 min'],['contact','Contact','Contact','Who we talk to','1 min'],['address','Address','Address','Registered and operating office','1 min'],['ops','Services & expertise','Expertise','What you do and where','2 min'],['docs','Documents','Documents','Verification uploads','2 min'],['review','Review & submit','Review','Check and submit','1 min']];
+const STORE='bds-onboarding-v2';
+const BLANK={kind:'',ready:{},gst:'yes',gstin:'',org:'',pan:'',constitution:'',year:'',nature:'',ptype:'',udyam:'',udyamOk:false,intro:'',cname:'Rakesh Srivastava',cdesig:'',cmobile:'98390 12345',cemail:'rakesh@abcconsulting.in',alt:'',web:'',supEmail:'',pin:'',addr1:'',addr2:'',state:'',district:'',same:true,opsAddr:'',opsState:'',mainCat:'',expertise:[],exp:'',team:'',modes:[],coverage:[],industries:[],certs:[],uploads:{},declared:false,auto:{}};
+const TIPS={start:['Why we verify every provider','Purchasers on BDS Marketplace only see approved providers. Verification protects your listing from impersonation and helps MSMEs trust your quotations.'],gstin:['Save time with your GSTIN','We read your legal name, PAN, state and principal address from GST records. You can edit anything that looks wrong.'],org:['Use your legal name','It must match your PAN and incorporation documents exactly. Your brand or trade name can go in the introduction.'],pan:['PAN tells us your entity type','The 4th character identifies the holder: C for company, F for firm or LLP, P for individual, T for trust.'],constitution:['Entity type decides documents','Individuals don’t need an incorporation certificate; companies, LLPs and trusts do.'],udyam:['Udyam is optional','If you’re a registered MSME yourself, verifying Udyam adds an MSME badge to your profile.'],intro:['Write for MSME owners','Say what you do, for whom and with what results. Profiles with specific sectors and outcomes get more RFQ invitations.'],year:['Experience counts','Purchasers can filter providers by years in business.'],pin:['Start with PIN','We fill state and district automatically from your PIN code.'],biz:['Legal details are locked during review','After you submit, legal name, PAN, GSTIN, Udyam and registered address can’t change until a decision is made.'],contact:['Your contact stays private','Purchasers see contact details only when you’re invited to their RFQ, as per RFQ-sharing rules.'],address:['Must match your documents','Your registered address is checked against the registration certificate and address proof.'],ops:['This drives RFQ matching','Category, expertise, coverage and delivery mode decide which RFQs you’re recommended for.'],docs:['Clear scans approve faster','Upload colour scans with all four corners visible. Blurry or cropped files are the most common reason for delays.'],review:['Almost there','Review each section. You can edit descriptive details later, but legal details lock once you submit.']};
+class Component extends DCLogic {
+  _rs=()=>this.setState({vw:window.innerWidth});
+  state={step:'start',f:{...BLANK},err:{},visited:{start:true},focus:'',fetching:false,fetched:false,confirm:false,done:false,toast:'',toastKind:'ok',saved:null};
+  componentDidMount(){window.addEventListener('resize',this._rs);const p=new URLSearchParams(location.search);if(!p.get('new')){try{const s=JSON.parse(localStorage.getItem(STORE)||'null');if(s)this.setState({f:{...BLANK,...s.f},visited:s.visited||{start:true},step:s.step||'start',saved:s.at,done:!!s.done});}catch(e){}}}
+  componentWillUnmount(){window.removeEventListener('resize',this._rs);clearTimeout(this._as);}
+  componentDidUpdate(pp,ps){if(ps.f!==this.state.f){clearTimeout(this._as);this._as=setTimeout(()=>this.persist(),900);}}
+  persist(){const at=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});try{localStorage.setItem(STORE,JSON.stringify({f:this.state.f,visited:this.state.visited,step:this.state.step,at,done:this.state.done}));}catch(e){}if(this.state.saved!==at)this.setState({saved:at});}
+  flash(t,kind='ok'){this.setState({toast:t,toastKind:kind});clearTimeout(this._t);this._t=setTimeout(()=>this.setState({toast:''}),2600);}
+  docList(){const f=this.state.f;const ind=f.kind==='individual'||f.constitution==='Individual Professional';return [
+    {id:'pan',label:'PAN card',icon:'badge',req:true,why:'Confirms the identity of the '+(ind?'professional':'organisation')},
+    {id:'regc',label:ind?'Registration certificate':'Incorporation / registration certificate',icon:'apartment',req:!ind,why:'Partnership deed, certificate of incorporation, LLP or trust deed'},
+    {id:'gst',label:'GST registration certificate',icon:'receipt_long',req:f.gst==='yes',why:'Required because you are GST registered'},
+    {id:'udyam',label:'Udyam certificate',icon:'verified',req:!!f.udyam,why:'Required because you entered a Udyam number'},
+    {id:'cred',label:'Professional credentials',icon:'workspace_premium',req:true,why:'Memberships, empanelments or qualifications for your main category'},
+    {id:'addrp',label:'Address proof',icon:'home_pin',req:true,why:'Utility bill or rent agreement, not older than 3 months'},
+    {id:'port',label:'Company profile or portfolio',icon:'folder_open',req:false,why:'Case studies and client references help verification'},
+    {id:'refs',label:'Client reference letters',icon:'thumb_up',req:false,why:'Up to three letters from past MSME clients'}];}
+  errs(step){const f=this.state.f,e={};const req=(k,m)=>{if(!String(f[k]||'').trim())e[k]=m||'This field is required';};
+    if(step==='start'){if(!f.kind)e.kind='Choose what best describes you';}
+    if(step==='biz'){if(f.gst==='yes'&&!/^\d{2}[A-Z]{5}\d{4}[A-Z][A-Z\d]Z[A-Z\d]$/.test(f.gstin))e.gstin='Enter a valid 15-character GSTIN';req('org','Enter the legal name');if(!/^[A-Z]{5}\d{4}[A-Z]$/.test(f.pan))e.pan='PAN format is AAAAA9999A';else if(f.gst==='yes'&&f.gstin.length===15&&f.gstin.slice(2,12)!==f.pan)e.pan='PAN doesn’t match the one in your GSTIN';req('constitution','Select an entity type');if(!/^(19|20)\d{2}$/.test(String(f.year))||+f.year>2026)e.year='Enter a valid year, e.g. 2014';req('nature','Select nature of enterprise');req('ptype','Select a category');if(f.udyam&&!/^UDYAM-[A-Z]{2}-\d{2}-\d{7}$/.test(f.udyam))e.udyam='Format UDYAM-XX-00-0000000';if(f.intro.trim().length<80)e.intro='Write at least 80 characters';}
+    if(step==='contact'){req('cname');req('cdesig');if(f.alt&&!/^\d{10}$/.test(f.alt))e.alt='Enter a 10-digit number';}
+    if(step==='address'){if(!/^\d{6}$/.test(f.pin))e.pin='Enter a 6-digit PIN code';req('state','Select a state');req('district','Select a district');req('addr1','Enter the street address');if(!f.same){req('opsAddr');req('opsState','Select a state');}}
+    if(step==='ops'){if(!f.mainCat)e.mainCat='Choose a category';if(!f.expertise.length)e.expertise='Pick at least one';if(f.exp===''||isNaN(+f.exp))e.exp='Enter years of experience';if(!f.team)e.team='Select team size';if(!f.modes.length)e.modes='Pick at least one';if(!f.coverage.length)e.coverage='Pick at least one region';}
+    if(step==='docs'){const miss=this.docList().filter(d=>d.req&&f.uploads[d.id]!=='done');if(miss.length)e.docs='Still needed: '+miss.map(d=>d.label).join(', ');}
+    if(step==='review'){if(!f.declared)e.declared='Accept the declaration';}
+    return e;}
+  renderVals(){
+    const s=this.state,f=s.f,vw=s.vw||window.innerWidth;
+    const idx=STEPS.findIndex(x=>x[0]===s.step),cur=STEPS[idx];
+    const E={};STEPS.forEach(([k])=>E[k]=this.errs(k));
+    const doneSteps=STEPS.filter(([k])=>k!=='review'&&!Object.keys(E[k]).length).length;
+    const docs=this.docList(),reqDocs=docs.filter(d=>d.req),docDone=reqDocs.filter(d=>f.uploads[d.id]==='done').length;
+    const pct=Math.round(((doneSteps+(f.declared?1:0))/STEPS.length)*100);
+    const goStep=k=>{this.setState(st=>({step:k,visited:{...st.visited,[k]:true},err:{},focus:''}));window.scrollTo({top:0,behavior:'smooth'});};
+    const set=e=>{const {name,value}=e.target;this.setState(st=>({f:{...st.f,[name]:name==='intro'?value.slice(0,1000):value,...(name==='state'?{district:''}:{}),...(name==='udyam'?{udyamOk:false}:{}),auto:{...st.f.auto,[name]:false}},err:{...st.err,[name]:''}}));};
+    const setUp=e=>{e.target.value=e.target.value.toUpperCase();set(e);};
+    const setPin=e=>{const v=e.target.value.replace(/\D/g,'').slice(0,6);const hit=PINS[v];this.setState(st=>({f:{...st.f,pin:v,...(hit?{state:hit[0],district:hit[1]}:{}),auto:{...st.f.auto,state:!!hit,district:!!hit}},err:{...st.err,pin:'',state:'',district:''}}));};
+    const shownErr=s.err;
+    const FIELDS=['gstin','org','pan','constitution','year','nature','ptype','udyam','intro','cname','cdesig','alt','pin','state','district','addr1','addr2','opsAddr','opsState','exp'];
+    const pan4=/^[A-Z]{4}/.test(f.pan)?PAN4[f.pan[3]]:null;
+    const HELP={gstin:'We’ll fetch your legal name, PAN and address',org:'Exactly as on your PAN or incorporation certificate',pan:pan4?'Entity type from PAN: '+pan4[0]:'10 characters, e.g. AABCA1234K',constitution:'',year:'',nature:'',ptype:'How purchasers will categorise you',udyam:f.udyamOk?'Verified with Udyam records':'Verify to show an MSME badge on your profile',intro:f.intro.length<80?(80-f.intro.length)+' more characters to go':'Looks good',cname:'',cdesig:'',alt:'',pin:PINS[f.pin]?'Found: '+PINS[f.pin][1]+', '+PINS[f.pin][0]:f.pin.length===6?'PIN not in our lookup, select state and district below':'We’ll fill state and district for you',state:'',district:'',addr1:'',addr2:'',opsAddr:'',opsState:'',exp:''};
+    const step=s.step,stepE=E[step]||{};
+    const b={},h={},hc={},ok={},bg={},af={};FIELDS.forEach(k=>{const er=shownErr[k];const valid=f[k]&&!stepE[k];b[k]=er?'#D9644F':valid?'#9FD3B8':'#D3DEE6';h[k]=er||HELP[k]||'';hc[k]=er?'#C2412D':(k==='pin'&&PINS[f.pin])||(k==='intro'&&f.intro.length>=80)||(k==='udyam'&&f.udyamOk)?'#17704A':'#7A8D9C';ok[k]=valid&&!er?'block':'none';bg[k]=f.auto[k]?'#F3FAF6':'#fff';af[k]=f.auto[k]?'inline-block':'none';});
+    const chip=(on,icon)=>({bg:on?'#0B4F71':'#fff',fg:on?'#fff':'#2E4A5F',bc:on?'#0B4F71':'#D3DEE6',icon:on?'check':icon||'add'});
+    const tog=(key,val)=>()=>this.setState(st=>{let a=st.f[key];if(key==='coverage'&&val==='Pan-India')a=a.includes(val)?[]:['Pan-India'];else{a=a.filter(x=>!(key==='coverage'&&x==='Pan-India'));a=a.includes(val)?a.filter(x=>x!==val):[...a,val];}return {f:{...st.f,[key]:a},err:{...st.err,[key]:''}};});
+    const upload=id=>{const u=f.uploads[id];if(typeof u==='number')return;if(u==='done'){this.setState(st=>{const x={...st.f.uploads};delete x[id];return {f:{...st.f,uploads:x}};});return;}let p=0;this.setState(st=>({f:{...st.f,uploads:{...st.f.uploads,[id]:0}},err:{...st.err,docs:''}}));const iv=setInterval(()=>{p+=20;this.setState(st=>({f:{...st.f,uploads:{...st.f.uploads,[id]:p>=100?'done':p}}}));if(p>=100)clearInterval(iv);},160);};
+    const docRow=d=>{const u=f.uploads[d.id],up=u==='done',busy=typeof u==='number';const fname=d.id+'_'+((f.org||'document').split(' ')[0]||'doc').toLowerCase()+'.pdf';return {...d,act:()=>upload(d.id),bs:up?'solid':'dashed',bc:up?'#9FD3B8':'#C5D3DD',bg:up?'#F3FAF6':'#FBFCFD',ibg:up?'#17704A':'#E1F2F8',ifg:up?'#fff':'#0B5E7E',icon:up?'task':d.icon,sub:up?fname+' · 420 KB · format check passed':busy?'Uploading and scanning…':d.why,subFg:up?'#14583A':'#6B7F8E',barD:busy?'block':'none',pct:(busy?u:0)+'%',cta:up?'Uploaded · click to remove':busy?u+'%':'Click to upload or drop file',cIcon:up?'check_circle':busy?'progress_activity':'cloud_upload',cFg:up?'#17704A':'#0A5A7A'};};
+    const next=()=>{const e=E[step];if(Object.keys(e).length){this.setState({err:e});this.flash('Please complete the highlighted fields','err');return;}if(step==='review'){const bad=STEPS.find(([k])=>k!=='review'&&Object.keys(E[k]).length);if(bad){goStep(bad[0]);setTimeout(()=>this.setState({err:E[bad[0]]}),0);return;}this.setState({confirm:true});return;}this.persist();goStep(STEPS[idx+1][0]);};
+    const missing=STEPS.filter(([k])=>k!=='review'&&k!=='start').flatMap(([k,label])=>Object.values(E[k]).map(text=>({section:label,text,fix:()=>{goStep(k);setTimeout(()=>this.setState({err:E[k]}),0);}})));
+    const mc=CATS.find(c=>c[0]===f.mainCat);
+    const val=(v,fb='Not provided')=>({v:v||fb,fg:v?'#0B2A42':'#A3B1BB'});
+    const rv=(k,items)=>{const bad=Object.keys(E[k]).length;return {title:STEPS.find(x=>x[0]===k)[1],sIcon:bad?'error':'check_circle',sFg:bad?'#B4610E':'#17704A',edit:()=>goStep(k),items:items.map(([kk,v,fb])=>({k:kk,...val(v,fb)}))};};
+    const kindLabel={firm:'Firm or company',individual:'Individual professional',inst:'Institution or not-for-profit'}[f.kind]||'';
+    const tipKey=TIPS[s.focus]?s.focus:step;const tip=TIPS[tipKey]||TIPS.start;
+    const ini=(f.org||f.cname||'?').replace(/[^A-Za-z ]/g,'').split(' ').filter(w=>/^[A-Z]/.test(w)&&!['Pvt','Ltd','LLP'].includes(w)).slice(0,2).map(w=>w[0]).join('')||'?';
+    const wide=vw>=1280,mid=vw>=1000;
+    const readyDocs=docs.filter(d=>d.req||d.id==='port');
+    return {
+      wideD:vw>=1100?'block':'none',cols:wide?'250px minmax(0,1fr) 300px':mid?'240px minmax(0,1fr)':'minmax(0,1fr)',railD:mid?'flex':'none',previewD:wide?'flex':'none',miniD:mid?'none':'flex',
+      pct,pctW:pct+'%',savedText:s.saved?'Saved '+s.saved:'Autosave on',savedIcon:s.saved?'cloud_done':'cloud_sync',savedFg:s.saved?'#17704A':'#8A9BA8',
+      saveExit:()=>{this.persist();},
+      isFlow:!s.done,isDone:s.done,f,e:shownErr,b,h,hc,ok,bg,af,set,setUp,setPin,focus:e=>this.setState({focus:e.target.name}),
+      steps:STEPS.map(([k,label,short,sub,time],i)=>{const c=k===step,bad=Object.keys(E[k]).length,vis=s.visited[k],done=!bad&&(vis||k==='start'&&f.kind)&&k!=='review',warn=vis&&bad&&!c&&k!=='review';return {label,short,n:i+1,sub:done?'Complete':warn?Object.keys(E[k]).length+' to fix':sub+' · '+time,go:()=>goStep(k),cur:'pointer',bg:c?'#EAF5F9':'transparent',hov:c?'#EAF5F9':'#F6F9FB',cbg:c?'#0B4F71':done?'#17704A':warn?'#FDEFD9':'#fff',cfg:c||done?'#fff':warn?'#B4610E':'#6B7F8E',cbd:c||done||warn?'0':'1.5px solid #CBD8E2',icon:done&&!c?'check':warn?'priority_high':'',iconD:(done&&!c)||warn?'inline':'none',numD:(done&&!c)||warn?'none':'inline',fg:c?'#0B3B5C':'#2E4A5F',subFg:done?'#17704A':warn?'#B4610E':'#8A9BA8',mbg:c?'#EAF5F9':'#fff',mbc:c?'#0B6E8E':'#DCE5EC'};}),
+      stepEyebrow:'STEP '+(idx+1)+' OF '+STEPS.length,stepTitle:{start:'Let’s set up your provider profile',biz:'Business identity',contact:'Who should we contact?',address:'Where are you based?',ops:'What do you offer?',docs:'Upload documents for verification',review:'Review and submit'}[step],
+      stepDesc:{start:'Takes about 10 minutes. Your progress saves automatically, so you can leave and come back.',biz:'Your legal details as on official records, plus how you introduce yourself to purchasers.',contact:'The person our verification team and invited purchasers will reach out to.',address:'Your registered office must match your documents. Add an operating office if it’s different.',ops:'This decides which RFQs you’re matched to and how purchasers find you.',docs:'We’ve listed only what applies to you, based on your earlier answers.',review:'Check everything once. Legal details lock while your application is reviewed.'}[step],
+      autoD:step!=='start'&&step!=='review'?'inline-flex':'none',
+      sStart:step==='start',sBiz:step==='biz',sContact:step==='contact',sAddress:step==='address',sOps:step==='ops',sDocs:step==='docs',sReview:step==='review',
+      firstName:f.cname.split(' ')[0]||'there',
+      promises:[['schedule','About 10 minutes','Seven short steps'],['cloud_done','Saves as you go','Leave and resume anytime'],['verified_user','3–5 working days','Typical verification time']].map(([icon,t,d])=>({icon,t,d})),
+      kinds:[['firm','Firm or company','domain','Consultancies, CA/CS firms, agencies, IT companies'],['individual','Individual professional','person','Independent consultants, trainers, auditors'],['inst','Institution or not-for-profit','account_balance','Section 8 companies, societies, academic bodies']].map(([k,label,icon,d])=>{const on=f.kind===k;return {label,icon,d,bc:on?'#0B6E8E':shownErr.kind?'#D9644F':'#DCE5EC',bg:on?'#F2F9FC':'#fff',sh:on?'0 0 0 4px #E1F2F8':'none',ibg:on?'#0B4F71':'#F1F5F8',ifg:on?'#fff':'#0B5E7E',ckD:on?'block':'none',pick:()=>this.setState(st=>({f:{...st.f,kind:k,constitution:k==='individual'?'Individual Professional':st.f.constitution==='Individual Professional'?'':st.f.constitution,ptype:k==='individual'?'Individual professional':st.f.ptype,nature:k==='inst'?'Not-for-profit / Section 8':st.f.nature},err:{}}))};}),
+      readyList:readyDocs.map(d=>{const on=!!f.ready[d.id];return {...d,on,tag:d.req?'MANDATORY':'OPTIONAL',tagFg:d.req?'#B4610E':'#8A9BA8',bc:on?'#9FD3B8':'#E2E9EF',bg:on?'#F3FAF6':'#fff',toggle:()=>this.setState(st=>({f:{...st.f,ready:{...st.f.ready,[d.id]:!on}}}))};}),
+      readyCount:readyDocs.filter(d=>f.ready[d.id]).length,readyTotal:readyDocs.length,
+      gstOpts:[['yes','GST registered'],['no','Not registered']].map(([k,label])=>({label,bg:f.gst===k?'#fff':'transparent',fg:f.gst===k?'#0B3B5C':'#5A7083',sh:f.gst===k?'0 1px 3px rgba(11,42,66,.12)':'none',pick:()=>this.setState(st=>({f:{...st.f,gst:k},err:{...st.err,gstin:''}}))})),gstYes:f.gst==='yes',
+      fetched:s.fetched,fetchBg:s.fetching?'#5E8DA5':'#0B4F71',fetchIcon:s.fetching?'progress_activity':s.fetched?'refresh':'download',fetchLabel:s.fetching?'Fetching…':s.fetched?'Fetch again':'Fetch details',spinAnim:s.fetching?'spin 0.9s linear infinite':'none',
+      fetchGst:()=>{if(!/^\d{2}[A-Z]{5}\d{4}[A-Z][A-Z\d]Z[A-Z\d]$/.test(f.gstin)){this.setState({err:{...s.err,gstin:'Enter a valid 15-character GSTIN first'}});return;}this.setState({fetching:true});setTimeout(()=>{const pan=f.gstin.slice(2,12),stName=GSTST[f.gstin.slice(0,2)]||'',c=PAN4[pan[3]];const demo=pan==='AABCA1234K';this.setState(st=>({fetching:false,fetched:true,f:{...st.f,pan,org:demo?'ABC Business Consulting Pvt Ltd':(st.f.org||'Registered business name'),constitution:c?c[1]:st.f.constitution,state:stName||st.f.state,district:demo?'Lucknow':st.f.district,addr1:demo?'3rd Floor, Sapru Marg':st.f.addr1,addr2:demo?'Hazratganj':st.f.addr2,pin:demo?'226001':st.f.pin,auto:{...st.f.auto,pan:true,org:true,constitution:!!c,state:!!stName,district:demo,addr1:demo,addr2:demo}},err:{}}));this.flash('Details fetched from GST records');},1300);},
+      verifyUdyam:()=>{if(!/^UDYAM-[A-Z]{2}-\d{2}-\d{7}$/.test(f.udyam)){this.setState({err:{...s.err,udyam:'Format UDYAM-XX-00-0000000'}});return;}this.setState(st=>({f:{...st.f,udyamOk:true}}));this.flash('Udyam verified · Micro enterprise');},
+      udyamOkD:f.udyamOk?'inline-block':'none',udyamBtnD:f.udyamOk?'none':'block',udyamClass:'Micro',
+      constitutions:CONST,sellerTypes:STYPES,states:Object.keys(DIST),districts:f.state?DIST[f.state]:[],
+      introCount:f.intro.length,introW:Math.min(100,f.intro.length/80*100)+'%',introBar:f.intro.length>=80?'#17704A':'#E0A030',introFg:f.intro.length>900?'#B4610E':'#8A9BA8',
+      toggleSame:()=>this.setState(st=>({f:{...st.f,same:!st.f.same}})),showOps:!f.same,sameBg:f.same?'#0B6E8E':'#CBD8E2',sameX:f.same?'21px':'3px',
+      catCards:CATS.map(([id,name,icon])=>{const on=f.mainCat===id;return {name,icon,bc:on?'#0B6E8E':shownErr.mainCat?'#D9644F':'#DCE5EC',bg:on?'#F2F9FC':'#fff',ibg:on?'#0B4F71':'#E1F2F8',ifg:on?'#fff':'#0B5E7E',ckD:on?'block':'none',pick:()=>this.setState(st=>({f:{...st.f,mainCat:id,expertise:st.f.mainCat===id?st.f.expertise:[]},err:{...st.err,mainCat:''}}))};}),
+      hasCat:!!mc,expertiseOpts:mc?mc[3].map(label=>({label,...chip(f.expertise.includes(label)),toggle:tog('expertise',label)})):[],
+      expUp:()=>this.setState(st=>({f:{...st.f,exp:String(Math.min(60,(+st.f.exp||0)+1))},err:{...st.err,exp:''}})),expDown:()=>this.setState(st=>({f:{...st.f,exp:String(Math.max(0,(+st.f.exp||0)-1))}})),
+      teamOpts:['Just me','2–10','11–50','51–200','200+'].map(label=>{const on=f.team===label;return {label,bg:on?'#0B4F71':'#fff',fg:on?'#fff':'#2E4A5F',bc:on?'#0B4F71':'#D3DEE6',pick:()=>this.setState(st=>({f:{...st.f,team:label},err:{...st.err,team:''}}))};}),
+      modeCards:[['Online','videocam','Remote sessions and delivery'],['Onsite','factory','At the purchaser’s premises'],['Hybrid','sync_alt','A mix of both']].map(([label,icon,d])=>{const on=f.modes.includes(label);return {label,icon,d,bc:on?'#0B6E8E':shownErr.modes?'#D9644F':'#DCE5EC',bg:on?'#F2F9FC':'#fff',ifg:on?'#0B4F71':'#7A8D9C',ck:on?'check_box':'check_box_outline_blank',fill:on?1:0,toggle:tog('modes',label)};}),
+      coverageOpts:COVER.map(label=>({label,...chip(f.coverage.includes(label),label==='Pan-India'?'public':'add'),toggle:tog('coverage',label)})),
+      industryOpts:IND.map(label=>({label,...chip(f.industries.includes(label)),toggle:tog('industries',label)})),
+      certRows:f.certs.map((c,i)=>{const sc=k=>e=>{const v=e.target.value;this.setState(st=>({f:{...st.f,certs:st.f.certs.map((x,j)=>j===i?{...x,[k]:v}:x)}}));};return {...c,onName:sc('name'),onIssuer:sc('issuer'),onValid:sc('valid'),remove:()=>this.setState(st=>({f:{...st.f,certs:st.f.certs.filter((_,j)=>j!==i)}}))};}),noCerts:!f.certs.length,
+      addCert:()=>this.setState(st=>({f:{...st.f,certs:[...st.f.certs,{name:'',issuer:'',valid:''}]}})),
+      reqDocRows:reqDocs.map(docRow),optDocRows:docs.filter(d=>!d.req).map(docRow),docDone,docReq:reqDocs.length,docFg:docDone===reqDocs.length?'#17704A':'#B4610E',
+      hasMissing:step==='review'&&missing.length>0,missing,missingCount:missing.length,
+      review:[rv('biz',[['Legal name',f.org],['PAN',f.pan],['GSTIN',f.gst==='yes'?f.gstin:'Not registered'],['Entity type',f.constitution],['Year established',f.year],['Category of seller',f.ptype],['Udyam',f.udyam?(f.udyam+(f.udyamOk?' · verified':'')):'',' Not provided'],['Introduction',f.intro?f.intro.slice(0,90)+(f.intro.length>90?'…':''):'']]),rv('contact',[['Contact person',f.cname],['Designation',f.cdesig],['Mobile','+91 '+f.cmobile],['Email',f.cemail],['Website',f.web]]),rv('address',[['Registered address',[f.addr1,f.addr2].filter(Boolean).join(', ')],['District / State',f.district&&f.state?f.district+', '+f.state:''],['PIN',f.pin],['Operating office',f.same?'Same as registered':f.opsAddr]]),rv('ops',[['Main category',mc?mc[1]:''],['Expertise',f.expertise.join(', ')],['Experience',f.exp?f.exp+' years':''],['Team size',f.team],['Delivery',f.modes.join(', ')],['Coverage',f.coverage.join(', ')]]),rv('docs',reqDocs.map(d=>[d.label,f.uploads[d.id]==='done'?'Uploaded':'','Missing']))],
+      declBc:shownErr.declared?'#D9644F':f.declared?'#9FD3B8':'#E2E9EF',toggleDeclare:()=>this.setState(st=>({f:{...st.f,declared:!st.f.declared},err:{...st.err,declared:''}})),
+      prev:()=>{if(idx>0)goStep(STEPS[idx-1][0]);},prevD:idx>0?'inline-flex':'none',next,
+      nextLabel:step==='start'?'Let’s begin':step==='review'?'Submit for verification':'Continue to '+STEPS[idx+1][2].toLowerCase(),nextIcon:step==='review'?'send':'arrow_forward',nextBg:step==='review'?'#17704A':'#0B4F71',nextSh:step==='review'?'rgba(23,112,74,.28)':'rgba(11,79,113,.25)',
+      footHint:step==='docs'?docDone+' of '+reqDocs.length+' mandatory documents uploaded':step==='review'?(missing.length?missing.length+' items to fix':'Everything looks complete'):'Step '+(idx+1)+' of '+STEPS.length+' · '+cur[4],
+      pv:{ini,name:f.org||'Your organisation name',nameFg:f.org?'#0B2A42':'#A3B1BB',type:f.ptype||kindLabel||'Category of seller',intro:f.intro?f.intro.slice(0,160)+(f.intro.length>160?'…':''):'Your introduction will appear here.',introFg:f.intro?'#2E4A5F':'#A3B1BB',chips:f.expertise.slice(0,4),loc:f.district&&f.state?f.district+', '+f.state:'Location',exp:f.exp?f.exp+' years experience'+(f.team?' · team '+f.team:''):'Experience',modes:f.modes.length?f.modes.join(' · '):'Delivery mode'},
+      tip:{t:tip[0],d:tip[1]},
+      openGuide:()=>this.flash('The 3-minute guide video opens here'),openChat:()=>this.flash('Chat with the onboarding team opens here'),
+      autofill:()=>{const fill={biz:{gst:'yes',gstin:'09AABCA1234K1Z5',org:'ABC Business Consulting Pvt Ltd',pan:'AABCA1234K',constitution:'Private Limited Company',year:'2014',nature:'Services',ptype:'Consultancy firm',udyam:'UDYAM-UP-50-0012345',udyamOk:true,intro:'Project consultancy practice preparing bank-ready DPRs, financial models and subsidy applications for manufacturing and service MSMEs across North India since 2014. 60+ DPRs appraised by scheduled commercial banks.'},contact:{cdesig:'Managing Partner',web:'https://abcconsulting.in',supEmail:'enquiry@abcconsulting.in'},address:{pin:'226001',state:'Uttar Pradesh',district:'Lucknow',addr1:'3rd Floor, Sapru Marg',addr2:'Hazratganj'},ops:{mainCat:'bmc',expertise:['DPR / project reports','Feasibility studies'],exp:'12',team:'11–50',modes:['Hybrid','Onsite'],coverage:['Uttar Pradesh','Delhi NCR'],industries:['Food processing','Engineering'],certs:[{name:'ISO 9001:2015',issuer:'TÜV',valid:'2027-01-31'}]},docs:{uploads:Object.fromEntries(reqDocs.map(d=>[d.id,'done']))}}[step]||{};this.setState(st=>({f:{...st.f,...fill},err:{}}));this.flash('Sample details filled');},
+      confirmOpen:s.confirm,closeConfirm:()=>this.setState({confirm:false}),
+      doSubmit:()=>{this.setState({confirm:false,done:true},()=>this.persist());window.scrollTo({top:0});},
+      backToReview:()=>this.setState({done:false,step:'review'}),copyId:()=>{try{navigator.clipboard.writeText('BDS-SEL-26-00418');}catch(e){}this.flash('Seller ID copied');},
+      track:[['Account created','12 Nov 2026 · mobile and email verified',2],['Application submitted','Seller ID generated · acknowledgement sent',2],['Document verification','In progress · usually 3–5 working days',1],['Administrator decision','You’ll be notified by email and SMS',0],['Publish services and respond to RFQs','Unlocks after approval',0]].map(([label,sub,st],i,a)=>({label,sub,icon:st===2?'check':st===1?'hourglass_top':'radio_button_unchecked',bg:st===2?'#17704A':st===1?'#FDEFD9':'#EEF2F5',fg:st===2?'#fff':st===1?'#B4610E':'#8A9BA8',tfg:st?'#0B2A42':'#8A9BA8',line:st===2?'#17704A':'#E2E9EF',lineD:i<a.length-1?'block':'none'})),
+      hasToast:!!s.toast,toast:s.toast,toastIcon:s.toastKind==='err'?'error':'check_circle',toastIc:s.toastKind==='err'?'#F3A193':'#7FD3A8'
+    };
+  }
+}
+</script>
+</body>
+</html>

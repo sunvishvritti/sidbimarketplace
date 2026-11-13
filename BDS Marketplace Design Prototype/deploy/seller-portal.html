@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300..500,0..1,0&display=block" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#F4F7FA;font-family:'IBM Plex Sans',system-ui,sans-serif;color:#0B2A42;-webkit-font-smoothing:antialiased}
+a{color:#0A5A7A;text-decoration:none}a:hover{color:#0B3B5C;text-decoration:underline}
+.material-symbols-outlined{font-size:20px;line-height:1;vertical-align:middle}
+input,select,textarea,button{font-family:inherit}
+::placeholder{color:#8A9BA8}
+</style>
+</helmet>
+<div style="min-height:100vh;display:grid;grid-template-columns:{{ shellCols }};background:#F4F7FA">
+
+<aside style="position:sticky;top:0;height:100vh;background:#fff;border-right:1px solid #E2E9EF;display:flex;flex-direction:column">
+  <div style="height:76px;display:flex;align-items:center;gap:11px;padding:0 20px;border-bottom:1px solid #EEF2F5">
+    <div style="width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,#0B3B5C,#0E7A9A);display:grid;place-items:center;color:#fff;font-weight:700;font-size:12.5px">BDS</div>
+    <div style="display:{{ sideTextD }}"><div style="font-weight:700;font-size:16px;color:#0B3B5C;line-height:1.1">BDS Marketplace</div><div style="font-size:10px;letter-spacing:1.8px;color:#6B7F8E;font-weight:600;margin-top:3px">SELLER WORKSPACE</div></div>
+  </div>
+  <div style="padding:18px 12px 0;font-size:11px;letter-spacing:1.4px;font-weight:600;color:#6B7F8E;display:{{ sideTextD }};padding-left:20px">SERVICE PROVIDER</div>
+  <nav style="padding:10px 10px;display:flex;flex-direction:column;gap:3px;flex:1;overflow:auto">
+    <sc-for list="{{ nav }}" as="n" hint-placeholder-count="8">
+      <button onClick="{{ n.go }}" title="{{ n.label }}" style="display:flex;align-items:center;gap:12px;height:44px;padding:0 12px;border:0;border-radius:10px;background:{{ n.bg }};color:{{ n.fg }};font-weight:{{ n.fw }};font-size:14.5px;cursor:pointer;text-align:left;transition:background .15s">
+        <span class="material-symbols-outlined" style="font-size:21px">{{ n.icon }}</span><span style="flex:1;display:{{ sideTextD }};white-space:nowrap">{{ n.label }}</span>
+        <span style="display:{{ n.badgeD }};min-width:22px;height:22px;padding:0 6px;border-radius:7px;background:#E6EEF3;color:#0B3B5C;font-size:12px;font-weight:700;align-items:center;justify-content:center">{{ n.badge }}</span>
+      </button>
+    </sc-for>
+  </nav>
+  <div style="padding:14px 16px;border-top:1px solid #EEF2F5;display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center">
+    <div style="width:38px;height:38px;border-radius:50%;background:#0B5E7E;color:#fff;display:grid;place-items:center;font-weight:600;font-size:13px">AB</div>
+    <div style="flex:1;min-width:0;display:{{ sideTextD }}"><div style="font-weight:600;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">ABC Business Consulting</div><div style="font-size:11.5px;color:#6B7F8E;font-family:'IBM Plex Mono',monospace">BDS-SEL-25-00112</div></div>
+    <a href="index.html" title="Sign out" style="color:#4A6275;display:grid;place-items:center"><span class="material-symbols-outlined">logout</span></a>
+  </div>
+</aside>
+
+<div style="min-width:0;display:flex;flex-direction:column">
+  <header style="position:sticky;top:0;z-index:30;height:76px;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid #E2E9EF;display:flex;align-items:center;gap:18px;padding:0 28px">
+    <div style="flex:1;min-width:0"><div style="font-size:12.5px;color:#6B7F8E">{{ crumb }}</div><div style="font-size:21px;font-weight:700;color:#0B3B5C;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ title }}</div></div>
+    <div style="display:flex;align-items:center;gap:8px;height:42px;flex:0 1 300px;min-width:150px;padding:0 14px;border:1px solid #DCE5EC;border-radius:99px;background:#F8FAFC"><span class="material-symbols-outlined" style="color:#6B7F8E;font-size:19px">search</span><input placeholder="Search RFQs, quotations..." style="flex:1;min-width:0;border:0;outline:none;background:transparent;font-size:14px"></div>
+    <image-slot id="sidbi-logo-seller" shape="rect" placeholder="SIDBI logo" fit="contain" style="width:92px;height:40px;flex-shrink:0;display:{{ wideD }}"></image-slot>
+    <div style="position:relative">
+      <button onClick="{{ toggleNotif }}" style="position:relative;width:42px;height:42px;border:0;border-radius:50%;background:transparent;color:#2E4A5F;cursor:pointer;display:grid;place-items:center" style-hover="background:#F1F5F8"><span class="material-symbols-outlined" style="font-size:23px">notifications</span><span style="position:absolute;top:4px;right:4px;min-width:18px;height:18px;border-radius:9px;background:#D9452F;color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center;border:2px solid #fff">3</span></button>
+      <sc-if value="{{ notifOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;right:0;top:50px;width:360px;background:#fff;border:1px solid #E2E9EF;border-radius:14px;box-shadow:0 20px 50px rgba(11,42,66,.16);overflow:hidden">
+          <div style="padding:14px 16px;font-weight:600;border-bottom:1px solid #EEF2F5">Notifications</div>
+          <sc-for list="{{ notifs }}" as="n" hint-placeholder-count="3"><div style="display:flex;gap:12px;padding:12px 16px;border-bottom:1px solid #F1F4F7"><span class="material-symbols-outlined" style="color:#0B6E8E">{{ n.icon }}</span><div><div style="font-size:13.5px;line-height:1.4">{{ n.t }}</div><div style="font-size:12px;color:#6B7F8E;margin-top:3px">{{ n.when }}</div></div></div></sc-for>
+        </div>
+      </sc-if>
+    </div>
+    <div style="width:40px;height:40px;border-radius:50%;background:#0B5E7E;color:#fff;display:grid;place-items:center;font-weight:600;font-size:13px">RS</div>
+  </header>
+
+  <main style="padding:24px 28px 64px;max-width:1320px;width:100%;margin:0 auto">
+  <sc-if value="{{ pending }}" hint-placeholder-val="{{ false }}">
+    <div style="margin-bottom:18px;display:flex;gap:12px;align-items:center;padding:14px 18px;border-radius:14px;background:#FDF3E4;border:1px solid #F3D9AE;color:#7A4A0C;font-size:14px"><span class="material-symbols-outlined" style="color:#B4610E">hourglass_top</span><div style="flex:1"><b>Pending Verification.</b> Your application BDS-SEL-26-00418 is under review. You can complete your profile, but services cannot be published and restricted RFQs are unavailable until approval.</div><a href="seller-onboarding.html" style="height:36px;padding:0 14px;border-radius:9px;background:#B4610E;color:#fff;font-weight:600;font-size:13px;display:inline-flex;align-items:center;text-decoration:none;white-space:nowrap">View application</a></div>
+  </sc-if>
+
+  <sc-if value="{{ isDash }}" hint-placeholder-val="{{ true }}">
+    <section style="position:relative;overflow:hidden;border-radius:20px;background:linear-gradient(115deg,#0B3B5C 0%,#0B4F71 55%,#0E6E8E 100%);padding:32px 36px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap">
+      <div style="position:absolute;right:-60px;top:-110px;width:340px;height:340px;border-radius:50%;background:rgba(255,255,255,.06)"></div>
+      <div style="position:absolute;right:220px;bottom:-160px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.05)"></div>
+      <div style="position:relative;max-width:620px">
+        <div style="font-size:12px;letter-spacing:1.6px;font-weight:600;color:#A8DCEC">{{ today }}</div>
+        <h1 style="margin:8px 0 0;font-size:30px;font-weight:700">{{ greeting }}, ABC Business Consulting</h1>
+        <p style="margin:8px 0 0;font-size:15px;line-height:1.55;color:#D5EAF2">You have 2 new RFQs and one deadline this week. Respond before the submission deadline to stay eligible.</p>
+      </div>
+      <div style="position:relative;display:flex;gap:10px;flex-wrap:wrap">
+        <button onClick="{{ goRfqs }}" style="display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 18px;border:0;border-radius:11px;background:#fff;color:#0B3B5C;font-weight:600;font-size:14px;cursor:pointer"><span class="material-symbols-outlined" style="font-size:19px">inbox</span>View RFQs</button>
+        <button onClick="{{ openAddService }}" style="display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 18px;border:1px solid rgba(255,255,255,.4);border-radius:11px;background:transparent;color:#fff;font-weight:600;font-size:14px;cursor:pointer"><span class="material-symbols-outlined" style="font-size:19px">add</span>Add Service</button>
+      </div>
+    </section>
+
+    <div style="margin-top:18px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px">
+      <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+        <div onClick="{{ k.go }}" style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:20px;cursor:pointer;position:relative;overflow:hidden;transition:all .15s" style-hover="box-shadow:0 10px 26px rgba(11,59,92,.08);border-color:#C9DEE8">
+          <div style="position:absolute;left:0;top:0;right:0;height:3px;background:{{ k.accent }}"></div>
+          <div style="display:flex;justify-content:space-between;align-items:flex-start"><div style="width:42px;height:42px;border-radius:11px;background:{{ k.soft }};color:{{ k.accent }};display:grid;place-items:center"><span class="material-symbols-outlined">{{ k.icon }}</span></div><span style="display:{{ k.tagD }};font-size:12px;font-weight:600;padding:4px 9px;border-radius:7px;background:#FDEFD9;color:#B4610E">{{ k.tag }}</span></div>
+          <div style="margin-top:16px;font-size:32px;font-weight:700;line-height:1">{{ k.v }}</div>
+          <div style="margin-top:6px;font-size:14px;color:#4A6275">{{ k.label }}</div>
+          <div style="margin-top:8px;font-size:12.5px;font-weight:600;color:{{ k.trendFg }}">{{ k.trend }}</div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="margin-top:18px;display:grid;grid-template-columns:{{ twoCol }};gap:18px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:22px 24px">
+          <div style="display:flex;justify-content:space-between;align-items:center"><div><h3 style="margin:0;font-size:18px">Recent RFQs</h3><div style="font-size:13px;color:#6B7F8E;margin-top:3px">Requirements shared with you, by deadline</div></div><button onClick="{{ goRfqs }}" style="display:inline-flex;align-items:center;gap:4px;border:0;background:none;color:#0A5A7A;font-weight:600;font-size:13.5px;cursor:pointer">RFQ Inbox<span class="material-symbols-outlined" style="font-size:18px">arrow_forward</span></button></div>
+          <div style="margin-top:12px">
+            <sc-for list="{{ recentRfqs }}" as="r" hint-placeholder-count="3">
+              <div onClick="{{ r.open }}" style="display:flex;align-items:center;gap:14px;padding:14px 0;border-top:1px solid #EEF2F5;cursor:pointer" style-hover="background:#FAFCFD">
+                <div style="width:40px;height:40px;border-radius:11px;background:#DDF1F7;color:#0B5E7E;display:grid;place-items:center;flex-shrink:0"><span class="material-symbols-outlined">description</span></div>
+                <div style="flex:1;min-width:0"><div style="font-weight:600;font-size:14.5px">{{ r.title }} — {{ r.purchaser }}</div><div style="font-size:12.5px;color:#6B7F8E;margin-top:2px"><span style="font-family:'IBM Plex Mono',monospace">{{ r.id }}</span> · Deadline {{ r.deadline }}</div></div>
+                <span style="font-size:12px;font-weight:600;padding:4px 10px;border-radius:7px;background:{{ r.sbg }};color:{{ r.sfg }};white-space:nowrap">{{ r.status }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:22px 24px">
+          <div style="display:flex;justify-content:space-between;align-items:center"><h3 style="margin:0;font-size:18px">Quotation activity</h3><button onClick="{{ goQuotes }}" style="display:inline-flex;align-items:center;gap:4px;border:0;background:none;color:#0A5A7A;font-weight:600;font-size:13.5px;cursor:pointer">All quotations<span class="material-symbols-outlined" style="font-size:18px">arrow_forward</span></button></div>
+          <div style="margin-top:12px">
+            <sc-for list="{{ recentQuotes }}" as="q" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:14px;padding:13px 0;border-top:1px solid #EEF2F5">
+                <div style="flex:1;min-width:0"><div style="font-weight:600;font-size:14px">{{ q.title }}</div><div style="font-size:12.5px;color:#6B7F8E;margin-top:2px">{{ q.purchaser }} · {{ q.totalTxt }} · v{{ q.ver }}</div></div>
+                <span style="font-size:12px;font-weight:600;padding:4px 10px;border-radius:7px;background:{{ q.sbg }};color:{{ q.sfg }}">{{ q.status }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:22px">
+          <div style="display:flex;gap:18px;align-items:center">
+            <div style="width:84px;height:84px;border-radius:50%;background:conic-gradient(#0B6E8E 0 86%,#E6EEF3 86% 100%);display:grid;place-items:center;flex-shrink:0"><div style="width:66px;height:66px;border-radius:50%;background:#fff;display:grid;place-items:center;font-weight:700;font-size:18px">86%</div></div>
+            <div><div style="font-weight:600;font-size:15px">Profile completion</div><div style="font-size:13px;color:#5A7083;margin-top:4px;line-height:1.45">Add two case studies and team profiles to reach 100%.</div><button onClick="{{ goProfile }}" style="margin-top:8px;border:0;background:none;padding:0;color:#0A5A7A;font-weight:600;font-size:13px;cursor:pointer">Update profile</button></div>
+          </div>
+          <div style="margin-top:18px;padding-top:16px;border-top:1px solid #EEF2F5;display:flex;flex-direction:column;gap:10px;font-size:13.5px">
+            <div style="display:flex;justify-content:space-between"><span style="color:#5A7083">Verification status</span><span style="display:inline-flex;align-items:center;gap:4px;font-weight:600;color:{{ verFg }}"><span class="material-symbols-outlined" style="font-size:17px;font-variation-settings:'FILL' 1">{{ verIcon }}</span>{{ verStatus }}</span></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:#5A7083">Re-verification due</span><b>14 Mar 2027</b></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:#5A7083">Active services</span><b>{{ activeServices }}</b></div>
+          </div>
+        </div>
+        <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:22px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline"><div style="font-weight:600;font-size:15px">Monthly enquiries</div><div style="font-size:13px;color:#6B7F8E">Last 6 months</div></div>
+          <div style="margin-top:18px;height:120px;display:flex;align-items:flex-end;gap:12px">
+            <sc-for list="{{ trend }}" as="t" hint-placeholder-count="6"><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px"><div style="font-size:11.5px;font-weight:600;color:#2E4A5F">{{ t.v }}</div><div style="width:100%;height:{{ t.h }};border-radius:6px 6px 2px 2px;background:{{ t.c }}"></div><div style="font-size:11.5px;color:#6B7F8E">{{ t.m }}</div></div></sc-for>
+          </div>
+        </div>
+        <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:20px">
+          <div style="font-weight:600;font-size:15px;margin-bottom:12px">Quick actions</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <sc-for list="{{ quick }}" as="a" hint-placeholder-count="4"><button onClick="{{ a.go }}" style="display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:12px;border:1px solid #E2E9EF;border-radius:12px;background:#fff;color:#0B2A42;font-size:13px;font-weight:600;cursor:pointer;text-align:left" style-hover="border-color:#9CCFE0;background:#F7FBFD"><span class="material-symbols-outlined" style="color:#0B6E8E">{{ a.icon }}</span>{{ a.label }}</button></sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}">
+    <div style="display:grid;grid-template-columns:{{ twoCol }};gap:18px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:24px">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><h3 style="margin:0;font-size:17px">Registration details</h3><span style="display:inline-flex;align-items:center;gap:5px;font-size:12.5px;color:#6B7F8E"><span class="material-symbols-outlined" style="font-size:16px">lock</span>Changes trigger re-verification</span></div>
+          <div style="margin-top:16px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:#EEF2F5;border:1px solid #EEF2F5;border-radius:12px;overflow:hidden">
+            <sc-for list="{{ legal }}" as="l" hint-placeholder-count="6"><div style="background:#fff;padding:14px 16px"><div style="font-size:12px;color:#6B7F8E">{{ l.k }}</div><div style="margin-top:4px;font-weight:600;font-size:14px;font-family:{{ l.ff }}">{{ l.v }}</div></div></sc-for>
+          </div>
+          <button onClick="{{ requestLegalChange }}" style="margin-top:14px;height:38px;padding:0 14px;border:1px solid #CBD8E2;border-radius:10px;background:#fff;color:#0B3B5C;font-weight:600;font-size:13px;cursor:pointer">Request change to legal details</button>
+        </div>
+        <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:24px">
+          <div style="display:flex;justify-content:space-between;align-items:center"><h3 style="margin:0;font-size:17px">Company profile</h3><span style="font-size:12.5px;color:#6B7F8E">Descriptive changes go through moderation</span></div>
+          <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:16px 18px">
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Website<input name="web" value="{{ pf.web }}" onChange="{{ setPf }}" style="height:42px;padding:0 12px;border:1px solid #CFDBE4;border-radius:10px;font-size:14px;outline:none"></label>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Year established<input name="year" value="{{ pf.year }}" onChange="{{ setPf }}" style="height:42px;padding:0 12px;border:1px solid #CFDBE4;border-radius:10px;font-size:14px;outline:none"></label>
+            <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Company introduction<textarea name="intro" value="{{ pf.intro }}" onChange="{{ setPf }}" rows="3" style="padding:10px 12px;border:1px solid #CFDBE4;border-radius:10px;font-size:14px;line-height:1.5;outline:none;resize:vertical"></textarea><span style="font-weight:400;color:#8A9BA8">{{ introCount }}/1000 characters</span></label>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Nature of business<input name="nature" value="{{ pf.nature }}" onChange="{{ setPf }}" style="height:42px;padding:0 12px;border:1px solid #CFDBE4;border-radius:10px;font-size:14px;outline:none"></label>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Geographic presence<input name="geo" value="{{ pf.geo }}" onChange="{{ setPf }}" style="height:42px;padding:0 12px;border:1px solid #CFDBE4;border-radius:10px;font-size:14px;outline:none"></label>
+            <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Industry expertise<input name="ind" value="{{ pf.ind }}" onChange="{{ setPf }}" style="height:42px;padding:0 12px;border:1px solid #CFDBE4;border-radius:10px;font-size:14px;outline:none"></label>
+          </div>
+          <div style="margin-top:18px;display:flex;justify-content:flex-end"><button onClick="{{ saveProfile }}" style="height:42px;padding:0 20px;border:0;border-radius:10px;background:#0B4F71;color:#fff;font-weight:600;font-size:14px;cursor:pointer">Save changes</button></div>
+        </div>
+        <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:24px">
+          <h3 style="margin:0 0 14px;font-size:17px">Previous assignments and case studies</h3>
+          <sc-for list="{{ cases }}" as="c" hint-placeholder-count="2"><div style="display:flex;gap:14px;padding:14px 0;border-top:1px solid #EEF2F5"><span class="material-symbols-outlined" style="color:#0B6E8E">cases</span><div style="flex:1"><div style="font-weight:600;font-size:14px">{{ c.t }}</div><div style="font-size:13px;color:#5A7083;margin-top:3px">{{ c.r }}</div></div><span style="font-size:12px;color:#6B7F8E">{{ c.doc }}</span></div></sc-for>
+          <button onClick="{{ addCase }}" style="margin-top:8px;display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 14px;border:1px dashed #9CCFE0;border-radius:10px;background:#F4FAFC;color:#0A5A7A;font-weight:600;font-size:13px;cursor:pointer"><span class="material-symbols-outlined" style="font-size:18px">add</span>Add case study</button>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:22px">
+          <div style="font-weight:600;font-size:15px">Contact information</div>
+          <div style="margin-top:12px;display:flex;flex-direction:column;gap:10px;font-size:13.5px">
+            <div><div style="color:#6B7F8E;font-size:12px">Contact person</div>Rakesh Srivastava, Managing Partner</div>
+            <div><div style="color:#6B7F8E;font-size:12px">Email</div>rakesh@abcconsulting.in</div>
+            <div><div style="color:#6B7F8E;font-size:12px">Mobile</div>+91 98390 12345</div>
+          </div>
+        </div>
+        <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:22px">
+          <div style="font-weight:600;font-size:15px">Certifications and documents</div>
+          <sc-for list="{{ certDocs }}" as="d" hint-placeholder-count="4"><div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid #EEF2F5;margin-top:6px;font-size:13.5px"><span class="material-symbols-outlined" style="color:{{ d.fg }};font-variation-settings:'FILL' 1;font-size:19px">{{ d.icon }}</span><span style="flex:1">{{ d.label }}</span><span style="font-size:12px;color:{{ d.fg }};font-weight:600">{{ d.st }}</span></div></sc-for>
+        </div>
+        <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:22px">
+          <div style="font-weight:600;font-size:15px">Team</div>
+          <sc-for list="{{ team }}" as="t" hint-placeholder-count="3"><div style="display:flex;align-items:center;gap:10px;margin-top:12px"><div style="width:34px;height:34px;border-radius:50%;background:#E6EEF3;color:#0B3B5C;display:grid;place-items:center;font-size:12px;font-weight:600">{{ t.i }}</div><div style="font-size:13.5px"><div style="font-weight:600">{{ t.n }}</div><div style="color:#6B7F8E;font-size:12.5px">{{ t.r }}</div></div></div></sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isServices }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:16px;flex-wrap:wrap">
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <sc-for list="{{ lifecycle }}" as="l" hint-placeholder-count="6"><div style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:#4A6275"><span style="width:8px;height:8px;border-radius:50%;background:{{ l.c }}"></span>{{ l.label }}<span style="display:{{ l.arrowD }};color:#B5C3CD">→</span></div></sc-for>
+      </div>
+      <button onClick="{{ openAddService }}" style="display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 18px;border:0;border-radius:11px;background:#0B4F71;color:#fff;font-weight:600;font-size:14px;cursor:pointer" style-hover="background:#093D58"><span class="material-symbols-outlined" style="font-size:19px">add</span>Add Service</button>
+    </div>
+    <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;overflow:auto">
+      <div style="display:grid;grid-template-columns:minmax(200px,2.4fr) minmax(130px,1.4fr) minmax(130px,1fr) minmax(130px,1fr) minmax(130px,1fr) 110px;min-width:min-content;gap:12px;padding:12px 20px;background:#F8FAFC;border-bottom:1px solid #E2E9EF;font-size:12px;font-weight:600;letter-spacing:.5px;color:#6B7F8E"><span>SERVICE</span><span>CATEGORY</span><span>PRICING</span><span>ENQUIRIES</span><span>STATUS</span><span></span></div>
+      <sc-for list="{{ services }}" as="s" hint-placeholder-count="5">
+        <div style="display:grid;grid-template-columns:minmax(200px,2.4fr) minmax(130px,1.4fr) minmax(130px,1fr) minmax(130px,1fr) minmax(130px,1fr) 110px;min-width:min-content;gap:12px;padding:16px 20px;border-bottom:1px solid #EEF2F5;align-items:center;font-size:13.5px">
+          <div><div style="font-weight:600;font-size:14.5px">{{ s.title }}</div><div style="font-size:12.5px;color:#6B7F8E;margin-top:2px">{{ s.mode }} · updated {{ s.updated }}</div></div>
+          <span style="color:#2E4A5F">{{ s.cat }}</span>
+          <span>{{ s.price }}</span>
+          <span>{{ s.enq }}</span>
+          <span><span style="font-size:12px;font-weight:600;padding:4px 10px;border-radius:7px;background:{{ s.sbg }};color:{{ s.sfg }}">{{ s.status }}</span></span>
+          <button onClick="{{ s.act }}" style="height:34px;border:1px solid #CBD8E2;border-radius:9px;background:#fff;color:#0B3B5C;font-weight:600;font-size:12.5px;cursor:pointer">{{ s.actLabel }}</button>
+        </div>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isRfqs }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap">
+      <sc-for list="{{ rfqTabs }}" as="t" hint-placeholder-count="4"><button onClick="{{ t.pick }}" style="height:38px;padding:0 14px;border:1px solid {{ t.bc }};border-radius:10px;background:{{ t.bg }};color:{{ t.fg }};font-weight:600;font-size:13.5px;cursor:pointer">{{ t.label }} <span style="opacity:.7">{{ t.n }}</span></button></sc-for>
+    </div>
+    <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;overflow:auto">
+      <div style="display:grid;grid-template-columns:130px minmax(200px,2fr) minmax(130px,1.5fr) minmax(130px,1.2fr) minmax(130px,1.2fr) 110px 140px 120px;min-width:min-content;gap:12px;padding:12px 20px;background:#F8FAFC;border-bottom:1px solid #E2E9EF;font-size:12px;font-weight:600;letter-spacing:.5px;color:#6B7F8E"><span>RFQ NO.</span><span>REQUIREMENT</span><span>PURCHASER</span><span>LOCATION</span><span>BUDGET</span><span>DEADLINE</span><span>STATUS</span><span></span></div>
+      <sc-for list="{{ rfqRows }}" as="r" hint-placeholder-count="5">
+        <div onClick="{{ r.open }}" style="display:grid;grid-template-columns:130px minmax(200px,2fr) minmax(130px,1.5fr) minmax(130px,1.2fr) minmax(130px,1.2fr) 110px 140px 120px;min-width:min-content;gap:12px;padding:15px 20px;border-bottom:1px solid #EEF2F5;align-items:center;font-size:13.5px;cursor:pointer" style-hover="background:#FAFCFD">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#0A5A7A">{{ r.id }}</span>
+          <span style="font-weight:600">{{ r.title }}</span>
+          <span style="color:#2E4A5F">{{ r.purchaser }}</span>
+          <span style="color:#2E4A5F">{{ r.loc }}</span>
+          <span>{{ r.budget }}</span>
+          <span><div>{{ r.deadline }}</div><div style="font-size:12px;color:{{ r.dfg }};font-weight:600">{{ r.dleftTxt }}</div></span>
+          <span><span style="font-size:12px;font-weight:600;padding:4px 10px;border-radius:7px;background:{{ r.sbg }};color:{{ r.sfg }};white-space:nowrap">{{ r.status }}</span></span>
+          <button onClick="{{ r.cta }}" style="height:34px;border:0;border-radius:9px;background:{{ r.ctaBg }};color:{{ r.ctaFg }};font-weight:600;font-size:12.5px;cursor:pointer">{{ r.ctaLabel }}</button>
+        </div>
+      </sc-for>
+    </div>
+    <div style="margin-top:12px;font-size:12.5px;color:#6B7F8E;display:flex;gap:6px;align-items:center"><span class="material-symbols-outlined" style="font-size:16px">shield_lock</span>Purchaser contact details are shared only as per the RFQ-sharing rules. You cannot view other providers' quotations.</div>
+  </sc-if>
+
+  <sc-if value="{{ isQuote }}" hint-placeholder-val="{{ false }}">
+    <div style="display:grid;grid-template-columns:{{ twoCol }};gap:18px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:22px 24px;display:flex;gap:18px;align-items:center;flex-wrap:wrap">
+          <div style="flex:1;min-width:240px"><div style="font-size:12px;color:#6B7F8E">RFQ reference</div><div style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:15px;color:#0A5A7A;margin-top:2px">{{ qr.id }}</div><div style="font-weight:600;font-size:17px;margin-top:6px">{{ qr.title }} — {{ qr.purchaser }}</div></div>
+          <div style="display:flex;gap:24px;font-size:13px"><div><div style="color:#6B7F8E;font-size:12px">Budget</div><b>{{ qr.budget }}</b></div><div><div style="color:#6B7F8E;font-size:12px">Completion</div><b>{{ qr.completion }}</b></div><div><div style="color:#6B7F8E;font-size:12px">Deadline</div><b style="color:#B4610E">{{ qr.deadline }}</b></div></div>
+        </div>
+        <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:24px">
+          <div style="display:flex;align-items:center;gap:10px"><div style="width:30px;height:30px;border-radius:50%;background:#0B4F71;color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px">1</div><h3 style="margin:0;font-size:17px">Technical proposal</h3></div>
+          <div style="margin-top:18px;display:flex;flex-direction:column;gap:16px">
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Technical proposal *<textarea name="tech" value="{{ qf.tech }}" onChange="{{ setQf }}" rows="3" placeholder="Summarise your understanding of the requirement and proposed approach" style="padding:10px 12px;border:1px solid {{ qb.tech }};border-radius:10px;font-size:14px;line-height:1.5;outline:none;resize:vertical"></textarea><span style="color:#C2412D;font-size:12px">{{ qe.tech }}</span></label>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Methodology<textarea name="method" value="{{ qf.method }}" onChange="{{ setQf }}" rows="2" style="padding:10px 12px;border:1px solid #CFDBE4;border-radius:10px;font-size:14px;line-height:1.5;outline:none;resize:vertical"></textarea></label>
+            <div style="display:flex;flex-direction:column;gap:8px;font-size:12.5px;font-weight:500;color:#4A6275">Scope acceptance
+              <div style="display:flex;gap:8px"><sc-for list="{{ scopeOpts }}" as="o" hint-placeholder-count="2"><button onClick="{{ o.pick }}" style="flex:1;height:42px;border:1.5px solid {{ o.bc }};border-radius:10px;background:{{ o.bg }};color:{{ o.fg }};font-weight:600;font-size:13.5px;cursor:pointer">{{ o.label }}</button></sc-for></div>
+            </div>
+            <sc-if value="{{ hasDeviation }}" hint-placeholder-val="{{ false }}"><label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Deviations from scope *<textarea name="dev" value="{{ qf.dev }}" onChange="{{ setQf }}" rows="2" style="padding:10px 12px;border:1px solid {{ qb.dev }};border-radius:10px;font-size:14px;outline:none;resize:vertical"></textarea><span style="color:#C2412D;font-size:12px">{{ qe.dev }}</span></label></sc-if>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Deliverables<textarea name="del" value="{{ qf.del }}" onChange="{{ setQf }}" rows="3" style="padding:10px 12px;border:1px solid #CFDBE4;border-radius:10px;font-size:14px;line-height:1.5;outline:none;resize:vertical"></textarea></label>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Team composition<textarea name="team" value="{{ qf.team }}" onChange="{{ setQf }}" rows="3" style="padding:10px 12px;border:1px solid #CFDBE4;border-radius:10px;font-size:14px;line-height:1.5;outline:none;resize:vertical"></textarea></label>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Project timeline (weeks) *<input name="weeks" type="number" value="{{ qf.weeks }}" onChange="{{ setQf }}" style="height:42px;padding:0 12px;border:1px solid {{ qb.weeks }};border-radius:10px;font-size:14px;outline:none"><span style="color:#C2412D;font-size:12px">{{ qe.weeks }}</span></label>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Relevant experience<input name="rel" value="{{ qf.rel }}" onChange="{{ setQf }}" style="height:42px;padding:0 12px;border:1px solid #CFDBE4;border-radius:10px;font-size:14px;outline:none"></label>
+            </div>
+          </div>
+        </div>
+        <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:24px">
+          <div style="display:flex;align-items:center;gap:10px"><div style="width:30px;height:30px;border-radius:50%;background:#0B4F71;color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px">2</div><h3 style="margin:0;font-size:17px">Financial proposal</h3></div>
+          <div style="margin-top:18px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px">
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Professional fee (₹) *<input name="fee" type="number" value="{{ qf.fee }}" onChange="{{ setQf }}" style="height:42px;padding:0 12px;border:1px solid {{ qb.fee }};border-radius:10px;font-size:14px;outline:none"><span style="color:#C2412D;font-size:12px">{{ qe.fee }}</span></label>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Travel and other expenses (₹)<input name="travel" type="number" value="{{ qf.travel }}" onChange="{{ setQf }}" style="height:42px;padding:0 12px;border:1px solid #CFDBE4;border-radius:10px;font-size:14px;outline:none"></label>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Quotation valid until *<input name="valid" type="date" value="{{ qf.valid }}" onChange="{{ setQf }}" style="height:42px;padding:0 12px;border:1px solid #CFDBE4;border-radius:10px;font-size:14px;outline:none"></label>
+          </div>
+          <div style="margin-top:22px;font-size:12.5px;font-weight:600;color:#4A6275;display:flex;justify-content:space-between"><span>Payment milestones</span><span style="color:{{ msFg }}">{{ msTotal }}% allocated</span></div>
+          <div style="margin-top:8px;border:1px solid #E2E9EF;border-radius:12px;overflow:hidden">
+            <sc-for list="{{ milestones }}" as="m" hint-placeholder-count="3">
+              <div style="display:flex;gap:10px;align-items:center;padding:10px 12px;border-bottom:1px solid #EEF2F5">
+                <span style="width:22px;color:#6B7F8E;font-size:13px;font-weight:600">{{ m.n }}</span>
+                <input value="{{ m.label }}" onChange="{{ m.onLabel }}" style="flex:1;height:38px;padding:0 10px;border:1px solid #E2E9EF;border-radius:8px;font-size:13.5px;outline:none">
+                <div style="display:flex;align-items:center;gap:4px"><input value="{{ m.pct }}" onChange="{{ m.onPct }}" type="number" style="width:70px;height:38px;padding:0 10px;border:1px solid #E2E9EF;border-radius:8px;font-size:13.5px;outline:none;text-align:right"><span style="font-size:13px;color:#6B7F8E">%</span></div>
+                <span style="width:96px;text-align:right;font-size:13px;color:#2E4A5F">{{ m.amt }}</span>
+                <button onClick="{{ m.remove }}" style="width:32px;height:32px;border:0;border-radius:8px;background:transparent;color:#8A9BA8;cursor:pointer"><span class="material-symbols-outlined" style="font-size:18px">close</span></button>
+              </div>
+            </sc-for>
+            <button onClick="{{ addMilestone }}" style="width:100%;height:40px;border:0;background:#F8FAFC;color:#0A5A7A;font-weight:600;font-size:13px;cursor:pointer">+ Add milestone</button>
+          </div>
+          <div style="color:#C2412D;font-size:12px;margin-top:6px">{{ qe.ms }}</div>
+        </div>
+        <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:24px">
+          <div style="display:flex;align-items:center;gap:10px"><div style="width:30px;height:30px;border-radius:50%;background:#0B4F71;color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px">3</div><h3 style="margin:0;font-size:17px">Attachments</h3></div>
+          <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <sc-for list="{{ qAttach }}" as="a" hint-placeholder-count="2"><button onClick="{{ a.toggle }}" style="display:flex;align-items:center;gap:12px;padding:16px;border:1.5px dashed {{ a.bc }};border-radius:12px;background:{{ a.bg }};cursor:pointer;text-align:left"><span class="material-symbols-outlined" style="color:{{ a.fg }}">{{ a.icon }}</span><div><div style="font-weight:600;font-size:13.5px;color:#0B2A42">{{ a.label }}</div><div style="font-size:12px;color:#6B7F8E;margin-top:2px">{{ a.sub }}</div></div></button></sc-for>
+          </div>
+        </div>
+      </div>
+      <aside style="position:sticky;top:96px;display:flex;flex-direction:column;gap:14px">
+        <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:22px">
+          <div style="font-weight:600;font-size:15px">Quotation summary</div>
+          <div style="margin-top:14px;display:flex;flex-direction:column;gap:10px;font-size:14px">
+            <div style="display:flex;justify-content:space-between"><span style="color:#5A7083">Professional fee</span><span>{{ sum.fee }}</span></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:#5A7083">GST @ 18%</span><span>{{ sum.tax }}</span></div>
+            <div style="display:flex;justify-content:space-between"><span style="color:#5A7083">Travel / other</span><span>{{ sum.travel }}</span></div>
+            <div style="display:flex;justify-content:space-between;padding-top:12px;border-top:1px solid #EEF2F5;font-weight:700;font-size:18px"><span>Total</span><span>{{ sum.total }}</span></div>
+          </div>
+          <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px">
+            <button onClick="{{ submitQuote }}" style="height:46px;border:0;border-radius:11px;background:#0B4F71;color:#fff;font-weight:600;font-size:14.5px;cursor:pointer" style-hover="background:#093D58">Submit quotation</button>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <button onClick="{{ previewQuote }}" style="height:40px;border:1px solid #CBD8E2;border-radius:10px;background:#fff;color:#0B3B5C;font-weight:600;font-size:13px;cursor:pointer">Preview</button>
+              <button onClick="{{ saveDraft }}" style="height:40px;border:1px solid #CBD8E2;border-radius:10px;background:#fff;color:#0B3B5C;font-weight:600;font-size:13px;cursor:pointer">Save draft</button>
+            </div>
+          </div>
+          <div style="margin-top:14px;font-size:12px;line-height:1.5;color:#6B7F8E">After submission, changes are only possible as a new version before the deadline. Every version is retained.</div>
+        </div>
+      </aside>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isQuotes }}" hint-placeholder-val="{{ false }}">
+    <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;overflow:auto">
+      <div style="display:grid;grid-template-columns:130px minmax(200px,2fr) minmax(130px,1.6fr) minmax(130px,1fr) 70px minmax(130px,1fr) 160px 120px;min-width:min-content;gap:12px;padding:12px 20px;background:#F8FAFC;border-bottom:1px solid #E2E9EF;font-size:12px;font-weight:600;letter-spacing:.5px;color:#6B7F8E"><span>RFQ NO.</span><span>REQUIREMENT</span><span>PURCHASER</span><span>TOTAL</span><span>VER.</span><span>SUBMITTED</span><span>STATUS</span><span></span></div>
+      <sc-for list="{{ quoteRows }}" as="q" hint-placeholder-count="4">
+        <div style="display:grid;grid-template-columns:130px minmax(200px,2fr) minmax(130px,1.6fr) minmax(130px,1fr) 70px minmax(130px,1fr) 160px 120px;min-width:min-content;gap:12px;padding:15px 20px;border-bottom:1px solid #EEF2F5;align-items:center;font-size:13.5px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#0A5A7A">{{ q.rfq }}</span><span style="font-weight:600">{{ q.title }}</span><span style="color:#2E4A5F">{{ q.purchaser }}</span><span>{{ q.totalTxt }}</span><span>v{{ q.ver }}</span><span style="color:#2E4A5F">{{ q.date }}</span>
+          <span><span style="font-size:12px;font-weight:600;padding:4px 10px;border-radius:7px;background:{{ q.sbg }};color:{{ q.sfg }};white-space:nowrap">{{ q.status }}</span></span>
+          <button onClick="{{ q.pdf }}" style="height:34px;display:inline-flex;align-items:center;justify-content:center;gap:4px;border:1px solid #CBD8E2;border-radius:9px;background:#fff;color:#0B3B5C;font-weight:600;font-size:12.5px;cursor:pointer"><span class="material-symbols-outlined" style="font-size:16px">download</span>PDF</button>
+        </div>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isEng }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <sc-for list="{{ engs }}" as="e" hint-placeholder-count="2">
+        <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:24px">
+          <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap">
+            <div><div style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#0A5A7A">{{ e.id }} · {{ e.rfq }}</div><div style="font-weight:600;font-size:18px;margin-top:4px">{{ e.title }}</div><div style="font-size:13.5px;color:#5A7083;margin-top:4px">{{ e.purchaser }} · Accepted quotation {{ e.value }}</div></div>
+            <div style="display:flex;gap:22px;font-size:13px"><div><div style="color:#6B7F8E;font-size:12px">Start</div><b>{{ e.start }}</b></div><div><div style="color:#6B7F8E;font-size:12px">Completion</div><b>{{ e.end }}</b></div><div><div style="color:#6B7F8E;font-size:12px">Work order</div><a href="#">{{ e.doc }}</a></div></div>
+          </div>
+          <div style="margin-top:22px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+            <sc-for list="{{ e.steps }}" as="st" hint-placeholder-count="4"><div style="display:flex;flex-direction:column;gap:8px"><div style="height:5px;border-radius:5px;background:{{ st.bar }}"></div><div style="font-size:12.5px;font-weight:600;color:{{ st.fg }}">{{ st.label }}</div></div></sc-for>
+          </div>
+          <div style="margin-top:20px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px">
+            <div>
+              <div style="font-size:12.5px;font-weight:600;color:#4A6275;margin-bottom:8px">Progress updates</div>
+              <sc-for list="{{ e.updates }}" as="u" hint-placeholder-count="2"><div style="display:flex;gap:10px;padding:8px 0;font-size:13.5px"><span style="width:8px;height:8px;border-radius:50%;background:#0B6E8E;margin-top:6px;flex-shrink:0"></span><div><div>{{ u.t }}</div><div style="font-size:12px;color:#6B7F8E">{{ u.d }}</div></div></div></sc-for>
+            </div>
+            <div style="display:{{ e.editD }};flex-direction:column;gap:8px">
+              <textarea value="{{ e.draft }}" onChange="{{ e.onDraft }}" rows="3" placeholder="Share a progress update with the purchaser" style="padding:10px 12px;border:1px solid #CFDBE4;border-radius:10px;font-size:14px;outline:none;resize:vertical"></textarea>
+              <div style="display:flex;gap:8px;justify-content:flex-end"><button onClick="{{ e.post }}" style="height:38px;padding:0 14px;border:1px solid #CBD8E2;border-radius:10px;background:#fff;color:#0B3B5C;font-weight:600;font-size:13px;cursor:pointer">Post update</button><button onClick="{{ e.complete }}" style="height:38px;padding:0 14px;border:0;border-radius:10px;background:#17704A;color:#fff;font-weight:600;font-size:13px;cursor:pointer">Confirm completion</button></div>
+            </div>
+          </div>
+          <div style="margin-top:16px;display:flex;gap:8px;align-items:center;font-size:12.5px;color:#6B7F8E"><span class="material-symbols-outlined" style="font-size:16px">info</span>Payment is settled outside the platform. Selection is not recorded as payment completion.</div>
+        </div>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isReports }}" hint-placeholder-val="{{ false }}">
+    <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px">
+      <sc-for list="{{ repKpis }}" as="k" hint-placeholder-count="4"><div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:20px"><div style="font-size:13px;color:#5A7083">{{ k.label }}</div><div style="margin-top:8px;font-size:30px;font-weight:700">{{ k.v }}</div><div style="margin-top:10px;height:6px;border-radius:6px;background:#EEF2F5;overflow:hidden"><div style="height:100%;width:{{ k.w }};background:#0B6E8E;border-radius:6px"></div></div></div></sc-for>
+    </div>
+    <div style="margin-top:18px;display:grid;grid-template-columns:{{ twoCol }};gap:18px;align-items:start">
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:22px 24px">
+        <div style="display:flex;justify-content:space-between;align-items:center"><h3 style="margin:0;font-size:17px">Service listing performance</h3><button onClick="{{ exportReport }}" style="display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px;border:1px solid #CBD8E2;border-radius:9px;background:#fff;color:#0B3B5C;font-weight:600;font-size:13px;cursor:pointer"><span class="material-symbols-outlined" style="font-size:17px">download</span>Export</button></div>
+        <div style="margin-top:14px;display:grid;grid-template-columns:minmax(0,2fr) 1fr 1fr 1fr 1fr;gap:10px;font-size:12px;font-weight:600;color:#6B7F8E;padding:8px 0;border-bottom:1px solid #E2E9EF"><span>SERVICE</span><span>VIEWS</span><span>RFQs</span><span>QUOTED</span><span>SELECTED</span></div>
+        <sc-for list="{{ perf }}" as="p" hint-placeholder-count="3"><div style="display:grid;grid-template-columns:minmax(0,2fr) 1fr 1fr 1fr 1fr;gap:10px;font-size:13.5px;padding:12px 0;border-bottom:1px solid #EEF2F5"><span style="font-weight:600">{{ p.t }}</span><span>{{ p.v }}</span><span>{{ p.r }}</span><span>{{ p.q }}</span><span>{{ p.s }}</span></div></sc-for>
+      </div>
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:22px">
+        <h3 style="margin:0 0 6px;font-size:17px">Settings</h3>
+        <div style="font-size:12.5px;font-weight:600;color:#4A6275;margin-top:14px">Notification preferences</div>
+        <sc-for list="{{ prefs }}" as="p" hint-placeholder-count="4"><div onClick="{{ p.toggle }}" style="display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #EEF2F5;font-size:13.5px;cursor:pointer"><span>{{ p.label }}</span><span style="width:38px;height:22px;border-radius:11px;background:{{ p.bg }};position:relative;transition:background .15s"><span style="position:absolute;top:3px;left:{{ p.x }};width:16px;height:16px;border-radius:50%;background:#fff;transition:left .15s"></span></span></div></sc-for>
+        <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px">
+          <button onClick="{{ changePw }}" style="height:40px;border:1px solid #CBD8E2;border-radius:10px;background:#fff;color:#0B3B5C;font-weight:600;font-size:13px;cursor:pointer">Change password</button>
+          <button onClick="{{ support }}" style="height:40px;border:1px solid #CBD8E2;border-radius:10px;background:#fff;color:#0B3B5C;font-weight:600;font-size:13px;cursor:pointer">Raise a support request</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+  </main>
+</div>
+
+<sc-if value="{{ drawerOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeDrawer }}" style="position:fixed;inset:0;z-index:60;background:rgba(8,30,46,.4)"></div>
+  <div style="position:fixed;top:0;right:0;bottom:0;z-index:61;width:min(600px,100vw);background:#fff;box-shadow:-20px 0 50px rgba(0,0,0,.15);display:flex;flex-direction:column">
+    <div style="padding:20px 24px;border-bottom:1px solid #EEF2F5;display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+      <div><div style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#0A5A7A">{{ dr.id }}</div><div style="font-weight:700;font-size:20px;margin-top:4px">{{ dr.title }}</div><div style="font-size:13.5px;color:#5A7083;margin-top:4px">{{ dr.purchaser }} · {{ dr.loc }}</div></div>
+      <button onClick="{{ closeDrawer }}" style="width:36px;height:36px;border:0;border-radius:9px;background:#F1F5F8;cursor:pointer;display:grid;place-items:center"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div style="flex:1;overflow:auto;padding:22px 24px;display:flex;flex-direction:column;gap:20px">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#EEF2F5;border:1px solid #EEF2F5;border-radius:12px;overflow:hidden">
+        <div style="background:#F8FAFC;padding:12px 14px"><div style="font-size:11.5px;color:#6B7F8E">Budget range</div><div style="font-weight:600;font-size:13.5px;margin-top:3px">{{ dr.budget }}</div></div>
+        <div style="background:#F8FAFC;padding:12px 14px"><div style="font-size:11.5px;color:#6B7F8E">Completion period</div><div style="font-weight:600;font-size:13.5px;margin-top:3px">{{ dr.completion }}</div></div>
+        <div style="background:#F8FAFC;padding:12px 14px"><div style="font-size:11.5px;color:#6B7F8E">Deadline</div><div style="font-weight:600;font-size:13.5px;margin-top:3px;color:#B4610E">{{ dr.deadline }}</div></div>
+        <div style="background:#F8FAFC;padding:12px 14px"><div style="font-size:11.5px;color:#6B7F8E">Experience required</div><div style="font-weight:600;font-size:13.5px;margin-top:3px">{{ dr.exp }}</div></div>
+        <div style="background:#F8FAFC;padding:12px 14px"><div style="font-size:11.5px;color:#6B7F8E">Delivery mode</div><div style="font-weight:600;font-size:13.5px;margin-top:3px">{{ dr.mode }}</div></div>
+        <div style="background:#F8FAFC;padding:12px 14px"><div style="font-size:11.5px;color:#6B7F8E">Category</div><div style="font-weight:600;font-size:13.5px;margin-top:3px">{{ dr.cat }}</div></div>
+      </div>
+      <div><div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Scope</div><div style="font-size:14px;line-height:1.6;color:#2E4A5F">{{ dr.scope }}</div></div>
+      <div><div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Deliverables</div><sc-for list="{{ dr.deliverables }}" as="d" hint-placeholder-count="3"><div style="display:flex;gap:8px;font-size:14px;margin-bottom:6px;color:#2E4A5F"><span class="material-symbols-outlined" style="font-size:18px;color:#0B6E8E">check_circle</span>{{ d }}</div></sc-for></div>
+      <div><div style="font-weight:600;font-size:14.5px;margin-bottom:8px">Attachments</div><div style="display:flex;flex-wrap:wrap;gap:8px"><sc-for list="{{ dr.attachments }}" as="a" hint-placeholder-count="2"><span style="display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid #E2E9EF;border-radius:9px;font-size:13px"><span class="material-symbols-outlined" style="font-size:18px;color:#0B6E8E">attach_file</span>{{ a }}</span></sc-for></div></div>
+      <div>
+        <div style="font-weight:600;font-size:14.5px;margin-bottom:8px">Clarifications</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <sc-for list="{{ dr.thread }}" as="m" hint-placeholder-count="1"><div style="align-self:{{ m.align }};max-width:85%;padding:10px 12px;border-radius:12px;background:{{ m.bg }};font-size:13.5px;line-height:1.45"><div style="font-size:11.5px;font-weight:600;color:#6B7F8E;margin-bottom:3px">{{ m.who }} · {{ m.when }}</div>{{ m.t }}</div></sc-for>
+        </div>
+        <div style="margin-top:10px;display:flex;gap:8px"><input value="{{ clarDraft }}" onChange="{{ setClar }}" onKeyDown="{{ clarKey }}" placeholder="Ask the purchaser a question" style="flex:1;height:42px;padding:0 12px;border:1px solid #CFDBE4;border-radius:10px;font-size:14px;outline:none"><button onClick="{{ sendClar }}" style="height:42px;padding:0 16px;border:1px solid #CBD8E2;border-radius:10px;background:#fff;color:#0B3B5C;font-weight:600;font-size:13.5px;cursor:pointer">Send</button></div>
+      </div>
+    </div>
+    <div style="padding:16px 24px;border-top:1px solid #EEF2F5;display:flex;justify-content:space-between;align-items:center;gap:12px">
+      <span style="font-size:12.5px;color:#6B7F8E">{{ dr.footNote }}</span>
+      <button onClick="{{ dr.quote }}" style="height:44px;padding:0 20px;border:0;border-radius:11px;background:{{ dr.qBg }};color:#fff;font-weight:600;font-size:14px;cursor:pointer">{{ dr.qLabel }}</button>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ svcFormOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeSvcForm }}" style="position:fixed;inset:0;z-index:60;background:rgba(8,30,46,.4)"></div>
+  <div style="position:fixed;top:0;right:0;bottom:0;z-index:61;width:min(640px,100vw);background:#fff;box-shadow:-20px 0 50px rgba(0,0,0,.15);display:flex;flex-direction:column">
+    <div style="padding:20px 24px;border-bottom:1px solid #EEF2F5;display:flex;justify-content:space-between;align-items:center"><div style="font-weight:700;font-size:19px">Add service listing</div><button onClick="{{ closeSvcForm }}" style="width:36px;height:36px;border:0;border-radius:9px;background:#F1F5F8;cursor:pointer;display:grid;place-items:center"><span class="material-symbols-outlined">close</span></button></div>
+    <div style="flex:1;overflow:auto;padding:22px 24px;display:grid;grid-template-columns:1fr 1fr;gap:16px 18px;align-content:start">
+      <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Service title *<input name="title" value="{{ sf.title }}" onChange="{{ setSf }}" style="height:42px;padding:0 12px;border:1px solid {{ sb.title }};border-radius:10px;font-size:14px;outline:none"><span style="color:#C2412D;font-size:12px">{{ se.title }}</span></label>
+      <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Main category *<select name="cat" value="{{ sf.cat }}" onChange="{{ setSf }}" style="height:42px;padding:0 10px;border:1px solid {{ sb.cat }};border-radius:10px;font-size:14px;background:#fff"><option value="">Select</option><sc-for list="{{ catOpts }}" as="c" hint-placeholder-count="0"><option value="{{ c.id }}">{{ c.name }}</option></sc-for></select><span style="color:#C2412D;font-size:12px">{{ se.cat }}</span></label>
+      <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Subcategory *<select name="sub" value="{{ sf.sub }}" onChange="{{ setSf }}" style="height:42px;padding:0 10px;border:1px solid {{ sb.sub }};border-radius:10px;font-size:14px;background:#fff"><option value="">Select</option><sc-for list="{{ subOpts }}" as="o" hint-placeholder-count="0"><option value="{{ o }}">{{ o }}</option></sc-for></select><span style="color:#C2412D;font-size:12px">{{ se.sub }}</span></label>
+      <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Description and scope of work *<textarea name="desc" value="{{ sf.desc }}" onChange="{{ setSf }}" rows="4" style="padding:10px 12px;border:1px solid {{ sb.desc }};border-radius:10px;font-size:14px;line-height:1.5;outline:none;resize:vertical"></textarea><span style="color:#C2412D;font-size:12px">{{ se.desc }}</span></label>
+      <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Deliverables * <span style="font-weight:400;color:#8A9BA8">One per line</span><textarea name="del" value="{{ sf.del }}" onChange="{{ setSf }}" rows="3" style="padding:10px 12px;border:1px solid {{ sb.del }};border-radius:10px;font-size:14px;line-height:1.5;outline:none;resize:vertical"></textarea><span style="color:#C2412D;font-size:12px">{{ se.del }}</span></label>
+      <div style="grid-column:1/-1;display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Delivery mode *<div style="display:flex;gap:8px"><sc-for list="{{ modeOpts }}" as="m" hint-placeholder-count="3"><button onClick="{{ m.pick }}" style="flex:1;height:40px;border:1.5px solid {{ m.bc }};border-radius:10px;background:{{ m.bg }};color:{{ m.fg }};font-weight:600;font-size:13.5px;cursor:pointer">{{ m.label }}</button></sc-for></div></div>
+      <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Service location / coverage *<input name="loc" value="{{ sf.loc }}" onChange="{{ setSf }}" style="height:42px;padding:0 12px;border:1px solid {{ sb.loc }};border-radius:10px;font-size:14px;outline:none"><span style="color:#C2412D;font-size:12px">{{ se.loc }}</span></label>
+      <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Estimated duration<input name="dur" value="{{ sf.dur }}" onChange="{{ setSf }}" placeholder="e.g. 3–4 weeks" style="height:42px;padding:0 12px;border:1px solid #CFDBE4;border-radius:10px;font-size:14px;outline:none"></label>
+      <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Pricing model<select name="model" value="{{ sf.model }}" onChange="{{ setSf }}" style="height:42px;padding:0 10px;border:1px solid #CFDBE4;border-radius:10px;font-size:14px;background:#fff"><option>Fixed fee</option><option>Per day</option><option>Per month</option><option>Per assignment</option><option>Hourly</option><option>Custom quotation</option></select></label>
+      <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Indicative fee (₹)<input name="fee" type="number" value="{{ sf.fee }}" onChange="{{ setSf }}" placeholder="Optional" style="height:42px;padding:0 12px;border:1px solid #CFDBE4;border-radius:10px;font-size:14px;outline:none"></label>
+      <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Target industries<input name="ind" value="{{ sf.ind }}" onChange="{{ setSf }}" placeholder="e.g. Food processing, Engineering" style="height:42px;padding:0 12px;border:1px solid #CFDBE4;border-radius:10px;font-size:14px;outline:none"></label>
+      <div style="grid-column:1/-1;padding:16px;border:1.5px dashed #CBD8E2;border-radius:12px;display:flex;align-items:center;gap:12px;font-size:13.5px;color:#4A6275"><span class="material-symbols-outlined" style="color:#0B6E8E">upload_file</span>Supporting documents and portfolio attachments (optional) · PDF up to 5 MB</div>
+    </div>
+    <div style="padding:16px 24px;border-top:1px solid #EEF2F5;display:flex;justify-content:space-between;align-items:center;gap:12px">
+      <span style="font-size:12.5px;color:#6B7F8E;max-width:280px">Submitted listings are reviewed by an administrator before publication.</span>
+      <div style="display:flex;gap:8px"><button onClick="{{ saveSvcDraft }}" style="height:42px;padding:0 16px;border:1px solid #CBD8E2;border-radius:10px;background:#fff;color:#0B3B5C;font-weight:600;font-size:13.5px;cursor:pointer">Save draft</button><button onClick="{{ submitSvc }}" style="height:42px;padding:0 18px;border:0;border-radius:10px;background:#0B4F71;color:#fff;font-weight:600;font-size:13.5px;cursor:pointer">Submit for review</button></div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;z-index:70;background:rgba(8,30,46,.5);display:grid;place-items:center;padding:20px">
+    <div style="width:100%;max-width:{{ modal.w }};max-height:88vh;overflow:auto;background:#fff;border-radius:18px;box-shadow:0 30px 70px rgba(0,0,0,.25)">
+      <div style="height:4px;background:linear-gradient(90deg,#0B3B5C,#0E7A9A)"></div>
+      <div style="padding:26px 28px">
+        <h3 style="margin:0;font-size:20px">{{ modal.title }}</h3>
+        <div style="margin-top:8px;font-size:14px;line-height:1.6;color:#5A7083">{{ modal.text }}</div>
+        <sc-if value="{{ modalPreview }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:16px;border:1px solid #E2E9EF;border-radius:12px;padding:18px;font-size:13.5px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;justify-content:space-between"><b>{{ qr.id }}</b><span style="color:#6B7F8E">Valid until {{ qf.valid }}</span></div>
+            <div><div style="color:#6B7F8E;font-size:12px">Technical proposal</div>{{ qf.tech }}</div>
+            <div><div style="color:#6B7F8E;font-size:12px">Scope</div>{{ scopeTxt }}</div>
+            <div><div style="color:#6B7F8E;font-size:12px">Timeline</div>{{ qf.weeks }} weeks</div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding-top:12px;border-top:1px solid #EEF2F5"><div><div style="color:#6B7F8E;font-size:12px">Fee</div>{{ sum.fee }}</div><div><div style="color:#6B7F8E;font-size:12px">GST</div>{{ sum.tax }}</div><div><div style="color:#6B7F8E;font-size:12px">Other</div>{{ sum.travel }}</div><div><div style="color:#6B7F8E;font-size:12px">Total</div><b>{{ sum.total }}</b></div></div>
+          </div>
+        </sc-if>
+        <div style="margin-top:22px;display:flex;justify-content:flex-end;gap:8px">
+          <button onClick="{{ closeModal }}" style="height:42px;padding:0 18px;border:1px solid #CBD8E2;border-radius:10px;background:#fff;color:#0B3B5C;font-weight:600;font-size:14px;cursor:pointer">{{ modal.cancel }}</button>
+          <sc-if value="{{ modalHasOk }}" hint-placeholder-val="{{ false }}"><button onClick="{{ modalOk }}" style="height:42px;padding:0 20px;border:0;border-radius:10px;background:#0B4F71;color:#fff;font-weight:600;font-size:14px;cursor:pointer">{{ modal.ok }}</button></sc-if>
+        </div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:80;background:#0B2A42;color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;box-shadow:0 14px 34px rgba(0,0,0,.25);display:flex;gap:8px;align-items:center"><span class="material-symbols-outlined" style="font-size:19px;color:#7FD3A8">check_circle</span>{{ toast }}</div>
+</sc-if>
+
+<div style="position:fixed;right:18px;bottom:18px;z-index:50;display:flex;align-items:center;gap:4px;padding:5px;background:#0B2A42;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.25);font-size:12.5px">
+  <span style="color:#8FA6B5;padding:0 8px;font-weight:600;letter-spacing:.6px;font-size:11px">PROTOTYPE</span>
+  <a href="index.html" style="padding:7px 10px;border-radius:8px;color:#CFE0EA;text-decoration:none">Public</a>
+  <a href="seller-onboarding.html" style="padding:7px 10px;border-radius:8px;color:#CFE0EA;text-decoration:none">Seller onboarding</a>
+  <a href="buyer-onboarding.html" style="padding:7px 10px;border-radius:8px;color:#CFE0EA;text-decoration:none">Buyer onboarding</a>
+  <a href="seller-portal.html" style="padding:7px 10px;border-radius:8px;background:#1C4560;color:#fff;text-decoration:none">Seller</a>
+  <a href="purchaser-portal.html" style="padding:7px 10px;border-radius:8px;color:#CFE0EA;text-decoration:none">Purchaser</a>
+  <a href="admin-portal.html" style="padding:7px 10px;border-radius:8px;color:#CFE0EA;text-decoration:none">Admin</a>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const ST={'New Enquiry':['#E3F2F8','#0B5E7E'],'Viewed':['#EEF1F4','#4A6275'],'Clarification Requested':['#FDEFD9','#B4610E'],'Quotation Submitted':['#E5F5EC','#17704A'],'Submitted':['#E3F2F8','#0B5E7E'],'Under Review':['#FDEFD9','#B4610E'],'Accepted':['#E5F5EC','#17704A'],'Rejected':['#FBE9E5','#A3321F'],'Deadline Passed':['#FBE9E5','#A3321F'],'Published':['#E5F5EC','#17704A'],'Draft':['#EEF1F4','#4A6275'],'Approved':['#E3F2F8','#0B5E7E'],'Deactivated':['#EEF1F4','#6B7F8E']};
+const sc=s=>{const c=ST[s]||['#EEF1F4','#4A6275'];return {sbg:c[0],sfg:c[1]};};
+const inr=n=>'₹'+Math.round(n||0).toLocaleString('en-IN');
+const CATS=[['bmc','Business & Management Consultancy',['Business plans','DPR / project reports','Feasibility studies','Strategy & process advisory']],['fin','Finance & Credit Facilitation',['Loan documentation','Financial modelling','Subsidy guidance','Credit facilitation']],['ltc','Legal, Tax & Compliance',['GST','Accounting','Audit','Registrations']],['dit','Digital Transformation & IT',['Websites','ERP','CRM','Cybersecurity']],['mkt','Marketing & Market Access',['Branding','Export consultancy','Market research']],['hr','HR & Skill Development',['Recruitment','Training','Capacity building']],['qp','Quality & Productivity',['ISO','ZED','Lean manufacturing']],['sus','Sustainability & Energy',['Energy audits','Renewable energy','ESG']]];
+const RFQS=[
+{id:'BDS-RFQ-0001',title:'DPR Preparation',purchaser:'Shree Ganesh Auto Components',loc:'Pune, Maharashtra',budget:'₹40,000 – ₹60,000',deadline:'20 Nov 2026',dleft:8,status:'New Enquiry',cat:'Business & Management Consultancy',mode:'Hybrid',exp:'5+ years in DPRs',completion:'4 weeks',scope:'Prepare a bank-ready DPR for expansion of CNC machining capacity (₹2.8 Cr project), including market assessment, technical feasibility and five-year financial projections for a term-loan application.',deliverables:['Bank-format DPR','Projection workbook with DSCR and IRR','Support for lender queries'],attachments:['Machine quotations.pdf','Financials FY23–FY26.xlsx'],thread:[]},
+{id:'BDS-RFQ-0009',title:'Feasibility Study – Cold Storage Unit',purchaser:'Awadh Cold Chain LLP',loc:'Lucknow, Uttar Pradesh',budget:'₹50,000 – ₹80,000',deadline:'28 Nov 2026',dleft:16,status:'New Enquiry',cat:'Business & Management Consultancy',mode:'Onsite',exp:'Agri-infrastructure projects',completion:'5 weeks',scope:'Techno-economic feasibility for a 5,000 MT multi-commodity cold storage, including site assessment and subsidy eligibility.',deliverables:['Feasibility report','Capex and opex estimate'],attachments:['Site layout.pdf'],thread:[]},
+{id:'BDS-RFQ-0006',title:'Capital Subsidy Application',purchaser:'Kanpur Leather Works',loc:'Kanpur Nagar, Uttar Pradesh',budget:'Up to ₹20,000',deadline:'25 Nov 2026',dleft:13,status:'Clarification Requested',cat:'Finance & Credit Facilitation',mode:'Hybrid',exp:'State subsidy schemes',completion:'6 weeks',scope:'Prepare and file a capital investment subsidy application under the state MSME policy.',deliverables:['Eligibility note','Filed application'],attachments:['Udyam certificate.pdf'],thread:[{who:'You',when:'10 Nov',t:'Has the plant and machinery been installed, or is it yet to be purchased?',mine:true},{who:'Kanpur Leather Works',when:'11 Nov',t:'Installed in August 2026. Invoices are attached in the RFQ.',mine:false}]},
+{id:'BDS-RFQ-0004',title:'Financial Consultancy',purchaser:'Annapurna Agro Foods',loc:'Barabanki, Uttar Pradesh',budget:'Not disclosed',deadline:'18 Nov 2026',dleft:6,status:'Quotation Submitted',cat:'Finance & Credit Facilitation',mode:'Online',exp:'3+ years',completion:'3 weeks',scope:'Working-capital assessment and CMA data for enhancement of cash credit limits.',deliverables:['CMA data','Assessment note'],attachments:[],thread:[]},
+{id:'BDS-RFQ-0002',title:'Business Plan for Startup',purchaser:'Nayi Raah Foods',loc:'Lucknow, Uttar Pradesh',budget:'₹15,000 – ₹25,000',deadline:'02 Nov 2026',dleft:-10,status:'Deadline Passed',cat:'Business & Management Consultancy',mode:'Online',exp:'Any',completion:'2 weeks',scope:'Investor-ready business plan for a packaged snacks startup.',deliverables:['Business plan','Pitch summary'],attachments:[],thread:[]}];
+class Component extends DCLogic {
+  _rs=()=>this.setState({vw:window.innerWidth});
+  componentWillUnmount(){window.removeEventListener('resize',this._rs);}
+  state={screen:'dash',notif:false,toast:'',drawer:null,svcForm:false,modal:null,clar:'',rfqTab:'all',rfqs:RFQS,quoteFor:'BDS-RFQ-0001',
+    services:[{title:'Detailed Project Report (DPR) Preparation',cat:'Business & Management Consultancy',mode:'Hybrid',price:'₹45,000 / assignment',enq:14,status:'Published',updated:'2 Nov'},{title:'Financial Modelling for Term Loans',cat:'Finance & Credit Facilitation',mode:'Online',price:'₹30,000 fixed',enq:6,status:'Published',updated:'18 Oct'},{title:'Subsidy & Scheme Facilitation',cat:'Finance & Credit Facilitation',mode:'Hybrid',price:'₹15,000 / assignment',enq:4,status:'Published',updated:'9 Oct'},{title:'Feasibility Studies for Food-Processing Units',cat:'Business & Management Consultancy',mode:'Onsite',price:'Custom quotation',enq:0,status:'Under Review',updated:'10 Nov'},{title:'Credit Rating Advisory',cat:'Finance & Credit Facilitation',mode:'Online',price:'—',enq:0,status:'Draft',updated:'6 Nov'}],
+    quotes:[{rfq:'BDS-RFQ-0004',title:'Financial Consultancy',purchaser:'Annapurna Agro Foods',total:41300,ver:1,date:'09 Nov 2026',status:'Submitted'},{rfq:'BDS-RFQ-0006',title:'Capital Subsidy Application',purchaser:'Kanpur Leather Works',total:17700,ver:1,date:'08 Nov 2026',status:'Clarification Requested'},{rfq:'BDS-RFQ-0003',title:'CMA Data Preparation',purchaser:'Rohilkhand Textiles',total:29500,ver:2,date:'21 Oct 2026',status:'Accepted'},{rfq:'BDS-RFQ-0005',title:'Project Report – Rice Mill',purchaser:'Gomti Agro Industries',total:53100,ver:1,date:'14 Oct 2026',status:'Rejected'}],
+    engs:[{id:'BDS-ENG-0042',rfq:'BDS-RFQ-0003',title:'CMA Data Preparation',purchaser:'Rohilkhand Textiles',value:'₹29,500',start:'28 Oct 2026',end:'25 Nov 2026',doc:'Work order WO-118.pdf',stage:2,draft:'',updates:[{t:'Engagement initiated; data request list shared',d:'28 Oct 2026'},{t:'Historical financials received and analysed',d:'05 Nov 2026'}]},{id:'BDS-ENG-0031',rfq:'BDS-RFQ-0000',title:'DPR – Precision Components Expansion',purchaser:'Shree Ganesh Auto Components',value:'₹48,000',start:'02 Jul 2026',end:'14 Aug 2026',doc:'Engagement letter.pdf',stage:3,draft:'',updates:[{t:'Final DPR accepted by purchaser',d:'14 Aug 2026'}]}],
+    qf:{tech:'',method:'Kick-off and data request in week 1, site visit in week 2, draft DPR in week 3, final DPR after review in week 4.',scope:'accept',dev:'',del:'Bank-format DPR (PDF + editable)\nProjection workbook\nLender query support',team:'Rakesh Srivastava, CA (lead)\nNeha Tiwari, MBA Finance\nImran Ali, analyst',weeks:'4',rel:'60+ DPRs for manufacturing MSMEs since 2014',fee:'45000',travel:'6000',valid:'2026-12-31',ms:[{label:'Advance on engagement',pct:'30'},{label:'Draft DPR submission',pct:'40'},{label:'Final DPR acceptance',pct:'30'}],att:{tech:false,fin:false}},qErr:{},
+    sf:{title:'',cat:'',sub:'',desc:'',del:'',mode:'Hybrid',loc:'',dur:'',model:'Per assignment',fee:'',ind:''},sErr:{},
+    pf:{web:'https://abcconsulting.in',year:'2014',intro:'Project consultancy practice preparing bank-ready DPRs, financial models and subsidy applications for manufacturing and service MSMEs across North India.',nature:'Project and financial consultancy',geo:'Uttar Pradesh, Uttarakhand, Bihar, Delhi NCR',ind:'Food processing, Textiles, Engineering'},
+    cases:[{t:'DPR for a ₹4.2 Cr food-processing unit, Barabanki',r:'Term loan sanctioned within 7 weeks',doc:'case_barabanki.pdf'},{t:'Working-capital assessment, Kanpur textile MSME',r:'Revised CC limits accepted by lender',doc:'case_kanpur.pdf'}],
+    prefs:{email:true,sms:true,wa:false,digest:true},pending:false};
+  componentDidMount(){if(new URLSearchParams(location.search).get('pending'))this.setState({pending:true});}
+  go(screen,x={}){this.setState({screen,notif:false,...x});window.scrollTo({top:0});}
+  flash(t){this.setState({toast:t});clearTimeout(this._t);this._t=setTimeout(()=>this.setState({toast:''}),2600);}
+  renderVals(){
+    if(!this._rsOn){this._rsOn=1;window.addEventListener('resize',this._rs);}const vw=this.state.vw||window.innerWidth,compact=vw<1100,narrow=vw<1280;
+    const s=this.state,qf=s.qf;
+    const titles={dash:['Overview','Dashboard'],profile:['Account','Business Profile'],services:['Catalogue','My Services'],rfqs:['Opportunities','RFQ Inbox'],quote:['RFQ Inbox','Submit Quotation'],quotes:['Proposals','Quotations'],eng:['Delivery','Engagements'],reports:['Insights','Reports & Settings']};
+    const newCount=s.rfqs.filter(r=>r.status==='New Enquiry'||r.status==='Clarification Requested').length;
+    const navDef=[['dash','Dashboard','home'],['profile','Business Profile','badge'],['services','Services','inventory_2'],['rfqs','RFQ Inbox','inbox',newCount],['quotes','Quotations','request_quote'],['eng','Engagements','handshake',1],['reports','Reports','monitoring']];
+    const nav=navDef.map(([k,label,icon,badge])=>{const a=s.screen===k||(k==='rfqs'&&s.screen==='quote');return {label,icon,badge:badge||'',badgeD:badge&&!compact?'inline-flex':'none',bg:a?'#DDF1F7':'transparent',fg:a?'#0A5A7A':'#2E4A5F',fw:a?600:500,go:()=>this.go(k)};});
+    const openR=r=>()=>this.setState({drawer:r.id,clar:''});
+    const startQuote=id=>{if(s.pending){this.flash('Quotations are available after your application is approved');return;}this.go('quote',{drawer:null,quoteFor:id,qErr:{}});};
+    const rfqRows=s.rfqs.filter(r=>s.rfqTab==='all'||(s.rfqTab==='open'&&r.dleft>=0&&r.status!=='Quotation Submitted')||(s.rfqTab==='sub'&&r.status==='Quotation Submitted')||(s.rfqTab==='closed'&&r.dleft<0)).map(r=>{const can=r.dleft>=0&&r.status!=='Quotation Submitted';return {...r,...sc(r.status),dleftTxt:r.dleft<0?'Closed':r.dleft<=7?r.dleft+' days left':r.dleft+' days',dfg:r.dleft<0?'#8A9BA8':r.dleft<=7?'#B4610E':'#6B7F8E',open:openR(r),ctaLabel:can?'Quote':'View',ctaBg:can?'#0B4F71':'#EEF2F5',ctaFg:can?'#fff':'#2E4A5F',cta:e=>{e.stopPropagation();can?startQuote(r.id):openR(r)();}};});
+    const d=s.rfqs.find(r=>r.id===s.drawer);
+    const dr=d?{...d,thread:d.thread.map(m=>({...m,align:m.mine?'flex-end':'flex-start',bg:m.mine?'#DDF1F7':'#F1F5F8'})),footNote:d.dleft<0?'Submission deadline has passed':d.status==='Quotation Submitted'?'Quotation v1 submitted':'Deadline '+d.deadline,qLabel:d.status==='Quotation Submitted'?'Submit revised version':'Submit Quotation',qBg:d.dleft<0?'#9FB6C4':'#0B4F71',quote:()=>{if(d.dleft<0)return;startQuote(d.id);}}:{};
+    const qr=s.rfqs.find(r=>r.id===s.quoteFor);
+    const fee=+qf.fee||0,tax=fee*0.18,travel=+qf.travel||0,total=fee+tax+travel;
+    const msTotal=qf.ms.reduce((a,m)=>a+(+m.pct||0),0);
+    const setMs=(i,k)=>e=>{const val=e.target.value;this.setState(st=>({qf:{...st.qf,ms:st.qf.ms.map((m,j)=>j===i?{...m,[k]:val}:m)}}));};
+    const qe={tech:s.qErr.tech||'',dev:s.qErr.dev||'',weeks:s.qErr.weeks||'',fee:s.qErr.fee||'',ms:s.qErr.ms||''};const qb={};Object.keys(qe).forEach(k=>qb[k]=qe[k]?'#D9644F':'#CFDBE4');
+    const validateQ=()=>{const e={};if(!qf.tech.trim())e.tech='Describe your technical approach';if(qf.scope==='dev'&&!qf.dev.trim())e.dev='List the deviations';if(!(+qf.weeks>0))e.weeks='Enter a timeline';if(!(fee>0))e.fee='Enter the professional fee';if(msTotal!==100)e.ms='Milestones must add up to 100% (currently '+msTotal+'%)';this.setState({qErr:e});return !Object.keys(e).length;};
+    const doSubmit=()=>{const ex=s.quotes.find(q=>q.rfq===qr.id);const ver=ex?ex.ver+1:1;this.setState(st=>({modal:null,quotes:[{rfq:qr.id,title:qr.title,purchaser:qr.purchaser,total,ver,date:'12 Nov 2026',status:'Submitted'},...st.quotes.filter(q=>q.rfq!==qr.id)],rfqs:st.rfqs.map(r=>r.id===qr.id?{...r,status:'Quotation Submitted'}:r),screen:'quotes'}));window.scrollTo({top:0});this.flash(`Quotation v${ver} submitted for ${qr.id}. The purchaser has been notified.`);};
+    const sfe={},sb={};['title','cat','sub','desc','del','loc'].forEach(k=>{sfe[k]=s.sErr[k]||'';sb[k]=s.sErr[k]?'#D9644F':'#CFDBE4';});
+    const saveSvc=(status)=>{const f=s.sf;if(status!=='Draft'){const e={};['title','cat','sub','desc','del','loc'].forEach(k=>{if(!String(f[k]).trim())e[k]='Required';});if(Object.keys(e).length){this.setState({sErr:e});return;}}else if(!f.title.trim()){this.setState({sErr:{title:'Add a title to save a draft'}});return;}const c=CATS.find(x=>x[0]===f.cat);this.setState(st=>({svcForm:false,sErr:{},screen:'services',sf:{title:'',cat:'',sub:'',desc:'',del:'',mode:'Hybrid',loc:'',dur:'',model:'Per assignment',fee:'',ind:''},services:[{title:f.title,cat:c?c[1]:'—',mode:f.mode,price:f.fee?inr(+f.fee)+' / '+f.model.toLowerCase().replace('per ',''):f.model==='Custom quotation'?'Custom quotation':'—',enq:0,status:status==='Draft'?'Draft':'Submitted',updated:'12 Nov'},...st.services]}));this.flash(status==='Draft'?'Draft saved':'Listing submitted for administrator review');};
+    const selCat=CATS.find(x=>x[0]===s.sf.cat);
+    const chip=on=>({bg:on?'#EAF5F9':'#fff',fg:on?'#0A5A7A':'#2E4A5F',bc:on?'#0B6E8E':'#CFDBE4'});
+    const hr=new Date().getHours();
+    const M=s.modal||{};
+    return {
+      nav,crumb:titles[s.screen][0],title:titles[s.screen][1],pending:s.pending,
+      isDash:s.screen==='dash',isProfile:s.screen==='profile',isServices:s.screen==='services',isRfqs:s.screen==='rfqs',isQuote:s.screen==='quote',isQuotes:s.screen==='quotes',isEng:s.screen==='eng',isReports:s.screen==='reports',
+      notifOpen:s.notif,toggleNotif:()=>this.setState({notif:!s.notif}),
+      notifs:[{icon:'inbox',t:'New RFQ BDS-RFQ-0009 from Awadh Cold Chain LLP. Deadline 28 Nov.',when:'2 hours ago'},{icon:'forum',t:'Kanpur Leather Works replied to your clarification on BDS-RFQ-0006.',when:'Yesterday'},{icon:'alarm',t:'Reminder: BDS-RFQ-0001 closes in 8 days.',when:'Yesterday'}],
+      today:new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).toUpperCase(),greeting:hr<12?'Good morning':hr<17?'Good afternoon':'Good evening',
+      goRfqs:()=>this.go('rfqs'),goQuotes:()=>this.go('quotes'),goProfile:()=>this.go('profile'),
+      openAddService:()=>{if(s.pending){this.flash('Services can be published after your application is approved');return;}this.setState({svcForm:true,sErr:{}});},
+      kpis:[{label:'Pending RFQs',v:newCount,icon:'inbox',accent:'#0B6E8E',soft:'#DDF1F7',tag:'action due',tagD:'inline-block',trend:'↗ 1 new today',trendFg:'#17704A',go:()=>this.go('rfqs')},{label:'Quotations submitted',v:s.quotes.length+1,icon:'request_quote',accent:'#E07B20',soft:'#FDF1E4',tag:'',tagD:'none',trend:'This quarter',trendFg:'#6B7F8E',go:()=>this.go('quotes')},{label:'Quotations accepted',v:2,icon:'task_alt',accent:'#17704A',soft:'#E5F5EC',tag:'',tagD:'none',trend:'40% selection rate',trendFg:'#17704A',go:()=>this.go('quotes')},{label:'Active engagements',v:1,icon:'handshake',accent:'#6A4BA8',soft:'#EFEAF8',tag:'',tagD:'none',trend:'1 due 25 Nov',trendFg:'#B4610E',go:()=>this.go('eng')}],
+      recentRfqs:s.rfqs.slice(0,4).map(r=>({...r,...sc(r.status),open:openR(r)})),
+      recentQuotes:s.quotes.slice(0,3).map(q=>({...q,...sc(q.status),totalTxt:inr(q.total)})),
+      verStatus:s.pending?'Pending Verification':'Verified',verFg:s.pending?'#B4610E':'#17704A',verIcon:s.pending?'hourglass_top':'verified',activeServices:s.services.filter(x=>x.status==='Published').length,
+      trend:[['Jun',3],['Jul',5],['Aug',4],['Sep',7],['Oct',6],['Nov',8]].map(([m,v],i,a)=>({m,v,h:(v/8*90)+'px',c:i===a.length-1?'#0B4F71':'#B9DCE8'})),
+      quick:[{label:'Add Service',icon:'add_box',go:()=>{this.go('services');this.setState({svcForm:!s.pending});}},{label:'View RFQs',icon:'inbox',go:()=>this.go('rfqs')},{label:'Submit Quotation',icon:'request_quote',go:()=>startQuote('BDS-RFQ-0001')},{label:'View Reports',icon:'monitoring',go:()=>this.go('reports')}],
+      // profile
+      legal:[['Organisation name','ABC Business Consulting Pvt Ltd'],['Constitution','Private Limited Company'],['PAN','AABCA1234K',1],['GSTIN','09AABCA1234K1Z5',1],['Udyam','UDYAM-UP-50-0012345',1],['Registered address','Sapru Marg, Hazratganj, Lucknow – 226001']].map(([k,v,m])=>({k,v,ff:m?"'IBM Plex Mono',monospace":'inherit'})),
+      requestLegalChange:()=>this.setState({modal:{title:'Change legal details?',text:'Changes to organisation name, constitution, PAN, GSTIN, Udyam or registered address send your profile back to verification. Your published services stay visible, but you cannot submit new quotations until re-approval.',ok:'Continue to request',cancel:'Cancel',w:'480px',onOk:()=>{this.setState({modal:null});this.flash('Change request created. A verification officer will contact you.');}}}),
+      pf:s.pf,setPf:e=>{const {name,value}=e.target;this.setState(st=>({pf:{...st.pf,[name]:value.slice(0,name==='intro'?1000:300)}}));},introCount:s.pf.intro.length,
+      saveProfile:()=>this.flash('Profile changes submitted for moderation'),
+      cases:s.cases,addCase:()=>this.setState(st=>({cases:[...st.cases,{t:'New case study',r:'Add the outcome and client reference',doc:'—'}]})),
+      certDocs:[['PAN card','Verified'],['Certificate of incorporation','Verified'],['GST certificate','Verified'],['ISO 9001:2015 certificate','Expires Jan 2027']].map(([label,st])=>({label,st,icon:st==='Verified'?'verified':'schedule',fg:st==='Verified'?'#17704A':'#B4610E'})),
+      team:[['RS','Rakesh Srivastava','CA · Managing Partner'],['NT','Neha Tiwari','MBA Finance · Project Lead'],['IA','Imran Ali','Financial Analyst']].map(([i,n,r])=>({i,n,r})),
+      // services
+      lifecycle:['Draft','Submitted','Under Review','Approved','Published','Updated / Deactivated'].map((label,i,a)=>({label,c:['#8A9BA8','#0B6E8E','#E0A030','#0B5E7E','#17704A','#6B7F8E'][i],arrowD:i<a.length-1?'inline':'none'})),
+      services:s.services.map((x,i)=>({...x,...sc(x.status),actLabel:x.status==='Draft'?'Edit':x.status==='Published'?'Deactivate':'View',act:()=>{if(x.status==='Published'){this.setState(st=>({services:st.services.map((y,j)=>j===i?{...y,status:'Deactivated'}:y)}));this.flash('Listing deactivated and removed from public search');}else if(x.status==='Deactivated'){this.setState(st=>({services:st.services.map((y,j)=>j===i?{...y,status:'Submitted'}:y)}));this.flash('Reactivation submitted for review');}else this.flash('Opening listing…');}})),
+      svcFormOpen:s.svcForm,closeSvcForm:()=>this.setState({svcForm:false}),sf:s.sf,se:sfe,sb,
+      setSf:e=>{const {name,value}=e.target;this.setState(st=>({sf:{...st.sf,[name]:value,...(name==='cat'?{sub:''}:{})},sErr:{...st.sErr,[name]:''}}));},
+      catOpts:CATS.map(c=>({id:c[0],name:c[1]})),subOpts:selCat?selCat[2]:[],
+      modeOpts:['Online','Onsite','Hybrid'].map(m=>({label:m,...chip(s.sf.mode===m),pick:()=>this.setState(st=>({sf:{...st.sf,mode:m}}))})),
+      saveSvcDraft:()=>saveSvc('Draft'),submitSvc:()=>saveSvc('Submitted'),
+      // rfqs
+      rfqTabs:[['all','All'],['open','Open'],['sub','Quoted'],['closed','Closed']].map(([k,label])=>{const on=s.rfqTab===k;return {label,n:s.rfqs.filter(r=>k==='all'||(k==='open'&&r.dleft>=0&&r.status!=='Quotation Submitted')||(k==='sub'&&r.status==='Quotation Submitted')||(k==='closed'&&r.dleft<0)).length,bg:on?'#0B4F71':'#fff',fg:on?'#fff':'#2E4A5F',bc:on?'#0B4F71':'#DCE5EC',pick:()=>this.setState({rfqTab:k})};}),
+      rfqRows,drawerOpen:!!d,dr,closeDrawer:()=>this.setState({drawer:null}),
+      clarDraft:s.clar,setClar:e=>this.setState({clar:e.target.value}),
+      sendClar:()=>{if(!s.clar.trim())return;this.setState(st=>({clar:'',rfqs:st.rfqs.map(r=>r.id===st.drawer?{...r,thread:[...r.thread,{who:'You',when:'Just now',t:st.clar,mine:true}]}:r)}));},
+      clarKey:e=>{if(e.key==='Enter'&&s.clar.trim())this.setState(st=>({clar:'',rfqs:st.rfqs.map(r=>r.id===st.drawer?{...r,thread:[...r.thread,{who:'You',when:'Just now',t:st.clar,mine:true}]}:r)}));},
+      // quote
+      qr:qr||{},qf,qe,qb,setQf:e=>{const {name,value}=e.target;this.setState(st=>({qf:{...st.qf,[name]:value},qErr:{...st.qErr,[name]:''}}));},
+      scopeOpts:[['accept','Accept scope as stated'],['dev','Accept with deviations']].map(([k,label])=>({label,...chip(qf.scope===k),pick:()=>this.setState(st=>({qf:{...st.qf,scope:k}}))})),hasDeviation:qf.scope==='dev',scopeTxt:qf.scope==='dev'?'Accepted with deviations: '+qf.dev:'Accepted as stated',
+      milestones:qf.ms.map((m,i)=>({...m,n:i+1,amt:inr(total*(+m.pct||0)/100),onLabel:setMs(i,'label'),onPct:setMs(i,'pct'),remove:()=>this.setState(st=>({qf:{...st.qf,ms:st.qf.ms.filter((_,j)=>j!==i)}}))})),
+      addMilestone:()=>this.setState(st=>({qf:{...st.qf,ms:[...st.qf.ms,{label:'New milestone',pct:'0'}]}})),
+      msTotal,msFg:msTotal===100?'#17704A':'#B4610E',
+      qAttach:[['tech','Technical proposal'],['fin','Financial proposal']].map(([k,label])=>{const up=qf.att[k];return {label,icon:up?'task':'upload_file',sub:up?k+'_proposal_ABC.pdf · uploaded':'PDF, up to 10 MB',bc:up?'#7FC4A0':'#CBD8E2',bg:up?'#F1FAF5':'#fff',fg:up?'#17704A':'#0B6E8E',toggle:()=>this.setState(st=>({qf:{...st.qf,att:{...st.qf.att,[k]:!st.qf.att[k]}}}))};}),
+      sum:{fee:inr(fee),tax:inr(tax),travel:inr(travel),total:inr(total)},
+      saveDraft:()=>this.flash('Draft saved. Only you can see it until you submit.'),
+      previewQuote:()=>this.setState({modal:{title:'Quotation preview',text:'This is how the purchaser will see your proposal.',cancel:'Close',w:'640px',preview:true}}),
+      submitQuote:()=>{if(!validateQ()){this.flash('Please fix the highlighted fields');return;}this.setState({modal:{title:'Submit quotation?',text:`You are submitting ${inr(total)} for ${qr.id}. After submission the quotation cannot be silently edited; any change before the deadline creates a new version that the purchaser can see.`,ok:'Submit quotation',cancel:'Review again',w:'480px',onOk:doSubmit}});},
+      quoteRows:s.quotes.map(q=>({...q,...sc(q.status),totalTxt:inr(q.total),pdf:()=>this.flash('Downloading quotation '+q.rfq+' v'+q.ver+'.pdf')})),
+      // engagements
+      engs:s.engs.map((e,i)=>({...e,steps:['Selected','Engagement Initiated','In Progress','Completed'].map((label,j)=>({label,bar:j<=e.stage?(e.stage===3?'#17704A':'#0B6E8E'):'#E6EDF2',fg:j<=e.stage?'#0B2A42':'#8A9BA8'})),editD:e.stage<3?'flex':'none',
+        onDraft:ev=>{const val=ev.target.value;this.setState(st=>({engs:st.engs.map((x,j)=>j===i?{...x,draft:val}:x)}));},
+        post:()=>{if(!e.draft.trim())return;this.setState(st=>({engs:st.engs.map((x,j)=>j===i?{...x,draft:'',updates:[...x.updates,{t:x.draft,d:'12 Nov 2026'}]}:x)}));this.flash('Update shared with the purchaser');},
+        complete:()=>this.setState({modal:{title:'Confirm completion?',text:'The purchaser will be asked to confirm completion and may then submit feedback. This does not record any payment.',ok:'Confirm completion',cancel:'Cancel',w:'460px',onOk:()=>{this.setState(st=>({modal:null,engs:st.engs.map((x,j)=>j===i?{...x,stage:3,updates:[...x.updates,{t:'Completion confirmed by provider; awaiting purchaser confirmation',d:'12 Nov 2026'}]}:x)}));this.flash('Completion confirmed');}}})})),
+      // reports
+      repKpis:[['Quotation response rate','83%','83%'],['Selection rate','40%','40%'],['Profile completeness','86%','86%'],['Avg. response time','2.1 days','60%']].map(([label,v,w])=>({label,v,w})),
+      perf:[['DPR Preparation',412,14,12,4],['Financial Modelling',188,6,5,2],['Subsidy Facilitation',96,4,3,1]].map(([t,v,r,q,x])=>({t,v,r,q,s:x})),
+      exportReport:()=>this.flash('Seller report exported (Excel)'),
+      prefs:[['email','Email alerts for new RFQs'],['sms','SMS deadline reminders'],['wa','WhatsApp notifications'],['digest','Weekly activity digest']].map(([k,label])=>({label,bg:s.prefs[k]?'#0B6E8E':'#CBD8E2',x:s.prefs[k]?'19px':'3px',toggle:()=>this.setState(st=>({prefs:{...st.prefs,[k]:!st.prefs[k]}}))})),
+      changePw:()=>this.flash('Password reset link sent to rakesh@abcconsulting.in'),support:()=>this.flash('Support request SR-2291 created'),
+      modalOpen:!!s.modal,modal:{title:M.title||'',text:M.text||'',ok:M.ok||'',cancel:M.cancel||'Close',w:M.w||'480px'},modalPreview:!!M.preview,modalHasOk:!!M.onOk,modalOk:()=>M.onOk&&M.onOk(),closeModal:()=>this.setState({modal:null}),
+      hasToast:!!s.toast,toast:s.toast,shellCols:compact?'80px minmax(0,1fr)':'264px minmax(0,1fr)',sideTextD:compact?'none':'block',wideD:compact?'none':'block',twoCol:narrow?'minmax(0,1fr)':'minmax(0,1fr) 330px',twoColL:narrow?'minmax(0,1fr)':'320px minmax(0,1fr)'
+    };
+  }
+}
+</script>
+</body>
+</html>

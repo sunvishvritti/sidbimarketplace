@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300..500,0..1,0&display=block" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#F4F7FA;font-family:'IBM Plex Sans',system-ui,sans-serif;color:#0B2A42;-webkit-font-smoothing:antialiased}
+a{color:#0A5A7A;text-decoration:none}a:hover{color:#0B3B5C;text-decoration:underline}
+.material-symbols-outlined{font-size:20px;line-height:1;vertical-align:middle}
+input,select,textarea,button{font-family:inherit}
+::placeholder{color:#8A9BA8}
+input[type=range]{accent-color:#0B4F71}
+</style>
+</helmet>
+<div style="min-height:100vh;display:grid;grid-template-columns:{{ shellCols }};background:#F4F7FA">
+
+<aside style="position:sticky;top:0;height:100vh;background:#fff;border-right:1px solid #E2E9EF;display:flex;flex-direction:column">
+  <div style="height:76px;display:flex;align-items:center;gap:11px;padding:0 20px;border-bottom:1px solid #EEF2F5">
+    <div style="width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,#0B3B5C,#0E7A9A);display:grid;place-items:center;color:#fff;font-weight:700;font-size:12.5px">BDS</div>
+    <div style="display:{{ sideTextD }}"><div style="font-weight:700;font-size:16px;color:#0B3B5C;line-height:1.1">BDS Marketplace</div><div style="font-size:10px;letter-spacing:1.8px;color:#6B7F8E;font-weight:600;margin-top:3px">PURCHASER WORKSPACE</div></div>
+  </div>
+  <div style="padding:18px 20px 0;font-size:11px;letter-spacing:1.4px;font-weight:600;color:#6B7F8E;display:{{ sideTextD }}">MSME PURCHASER</div>
+  <nav style="padding:10px;display:flex;flex-direction:column;gap:3px;flex:1;overflow:auto">
+    <sc-for list="{{ nav }}" as="n" hint-placeholder-count="8">
+      <button onClick="{{ n.go }}" title="{{ n.label }}" style="display:flex;align-items:center;gap:12px;height:44px;padding:0 12px;border:0;border-radius:10px;background:{{ n.bg }};color:{{ n.fg }};font-weight:{{ n.fw }};font-size:14.5px;cursor:pointer;text-align:left;transition:background .15s">
+        <span class="material-symbols-outlined" style="font-size:21px">{{ n.icon }}</span><span style="flex:1;display:{{ sideTextD }};white-space:nowrap">{{ n.label }}</span>
+        <span style="display:{{ n.badgeD }};min-width:22px;height:22px;padding:0 6px;border-radius:7px;background:#E6EEF3;color:#0B3B5C;font-size:12px;font-weight:700;align-items:center;justify-content:center">{{ n.badge }}</span>
+      </button>
+    </sc-for>
+  </nav>
+  <div style="padding:14px;border-top:1px solid #EEF2F5">
+    <button onClick="{{ goCreate }}" style="width:100%;height:44px;border:0;border-radius:11px;background:#0B4F71;color:#fff;font-weight:600;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px" style-hover="background:#093D58"><span class="material-symbols-outlined" style="font-size:19px">add</span><span style="display:{{ sideTextD }}">Create New RFQ</span></button>
+  </div>
+  <div style="padding:14px 16px;border-top:1px solid #EEF2F5;display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center">
+    <div style="width:38px;height:38px;border-radius:50%;background:#B4610E;color:#fff;display:grid;place-items:center;font-weight:600;font-size:13px">SG</div>
+    <div style="flex:1;min-width:0;display:{{ sideTextD }}"><div style="font-weight:600;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Shree Ganesh Auto</div><div style="font-size:11.5px;color:#6B7F8E;font-family:'IBM Plex Mono',monospace">BDS-PUR-25-00877</div></div>
+    <a href="index.html" title="Sign out" style="color:#4A6275;display:grid;place-items:center"><span class="material-symbols-outlined">logout</span></a>
+  </div>
+</aside>
+
+<div style="min-width:0;display:flex;flex-direction:column">
+  <header style="position:sticky;top:0;z-index:30;height:76px;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid #E2E9EF;display:flex;align-items:center;gap:18px;padding:0 28px">
+    <div style="flex:1;min-width:0"><div style="font-size:12.5px;color:#6B7F8E">{{ crumb }}</div><div style="font-size:21px;font-weight:700;color:#0B3B5C;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ title }}</div></div>
+    <div style="display:flex;align-items:center;gap:8px;height:42px;flex:0 1 300px;min-width:150px;padding:0 14px;border:1px solid #DCE5EC;border-radius:99px;background:#F8FAFC"><span class="material-symbols-outlined" style="color:#6B7F8E;font-size:19px">search</span><input value="{{ topQ }}" onChange="{{ setTopQ }}" onKeyDown="{{ topKey }}" placeholder="Search services or providers..." style="flex:1;min-width:0;border:0;outline:none;background:transparent;font-size:14px"></div>
+    <image-slot id="sidbi-logo-purchaser" shape="rect" placeholder="SIDBI logo" fit="contain" style="width:92px;height:40px;flex-shrink:0;display:{{ wideD }}"></image-slot>
+    <div style="position:relative">
+      <button onClick="{{ toggleNotif }}" style="position:relative;width:42px;height:42px;border:0;border-radius:50%;background:transparent;color:#2E4A5F;cursor:pointer;display:grid;place-items:center" style-hover="background:#F1F5F8"><span class="material-symbols-outlined" style="font-size:23px">notifications</span><span style="position:absolute;top:4px;right:4px;min-width:18px;height:18px;border-radius:9px;background:#D9452F;color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center;border:2px solid #fff">3</span></button>
+      <sc-if value="{{ notifOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;right:0;top:50px;width:360px;background:#fff;border:1px solid #E2E9EF;border-radius:14px;box-shadow:0 20px 50px rgba(11,42,66,.16);overflow:hidden">
+          <div style="padding:14px 16px;font-weight:600;border-bottom:1px solid #EEF2F5">Notifications</div>
+          <sc-for list="{{ notifs }}" as="n" hint-placeholder-count="3"><div style="display:flex;gap:12px;padding:12px 16px;border-bottom:1px solid #F1F4F7"><span class="material-symbols-outlined" style="color:#0B6E8E">{{ n.icon }}</span><div><div style="font-size:13.5px;line-height:1.4">{{ n.t }}</div><div style="font-size:12px;color:#6B7F8E;margin-top:3px">{{ n.when }}</div></div></div></sc-for>
+        </div>
+      </sc-if>
+    </div>
+    <div style="width:40px;height:40px;border-radius:50%;background:#B4610E;color:#fff;display:grid;place-items:center;font-weight:600;font-size:13px">SD</div>
+  </header>
+
+  <main style="padding:24px 28px 64px;max-width:1320px;width:100%;margin:0 auto">
+
+  <sc-if value="{{ isDash }}" hint-placeholder-val="{{ true }}">
+    <section style="position:relative;overflow:hidden;border-radius:20px;background:linear-gradient(115deg,#0B3B5C 0%,#0B4F71 55%,#0E6E8E 100%);padding:32px 36px;color:#fff">
+      <div style="position:absolute;right:-60px;top:-110px;width:340px;height:340px;border-radius:50%;background:rgba(255,255,255,.06)"></div>
+      <div style="position:absolute;right:240px;bottom:-170px;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,.05)"></div>
+      <div style="position:relative;display:flex;justify-content:space-between;gap:24px;align-items:flex-end;flex-wrap:wrap">
+        <div style="flex:1;min-width:320px;max-width:720px">
+          <div style="font-size:12px;letter-spacing:1.6px;font-weight:600;color:#A8DCEC">{{ today }}</div>
+          <h1 style="margin:8px 0 0;font-size:30px;font-weight:700">Welcome, Shree Ganesh Auto Components</h1>
+          <p style="margin:6px 0 0;font-size:15px;color:#D5EAF2">What business service do you need?</p>
+          <div style="margin-top:18px;display:flex;align-items:center;gap:6px;background:#fff;border-radius:13px;padding:6px">
+            <span class="material-symbols-outlined" style="color:#6B7F8E;margin-left:10px">search</span>
+            <input value="{{ heroQ }}" onChange="{{ setHeroQ }}" onKeyDown="{{ heroKey }}" placeholder="Search services or expertise" style="flex:1;min-width:0;height:44px;border:0;outline:none;font-size:15px;color:#0B2A42">
+            <button onClick="{{ heroSearch }}" style="height:44px;padding:0 22px;border:0;border-radius:10px;background:#0B4F71;color:#fff;font-weight:600;font-size:14.5px;cursor:pointer">Search</button>
+          </div>
+        </div>
+        <button onClick="{{ goCreate }}" style="display:inline-flex;align-items:center;gap:8px;height:46px;padding:0 20px;border:0;border-radius:11px;background:#fff;color:#0B3B5C;font-weight:600;font-size:14.5px;cursor:pointer"><span class="material-symbols-outlined" style="font-size:20px">add</span>Create New RFQ</button>
+      </div>
+    </section>
+
+    <div style="margin-top:18px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px">
+      <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+        <div onClick="{{ k.go }}" style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:20px;cursor:pointer;position:relative;overflow:hidden;transition:all .15s" style-hover="box-shadow:0 10px 26px rgba(11,59,92,.08);border-color:#C9DEE8">
+          <div style="position:absolute;left:0;top:0;right:0;height:3px;background:{{ k.accent }}"></div>
+          <div style="display:flex;justify-content:space-between;align-items:flex-start"><div style="width:42px;height:42px;border-radius:11px;background:{{ k.soft }};color:{{ k.accent }};display:grid;place-items:center"><span class="material-symbols-outlined">{{ k.icon }}</span></div><span style="display:{{ k.tagD }};font-size:12px;font-weight:600;padding:4px 9px;border-radius:7px;background:#FDEFD9;color:#B4610E">{{ k.tag }}</span></div>
+          <div style="margin-top:16px;font-size:32px;font-weight:700;line-height:1">{{ k.v }}</div>
+          <div style="margin-top:6px;font-size:14px;color:#4A6275">{{ k.label }}</div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:0;background:#fff;border:1px solid #E2E9EF;border-radius:14px;overflow:hidden">
+      <sc-for list="{{ minis }}" as="m" hint-placeholder-count="3"><div style="flex:1;padding:14px 20px;border-right:1px solid #EEF2F5;display:flex;justify-content:space-between;align-items:center;font-size:13.5px;color:#4A6275">{{ m.label }}<b style="font-size:18px;color:#0B2A42">{{ m.v }}</b></div></sc-for>
+    </div>
+
+    <div style="margin-top:18px;display:grid;grid-template-columns:{{ twoCol }};gap:18px;align-items:start">
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:22px 24px">
+        <div style="display:flex;justify-content:space-between;align-items:center"><div><h3 style="margin:0;font-size:18px">Recent requirements</h3><div style="font-size:13px;color:#6B7F8E;margin-top:3px">Response count, deadline and status for your RFQs</div></div><button onClick="{{ goRfqs }}" style="display:inline-flex;align-items:center;gap:4px;border:0;background:none;color:#0A5A7A;font-weight:600;font-size:13.5px;cursor:pointer">My RFQs<span class="material-symbols-outlined" style="font-size:18px">arrow_forward</span></button></div>
+        <div style="margin-top:12px">
+          <sc-for list="{{ recent }}" as="r" hint-placeholder-count="4">
+            <div onClick="{{ r.open }}" style="display:flex;align-items:center;gap:14px;padding:14px 0;border-top:1px solid #EEF2F5;cursor:pointer" style-hover="background:#FAFCFD">
+              <div style="width:40px;height:40px;border-radius:11px;background:{{ r.ibg }};color:{{ r.ifg }};display:grid;place-items:center;flex-shrink:0"><span class="material-symbols-outlined">{{ r.icon }}</span></div>
+              <div style="flex:1;min-width:0"><div style="font-weight:600;font-size:14.5px">{{ r.title }} – {{ r.respTxt }}</div><div style="font-size:12.5px;color:#6B7F8E;margin-top:2px"><span style="font-family:'IBM Plex Mono',monospace">{{ r.id }}</span> · Deadline {{ r.deadline }}</div></div>
+              <span style="font-size:12px;font-weight:600;padding:4px 10px;border-radius:7px;background:{{ r.sbg }};color:{{ r.sfg }};white-space:nowrap">{{ r.status }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:20px">
+          <div style="font-weight:600;font-size:15px;margin-bottom:12px">Quick actions</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ quick }}" as="a" hint-placeholder-count="5"><button onClick="{{ a.go }}" style="display:flex;align-items:center;gap:12px;height:48px;padding:0 14px;border:1px solid #E2E9EF;border-radius:12px;background:#fff;color:#0B2A42;font-size:14px;font-weight:600;cursor:pointer;text-align:left" style-hover="border-color:#9CCFE0;background:#F7FBFD"><span class="material-symbols-outlined" style="color:#0B6E8E">{{ a.icon }}</span><span style="flex:1">{{ a.label }}</span><span class="material-symbols-outlined" style="font-size:18px;color:#8A9BA8">chevron_right</span></button></sc-for>
+          </div>
+        </div>
+        <div style="background:#FDF6EC;border:1px solid #F3DDBA;border-radius:16px;padding:20px">
+          <div style="display:flex;gap:10px;align-items:center;font-weight:600;font-size:14.5px;color:#7A4A0C"><span class="material-symbols-outlined" style="color:#B4610E">balance</span>3 quotations ready to compare</div>
+          <div style="margin-top:6px;font-size:13.5px;line-height:1.5;color:#7A5A2C">DPR Preparation (BDS-RFQ-0001) closes on 20 Nov. Score technical and commercial criteria before selecting.</div>
+          <button onClick="{{ openCompare1 }}" style="margin-top:12px;height:38px;padding:0 14px;border:0;border-radius:10px;background:#B4610E;color:#fff;font-weight:600;font-size:13px;cursor:pointer">Compare Quotations</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isFind }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+      <div style="flex:1;min-width:260px;display:flex;align-items:center;gap:8px;height:44px;border:1px solid #CFDBE4;border-radius:11px;padding:0 12px;background:#fff"><span class="material-symbols-outlined" style="color:#6B7F8E">search</span><input value="{{ fq }}" onChange="{{ setFq }}" placeholder="{{ findPh }}" style="flex:1;border:0;outline:none;font-size:14.5px;background:transparent"></div>
+      <select name="cat" value="{{ ff.cat }}" onChange="{{ setFf }}" style="height:44px;border:1px solid #CFDBE4;border-radius:11px;padding:0 12px;font-size:14px;background:#fff"><option value="">All categories</option><sc-for list="{{ catOpts }}" as="c" hint-placeholder-count="0"><option value="{{ c.id }}">{{ c.name }}</option></sc-for></select>
+      <select name="state" value="{{ ff.state }}" onChange="{{ setFf }}" style="height:44px;border:1px solid #CFDBE4;border-radius:11px;padding:0 12px;font-size:14px;background:#fff"><option value="">All locations</option><sc-for list="{{ stateOpts }}" as="o" hint-placeholder-count="0"><option value="{{ o }}">{{ o }}</option></sc-for></select>
+      <select name="mode" value="{{ ff.mode }}" onChange="{{ setFf }}" style="height:44px;border:1px solid #CFDBE4;border-radius:11px;padding:0 12px;font-size:14px;background:#fff"><option value="">Any delivery mode</option><option>Online</option><option>Onsite</option><option>Hybrid</option></select>
+      <select name="exp" value="{{ ff.exp }}" onChange="{{ setFf }}" style="height:44px;border:1px solid #CFDBE4;border-radius:11px;padding:0 12px;font-size:14px;background:#fff"><option value="">Any experience</option><option value="10">10+ years</option><option value="15">15+ years</option></select>
+      <select name="cert" value="{{ ff.cert }}" onChange="{{ setFf }}" style="height:44px;border:1px solid #CFDBE4;border-radius:11px;padding:0 12px;font-size:14px;background:#fff"><option value="">Any certification</option><option value="iso">ISO certified</option><option value="emp">Govt. empanelled</option></select>
+    </div>
+    <div style="font-size:14px;color:#4A6275;margin-bottom:12px"><b style="color:#0B2A42">{{ findCount }}</b> {{ findNoun }} · BDS Verified only</div>
+    <sc-if value="{{ findServices }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:14px">
+        <sc-for list="{{ svcResults }}" as="s" hint-placeholder-count="4">
+          <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:10px">
+            <div style="font-size:12px;font-weight:600;color:#0B6E8E">{{ s.catName }}</div>
+            <div style="font-weight:600;font-size:16px">{{ s.title }}</div>
+            <div style="font-size:13px;color:#2E4A5F;display:flex;align-items:center;gap:6px">{{ s.provName }}<span class="material-symbols-outlined" style="font-size:16px;color:#17704A;font-variation-settings:'FILL' 1">verified</span></div>
+            <div style="display:flex;gap:14px;font-size:12.5px;color:#5A7083;flex-wrap:wrap"><span>{{ s.loc }}</span><span>{{ s.mode }}</span><span>{{ s.dur }}</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid #EEF2F5;margin-top:auto"><div><b>{{ s.feeTxt }}</b> <span style="font-size:12px;color:#6B7F8E">{{ s.model }}</span></div><button onClick="{{ s.rfq }}" style="height:36px;padding:0 14px;border:0;border-radius:9px;background:#0B4F71;color:#fff;font-weight:600;font-size:13px;cursor:pointer">Request Quotation</button></div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+    <sc-if value="{{ findProviders }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:14px">
+        <sc-for list="{{ provResults }}" as="p" hint-placeholder-count="4">
+          <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;gap:12px;align-items:center"><div style="width:48px;height:48px;border-radius:12px;background:{{ p.avBg }};color:{{ p.avFg }};display:grid;place-items:center;font-weight:700">{{ p.ini }}</div><div><div style="font-weight:600;font-size:15.5px">{{ p.name }}</div><div style="display:inline-flex;align-items:center;gap:3px;margin-top:3px;font-size:11.5px;font-weight:600;color:#17704A;background:#E5F5EC;padding:3px 8px;border-radius:6px"><span class="material-symbols-outlined" style="font-size:14px;font-variation-settings:'FILL' 1">verified</span>BDS Verified</div></div></div>
+            <div style="font-size:13px;color:#5A7083"><span style="color:#2E4A5F;font-weight:500">Expertise:</span> {{ p.exTxt }}</div>
+            <div style="font-size:13px;color:#5A7083">Experience: {{ p.exp }} years | {{ p.loc }} | {{ p.mode }}</div>
+            <div style="display:flex;gap:8px;padding-top:12px;border-top:1px solid #EEF2F5"><a href="index.html?s=providers" style="flex:1;height:36px;border:1px solid #CBD8E2;border-radius:9px;background:#fff;color:#0B3B5C;font-weight:600;font-size:13px;display:grid;place-items:center;text-decoration:none">View Profile</a><button onClick="{{ p.rfq }}" style="flex:1;height:36px;border:0;border-radius:9px;background:#0B4F71;color:#fff;font-weight:600;font-size:13px;cursor:pointer">Request Quotation</button></div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+  </sc-if>
+
+  <sc-if value="{{ isCreate }}" hint-placeholder-val="{{ false }}">
+    <sc-if value="{{ createDone }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width:720px;margin:20px auto 0;background:#fff;border:1px solid #E2E9EF;border-radius:20px;padding:40px;text-align:center">
+        <div style="width:72px;height:72px;margin:0 auto;border-radius:50%;background:#E5F5EC;color:#17704A;display:grid;place-items:center"><span class="material-symbols-outlined" style="font-size:40px;font-variation-settings:'FILL' 1">check_circle</span></div>
+        <h2 style="margin:18px 0 0;font-size:24px">RFQ published</h2>
+        <div style="margin-top:8px;font-family:'IBM Plex Mono',monospace;font-size:18px;color:#0A5A7A;font-weight:600">{{ newRfqId }}</div>
+        <p style="margin:10px auto 0;max-width:480px;font-size:14.5px;line-height:1.6;color:#5A7083">{{ distText }}</p>
+        <div style="margin:18px auto 0;display:flex;flex-wrap:wrap;gap:8px;justify-content:center"><sc-for list="{{ notified }}" as="n" hint-placeholder-count="2"><span style="display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:9px;background:#F4F8FA;font-size:13px"><span class="material-symbols-outlined" style="font-size:16px;color:#17704A">mark_email_read</span>{{ n }}</span></sc-for></div>
+        <div style="margin-top:26px;display:flex;justify-content:center;gap:10px"><button onClick="{{ goRfqs }}" style="height:44px;padding:0 20px;border:0;border-radius:11px;background:#0B4F71;color:#fff;font-weight:600;font-size:14px;cursor:pointer">View in My RFQs</button><button onClick="{{ goDash }}" style="height:44px;padding:0 18px;border:1px solid #CBD8E2;border-radius:11px;background:#fff;color:#0B3B5C;font-weight:600;font-size:14px;cursor:pointer">Dashboard</button></div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ createForm }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px">
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(150px,1fr));gap:8px;flex:1">
+          <sc-for list="{{ cSteps }}" as="st" hint-placeholder-count="4">
+            <div onClick="{{ st.go }}" style="display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:12px;background:{{ st.bg }};border:1px solid {{ st.bc }};cursor:pointer">
+              <div style="width:26px;height:26px;border-radius:50%;background:{{ st.cbg }};color:{{ st.cfg }};display:grid;place-items:center;font-size:12.5px;font-weight:700">{{ st.n }}</div>
+              <div style="font-size:13.5px;font-weight:600;color:{{ st.fg }}">{{ st.label }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <button onClick="{{ autofillRfq }}" style="height:38px;padding:0 14px;border:1px dashed #9CCFE0;border-radius:10px;background:#F4FAFC;color:#0A5A7A;font-weight:600;font-size:13px;cursor:pointer;white-space:nowrap">Autofill sample</button>
+      </div>
+      <div style="display:grid;grid-template-columns:{{ twoCol }};gap:18px;align-items:start">
+        <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:26px">
+          <sc-if value="{{ c1 }}" hint-placeholder-val="{{ true }}">
+            <h3 style="margin:0 0 4px;font-size:18px">Requirement</h3><div style="font-size:13.5px;color:#5A7083;margin-bottom:20px">Clear scope and deliverables help providers quote accurately.</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px 18px">
+              <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">RFQ title *<input name="title" value="{{ cf.title }}" onChange="{{ setCf }}" placeholder="e.g. DPR for CNC machining capacity expansion" style="height:44px;padding:0 12px;border:1px solid {{ cb.title }};border-radius:10px;font-size:14.5px;outline:none"><span style="color:#C2412D;font-size:12px">{{ ce.title }}</span></label>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Service category *<select name="cat" value="{{ cf.cat }}" onChange="{{ setCf }}" style="height:44px;padding:0 10px;border:1px solid {{ cb.cat }};border-radius:10px;font-size:14px;background:#fff"><option value="">Select</option><sc-for list="{{ catOpts }}" as="c" hint-placeholder-count="0"><option value="{{ c.id }}">{{ c.name }}</option></sc-for></select><span style="color:#C2412D;font-size:12px">{{ ce.cat }}</span></label>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Subcategory *<select name="sub" value="{{ cf.sub }}" onChange="{{ setCf }}" style="height:44px;padding:0 10px;border:1px solid {{ cb.sub }};border-radius:10px;font-size:14px;background:#fff"><option value="">Select</option><sc-for list="{{ cSubOpts }}" as="o" hint-placeholder-count="0"><option value="{{ o }}">{{ o }}</option></sc-for></select><span style="color:#C2412D;font-size:12px">{{ ce.sub }}</span></label>
+              <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Detailed requirement *<textarea name="desc" value="{{ cf.desc }}" onChange="{{ setCf }}" rows="3" style="padding:10px 12px;border:1px solid {{ cb.desc }};border-radius:10px;font-size:14px;line-height:1.5;outline:none;resize:vertical"></textarea><span style="color:#C2412D;font-size:12px">{{ ce.desc }}</span></label>
+              <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Scope of work *<textarea name="scope" value="{{ cf.scope }}" onChange="{{ setCf }}" rows="3" style="padding:10px 12px;border:1px solid {{ cb.scope }};border-radius:10px;font-size:14px;line-height:1.5;outline:none;resize:vertical"></textarea><span style="color:#C2412D;font-size:12px">{{ ce.scope }}</span></label>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Expected deliverables *<textarea name="del" value="{{ cf.del }}" onChange="{{ setCf }}" rows="3" placeholder="One per line" style="padding:10px 12px;border:1px solid {{ cb.del }};border-radius:10px;font-size:14px;line-height:1.5;outline:none;resize:vertical"></textarea><span style="color:#C2412D;font-size:12px">{{ ce.del }}</span></label>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Industry<select name="ind" value="{{ cf.ind }}" onChange="{{ setCf }}" style="height:44px;padding:0 10px;border:1px solid #CFDBE4;border-radius:10px;font-size:14px;background:#fff"><sc-for list="{{ indOpts }}" as="o" hint-placeholder-count="0"><option value="{{ o }}">{{ o }}</option></sc-for></select></label>
+            </div>
+          </sc-if>
+          <sc-if value="{{ c2 }}" hint-placeholder-val="{{ false }}">
+            <h3 style="margin:0 0 4px;font-size:18px">Location, budget and timeline</h3><div style="font-size:13.5px;color:#5A7083;margin-bottom:20px">Budget is optional. If disclosed, invited providers will see the range.</div>
+            <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 18px">
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Project state *<select name="state" value="{{ cf.state }}" onChange="{{ setCf }}" style="height:44px;padding:0 10px;border:1px solid {{ cb.state }};border-radius:10px;font-size:14px;background:#fff"><option value="">Select</option><sc-for list="{{ stateOpts }}" as="o" hint-placeholder-count="0"><option value="{{ o }}">{{ o }}</option></sc-for></select><span style="color:#C2412D;font-size:12px">{{ ce.state }}</span></label>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">District *<input name="district" value="{{ cf.district }}" onChange="{{ setCf }}" style="height:44px;padding:0 12px;border:1px solid {{ cb.district }};border-radius:10px;font-size:14.5px;outline:none"><span style="color:#C2412D;font-size:12px">{{ ce.district }}</span></label>
+              <div style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Delivery mode *<div style="display:flex;gap:6px"><sc-for list="{{ cModes }}" as="m" hint-placeholder-count="3"><button onClick="{{ m.pick }}" style="flex:1;height:44px;border:1.5px solid {{ m.bc }};border-radius:10px;background:{{ m.bg }};color:{{ m.fg }};font-weight:600;font-size:13px;cursor:pointer">{{ m.label }}</button></sc-for></div></div>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Budget from (₹)<input name="bmin" type="number" value="{{ cf.bmin }}" onChange="{{ setCf }}" placeholder="Optional" style="height:44px;padding:0 12px;border:1px solid #CFDBE4;border-radius:10px;font-size:14.5px;outline:none"></label>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Budget to (₹)<input name="bmax" type="number" value="{{ cf.bmax }}" onChange="{{ setCf }}" placeholder="Optional" style="height:44px;padding:0 12px;border:1px solid {{ cb.bmax }};border-radius:10px;font-size:14.5px;outline:none"><span style="color:#C2412D;font-size:12px">{{ ce.bmax }}</span></label>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Project duration<input name="dur" value="{{ cf.dur }}" onChange="{{ setCf }}" placeholder="e.g. 4 weeks" style="height:44px;padding:0 12px;border:1px solid #CFDBE4;border-radius:10px;font-size:14.5px;outline:none"></label>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Required experience<select name="exp" value="{{ cf.exp }}" onChange="{{ setCf }}" style="height:44px;padding:0 10px;border:1px solid #CFDBE4;border-radius:10px;font-size:14px;background:#fff"><option>Any</option><option>3+ years</option><option>5+ years</option><option>10+ years</option></select></label>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Expected start date<input name="start" type="date" value="{{ cf.start }}" onChange="{{ setCf }}" style="height:44px;padding:0 12px;border:1px solid #CFDBE4;border-radius:10px;font-size:14.5px;outline:none"></label>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Submission deadline *<input name="deadline" type="datetime-local" value="{{ cf.deadline }}" onChange="{{ setCf }}" style="height:44px;padding:0 12px;border:1px solid {{ cb.deadline }};border-radius:10px;font-size:14px;outline:none"><span style="color:#C2412D;font-size:12px">{{ ce.deadline }}</span></label>
+              <div style="grid-column:1/-1;display:flex;flex-direction:column;gap:8px;font-size:12.5px;font-weight:500;color:#4A6275">Attachments
+                <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+                  <sc-for list="{{ cAttach }}" as="a" hint-placeholder-count="0"><span style="display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid #E2E9EF;border-radius:9px;font-size:13px;color:#0B2A42;font-weight:400"><span class="material-symbols-outlined" style="font-size:17px;color:#0B6E8E">attach_file</span>{{ a.name }}<button onClick="{{ a.remove }}" style="border:0;background:none;cursor:pointer;color:#8A9BA8;padding:0;display:grid"><span class="material-symbols-outlined" style="font-size:16px">close</span></button></span></sc-for>
+                  <button onClick="{{ addAttach }}" style="height:36px;padding:0 12px;border:1.5px dashed #CBD8E2;border-radius:9px;background:#fff;color:#0A5A7A;font-weight:600;font-size:13px;cursor:pointer">+ Add file</button>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ c3 }}" hint-placeholder-val="{{ false }}">
+            <h3 style="margin:0 0 4px;font-size:18px">Provider distribution</h3><div style="font-size:13.5px;color:#5A7083;margin-bottom:18px">Only invited providers can see and respond to this RFQ.</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+              <sc-for list="{{ distOpts }}" as="o" hint-placeholder-count="3"><div onClick="{{ o.pick }}" style="padding:16px;border:1.5px solid {{ o.bc }};border-radius:14px;background:{{ o.bg }};cursor:pointer"><span class="material-symbols-outlined" style="color:#0B6E8E">{{ o.icon }}</span><div style="font-weight:600;font-size:14.5px;margin-top:8px">{{ o.label }}</div><div style="font-size:12.5px;color:#5A7083;margin-top:4px;line-height:1.45">{{ o.d }}</div></div></sc-for>
+            </div>
+            <sc-if value="{{ distSelect }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:18px;font-size:12.5px;font-weight:600;color:#4A6275;display:flex;justify-content:space-between"><span>Verified providers for this category</span><span>{{ invitedCount }} selected</span></div>
+              <div style="margin-top:8px;border:1px solid #E2E9EF;border-radius:12px;overflow:hidden">
+                <sc-for list="{{ provPick }}" as="p" hint-placeholder-count="4"><label style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid #EEF2F5;cursor:pointer"><input type="checkbox" checked="{{ p.on }}" onChange="{{ p.toggle }}" style="accent-color:#0B4F71;width:17px;height:17px"><div style="flex:1"><div style="font-weight:600;font-size:14px">{{ p.name }}</div><div style="font-size:12.5px;color:#6B7F8E">{{ p.exTxt }} · {{ p.loc }} · {{ p.exp }} yrs</div></div><span style="font-size:12px;color:#B4610E;font-weight:600">★ {{ p.rating }}</span></label></sc-for>
+              </div>
+              <div style="color:#C2412D;font-size:12px;margin-top:6px">{{ ce.inv }}</div>
+            </sc-if>
+            <sc-if value="{{ distRec }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:18px;border:1px solid #E2E9EF;border-radius:12px;overflow:hidden">
+                <sc-for list="{{ recProv }}" as="p" hint-placeholder-count="3"><div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid #EEF2F5"><span class="material-symbols-outlined" style="color:#17704A;font-variation-settings:'FILL' 1">verified</span><div style="flex:1"><div style="font-weight:600;font-size:14px">{{ p.name }}</div><div style="font-size:12.5px;color:#6B7F8E">Matched on {{ p.why }}</div></div></div></sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ distAdmin }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:18px;display:flex;gap:10px;padding:14px 16px;border-radius:12px;background:#F4F8FA;font-size:13.5px;line-height:1.5;color:#2E4A5F"><span class="material-symbols-outlined" style="color:#0B6E8E">support_agent</span>An RFQ manager will review your requirement and invite suitable verified providers within one working day. You'll be notified when the RFQ is shared.</div>
+            </sc-if>
+          </sc-if>
+          <sc-if value="{{ c4 }}" hint-placeholder-val="{{ false }}">
+            <h3 style="margin:0 0 16px;font-size:18px">Review and submit</h3>
+            <div style="display:grid;grid-template-columns:200px minmax(0,1fr);border:1px solid #E2E9EF;border-radius:12px;overflow:hidden">
+              <sc-for list="{{ review }}" as="r" hint-placeholder-count="7"><div style="padding:12px 16px;background:#F8FAFC;border-bottom:1px solid #EEF2F5;font-size:13px;color:#6B7F8E;font-weight:500">{{ r.k }}</div><div style="padding:12px 16px;border-bottom:1px solid #EEF2F5;font-size:14px;line-height:1.5;white-space:pre-line">{{ r.v }}</div></sc-for>
+            </div>
+          </sc-if>
+          <div style="margin-top:26px;padding-top:18px;border-top:1px solid #EEF2F5;display:flex;justify-content:space-between;gap:12px">
+            <div style="display:flex;gap:8px"><button onClick="{{ cPrev }}" style="height:44px;padding:0 18px;border:1px solid #CBD8E2;border-radius:11px;background:#fff;color:#0B3B5C;font-weight:600;font-size:14px;cursor:pointer">{{ cPrevLabel }}</button><button onClick="{{ cSaveDraft }}" style="height:44px;padding:0 16px;border:0;border-radius:11px;background:transparent;color:#0A5A7A;font-weight:600;font-size:14px;cursor:pointer">Save as draft</button></div>
+            <button onClick="{{ cNext }}" style="height:44px;padding:0 22px;border:0;border-radius:11px;background:#0B4F71;color:#fff;font-weight:600;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px">{{ cNextLabel }}<span class="material-symbols-outlined" style="font-size:18px">arrow_forward</span></button>
+          </div>
+        </div>
+        <aside style="position:sticky;top:96px;background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px;font-size:13.5px;line-height:1.5;color:#2E4A5F">
+          <div style="font-weight:600;font-size:15px;color:#0B2A42">How this RFQ works</div>
+          <div style="display:flex;gap:10px"><span class="material-symbols-outlined" style="color:#0B6E8E">tag</span>A unique RFQ number is generated on submission.</div>
+          <div style="display:flex;gap:10px"><span class="material-symbols-outlined" style="color:#0B6E8E">groups</span>Invited providers submit independent technical and financial quotations.</div>
+          <div style="display:flex;gap:10px"><span class="material-symbols-outlined" style="color:#0B6E8E">visibility_off</span>Providers cannot see each other's quotations.</div>
+          <div style="display:flex;gap:10px"><span class="material-symbols-outlined" style="color:#0B6E8E">payments</span>Payment and contract terms are agreed directly with the provider you select.</div>
+        </aside>
+      </div>
+    </sc-if>
+  </sc-if>
+
+  <sc-if value="{{ isRfqs }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap">
+      <sc-for list="{{ rfqTabs }}" as="t" hint-placeholder-count="5"><button onClick="{{ t.pick }}" style="height:38px;padding:0 14px;border:1px solid {{ t.bc }};border-radius:10px;background:{{ t.bg }};color:{{ t.fg }};font-weight:600;font-size:13.5px;cursor:pointer">{{ t.label }} <span style="opacity:.7">{{ t.n }}</span></button></sc-for>
+    </div>
+    <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;overflow:auto">
+      <div style="display:grid;grid-template-columns:130px minmax(200px,2fr) 110px 110px 120px 170px 260px;min-width:min-content;gap:12px;padding:12px 20px;background:#F8FAFC;border-bottom:1px solid #E2E9EF;font-size:12px;font-weight:600;letter-spacing:.5px;color:#6B7F8E;border-radius:16px 16px 0 0"><span>RFQ NO.</span><span>REQUIREMENT</span><span>DATE</span><span>RESPONSES</span><span>DEADLINE</span><span>STATUS</span><span>ACTIONS</span></div>
+      <sc-for list="{{ rfqRows }}" as="r" hint-placeholder-count="5">
+        <div style="display:grid;grid-template-columns:130px minmax(200px,2fr) 110px 110px 120px 170px 260px;min-width:min-content;gap:12px;padding:14px 20px;border-bottom:1px solid #EEF2F5;align-items:center;font-size:13.5px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#0A5A7A">{{ r.id }}</span>
+          <div><div style="font-weight:600">{{ r.title }}</div><div style="font-size:12.5px;color:#6B7F8E">{{ r.catName }}</div></div>
+          <span style="color:#2E4A5F">{{ r.date }}</span>
+          <span><b>{{ r.responses }}</b> <span style="color:#6B7F8E">of {{ r.invited }}</span></span>
+          <span style="color:#2E4A5F">{{ r.deadline }}</span>
+          <span><span style="font-size:12px;font-weight:600;padding:4px 10px;border-radius:7px;background:{{ r.sbg }};color:{{ r.sfg }};white-space:nowrap">{{ r.status }}</span></span>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <sc-for list="{{ r.actions }}" as="a" hint-placeholder-count="2"><button onClick="{{ a.go }}" style="height:32px;padding:0 10px;border:1px solid {{ a.bc }};border-radius:8px;background:{{ a.bg }};color:{{ a.fg }};font-weight:600;font-size:12.5px;cursor:pointer;white-space:nowrap">{{ a.label }}</button></sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isQuotes }}" hint-placeholder-val="{{ false }}">
+    <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;overflow:auto">
+      <div style="display:grid;grid-template-columns:130px minmax(200px,1.6fr) minmax(200px,1.8fr) 110px 100px 120px 150px 120px;min-width:min-content;gap:12px;padding:12px 20px;background:#F8FAFC;border-bottom:1px solid #E2E9EF;font-size:12px;font-weight:600;letter-spacing:.5px;color:#6B7F8E"><span>RFQ NO.</span><span>REQUIREMENT</span><span>PROVIDER</span><span>TOTAL</span><span>TIMELINE</span><span>VALID UNTIL</span><span>STATUS</span><span></span></div>
+      <sc-for list="{{ allQuotes }}" as="q" hint-placeholder-count="5">
+        <div style="display:grid;grid-template-columns:130px minmax(200px,1.6fr) minmax(200px,1.8fr) 110px 100px 120px 150px 120px;min-width:min-content;gap:12px;padding:14px 20px;border-bottom:1px solid #EEF2F5;align-items:center;font-size:13.5px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#0A5A7A">{{ q.rfq }}</span><span style="font-weight:600">{{ q.rfqTitle }}</span><span>{{ q.prov }} <span style="color:#6B7F8E">· v{{ q.ver }}</span></span><span><b>{{ q.totalTxt }}</b></span><span>{{ q.weeks }} weeks</span><span>{{ q.valid }}</span>
+          <span><span style="font-size:12px;font-weight:600;padding:4px 10px;border-radius:7px;background:{{ q.sbg }};color:{{ q.sfg }};white-space:nowrap">{{ q.status }}</span></span>
+          <button onClick="{{ q.view }}" style="height:32px;border:1px solid #CBD8E2;border-radius:8px;background:#fff;color:#0B3B5C;font-weight:600;font-size:12.5px;cursor:pointer">View Proposal</button>
+        </div>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isComps }}" hint-placeholder-val="{{ false }}">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:16px">
+      <sc-for list="{{ comps }}" as="c" hint-placeholder-count="2">
+        <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px"><div><div style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#0A5A7A">{{ c.id }}</div><div style="font-weight:600;font-size:16px;margin-top:4px">{{ c.title }}</div></div><span style="font-size:12px;font-weight:600;padding:4px 10px;border-radius:7px;background:{{ c.sbg }};color:{{ c.sfg }}">{{ c.status }}</span></div>
+          <div style="display:flex;gap:20px;font-size:13px;color:#4A6275"><span><b style="color:#0B2A42">{{ c.n }}</b> quotations</span><span>Range {{ c.range }}</span></div>
+          <button onClick="{{ c.open }}" style="margin-top:auto;height:40px;border:0;border-radius:10px;background:#0B4F71;color:#fff;font-weight:600;font-size:13.5px;cursor:pointer">Open comparison</button>
+        </div>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isCompare }}" hint-placeholder-val="{{ false }}">
+    <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:20px 24px;display:flex;gap:24px;align-items:center;flex-wrap:wrap">
+      <div style="flex:1;min-width:260px"><div style="font-size:12.5px;color:#6B7F8E">RFQ: <span style="font-family:'IBM Plex Mono',monospace;color:#0A5A7A;font-weight:600">{{ cr.id }}</span> | Requirement: {{ cr.title }}</div><div style="font-size:19px;font-weight:700;margin-top:4px">{{ cr.title }}</div></div>
+      <div style="display:flex;gap:22px;font-size:13px;flex-wrap:wrap"><div><div style="color:#6B7F8E;font-size:12px">Location</div><b>{{ cr.loc }}</b></div><div><div style="color:#6B7F8E;font-size:12px">Budget</div><b>{{ cr.budget }}</b></div><div><div style="color:#6B7F8E;font-size:12px">Deadline</div><b>{{ cr.deadline }}</b></div><div><div style="color:#6B7F8E;font-size:12px">Status</div><span style="font-size:12px;font-weight:600;padding:3px 9px;border-radius:7px;background:{{ cr.sbg }};color:{{ cr.sfg }}">{{ cr.status }}</span></div></div>
+    </div>
+
+    <div style="margin-top:16px;display:grid;grid-template-columns:{{ twoCol }};gap:16px;align-items:start">
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;overflow:auto">
+        <div style="display:grid;grid-template-columns:{{ gridCols }};min-width:780px;border-bottom:1px solid #E2E9EF">
+          <div style="padding:18px 20px;background:#F8FAFC;font-size:12px;font-weight:600;letter-spacing:.5px;color:#6B7F8E;display:flex;align-items:flex-end">QUOTATIONS RECEIVED</div>
+          <sc-for list="{{ cq }}" as="q" hint-placeholder-count="3">
+            <div style="padding:18px 18px;border-left:1px solid #EEF2F5;background:{{ q.headBg }};position:relative">
+              <div style="display:{{ q.topD }};position:absolute;top:0;left:0;right:0;height:3px;background:#17704A"></div>
+              <div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start"><div style="font-size:11.5px;font-weight:600;color:#6B7F8E">PROVIDER {{ q.letter }}</div><button onClick="{{ q.shortlist }}" title="Shortlist" style="border:0;background:none;cursor:pointer;padding:0;color:{{ q.slFg }}"><span class="material-symbols-outlined" style="font-size:21px;font-variation-settings:'FILL' {{ q.slFill }}">bookmark</span></button></div>
+              <div style="font-weight:600;font-size:14.5px;line-height:1.3;margin-top:4px">{{ q.prov }}</div>
+              <div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:6px;align-items:center"><span style="display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:600;color:#17704A;background:#E5F5EC;padding:2px 7px;border-radius:6px"><span class="material-symbols-outlined" style="font-size:13px;font-variation-settings:'FILL' 1">verified</span>Verified</span><span style="display:{{ q.slD }};font-size:11px;font-weight:600;color:#0B5E7E;background:#DDF1F7;padding:2px 7px;border-radius:6px">Shortlisted</span></div>
+            </div>
+          </sc-for>
+        </div>
+        <sc-for list="{{ cRows }}" as="row" hint-placeholder-count="9">
+          <div style="display:grid;grid-template-columns:{{ gridCols }};min-width:780px;border-bottom:1px solid #EEF2F5;background:{{ row.bg }}">
+            <div style="padding:12px 20px;font-size:13px;color:#4A6275;font-weight:500">{{ row.label }}</div>
+            <sc-for list="{{ row.cells }}" as="c" hint-placeholder-count="3"><div style="padding:12px 18px;border-left:1px solid #EEF2F5;font-size:13.5px;line-height:1.45;font-weight:{{ c.fw }};color:{{ c.fg }}">{{ c.v }}</div></sc-for>
+          </div>
+        </sc-for>
+        <div style="padding:12px 20px;background:#F4F8FA;font-size:12px;font-weight:600;letter-spacing:.5px;color:#0B5E7E;border-bottom:1px solid #E2E9EF">YOUR EVALUATION (1–10)</div>
+        <div style="display:grid;grid-template-columns:{{ gridCols }};min-width:780px;border-bottom:1px solid #EEF2F5">
+          <div style="padding:12px 20px;font-size:13px;color:#4A6275;font-weight:500">Technical approach <span style="color:#8A9BA8">· {{ w.tech }}%</span></div>
+          <sc-for list="{{ cq }}" as="q" hint-placeholder-count="3"><div style="padding:8px 18px;border-left:1px solid #EEF2F5"><input type="number" min="1" max="10" value="{{ q.sTech }}" onChange="{{ q.onTech }}" style="width:72px;height:36px;padding:0 10px;border:1px solid #CFDBE4;border-radius:8px;font-size:14px;outline:none"></div></sc-for>
+        </div>
+        <div style="display:grid;grid-template-columns:{{ gridCols }};min-width:780px;border-bottom:1px solid #EEF2F5">
+          <div style="padding:12px 20px;font-size:13px;color:#4A6275;font-weight:500">Relevant experience <span style="color:#8A9BA8">· {{ w.exp }}%</span></div>
+          <sc-for list="{{ cq }}" as="q" hint-placeholder-count="3"><div style="padding:8px 18px;border-left:1px solid #EEF2F5"><input type="number" min="1" max="10" value="{{ q.sExp }}" onChange="{{ q.onExp }}" style="width:72px;height:36px;padding:0 10px;border:1px solid #CFDBE4;border-radius:8px;font-size:14px;outline:none"></div></sc-for>
+        </div>
+        <div style="display:grid;grid-template-columns:{{ gridCols }};min-width:780px;border-bottom:1px solid #EEF2F5">
+          <div style="padding:12px 20px;font-size:13px;color:#4A6275;font-weight:500">Timeline <span style="color:#8A9BA8">· {{ w.time }}% · auto</span></div>
+          <sc-for list="{{ cq }}" as="q" hint-placeholder-count="3"><div style="padding:12px 18px;border-left:1px solid #EEF2F5;font-size:13.5px">{{ q.sTime }}</div></sc-for>
+        </div>
+        <div style="display:grid;grid-template-columns:{{ gridCols }};min-width:780px;border-bottom:1px solid #EEF2F5">
+          <div style="padding:12px 20px;font-size:13px;color:#4A6275;font-weight:500">Commercial <span style="color:#8A9BA8">· {{ w.cost }}% · auto</span></div>
+          <sc-for list="{{ cq }}" as="q" hint-placeholder-count="3"><div style="padding:12px 18px;border-left:1px solid #EEF2F5;font-size:13.5px">{{ q.sCost }}</div></sc-for>
+        </div>
+        <div style="display:grid;grid-template-columns:{{ gridCols }};min-width:780px;border-bottom:1px solid #E2E9EF;background:#FAFCFD">
+          <div style="padding:14px 20px;font-size:13.5px;font-weight:600">Weighted score</div>
+          <sc-for list="{{ cq }}" as="q" hint-placeholder-count="3"><div style="padding:12px 18px;border-left:1px solid #EEF2F5"><div style="display:flex;align-items:baseline;gap:6px"><span style="font-size:22px;font-weight:700;color:{{ q.scoreFg }}">{{ q.score }}</span><span style="font-size:12px;color:#6B7F8E">/ 10</span></div><div style="margin-top:6px;height:6px;border-radius:6px;background:#EEF2F5;overflow:hidden"><div style="height:100%;width:{{ q.scoreW }};background:{{ q.scoreFg }};border-radius:6px;transition:width .3s"></div></div><div style="display:{{ q.topD }};margin-top:6px;font-size:11.5px;font-weight:600;color:#17704A">Highest weighted score</div></div></sc-for>
+        </div>
+        <div style="display:grid;grid-template-columns:{{ gridCols }};min-width:780px">
+          <div style="padding:14px 20px"></div>
+          <sc-for list="{{ cq }}" as="q" hint-placeholder-count="3"><div style="padding:14px 18px;border-left:1px solid #EEF2F5;display:flex;flex-direction:column;gap:6px">
+            <button onClick="{{ q.view }}" style="height:36px;border:1px solid #CBD8E2;border-radius:9px;background:#fff;color:#0B3B5C;font-weight:600;font-size:12.5px;cursor:pointer">View Proposal</button>
+            <button onClick="{{ q.select }}" style="height:36px;border:0;border-radius:9px;background:{{ q.selBg }};color:#fff;font-weight:600;font-size:12.5px;cursor:pointer">{{ q.selLabel }}</button>
+          </div></sc-for>
+        </div>
+      </div>
+      <aside style="position:sticky;top:96px;display:flex;flex-direction:column;gap:14px">
+        <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:20px">
+          <div style="font-weight:600;font-size:15px">Evaluation weights</div>
+          <div style="font-size:12.5px;color:#6B7F8E;margin-top:3px">Set how much each criterion matters to you.</div>
+          <div style="margin-top:14px;display:flex;flex-direction:column;gap:14px">
+            <sc-for list="{{ weights }}" as="w" hint-placeholder-count="4"><label style="display:flex;flex-direction:column;gap:6px;font-size:13px;color:#2E4A5F"><span style="display:flex;justify-content:space-between"><span>{{ w.label }}</span><b>{{ w.v }}%</b></span><input type="range" min="0" max="70" step="5" value="{{ w.v }}" onChange="{{ w.on }}" style="width:100%"></label></sc-for>
+          </div>
+          <div style="margin-top:12px;padding:9px 12px;border-radius:9px;background:{{ wBg }};color:{{ wFg }};font-size:12.5px;font-weight:600">Total {{ wTotal }}% {{ wNote }}</div>
+        </div>
+        <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:8px">
+          <button onClick="{{ reqClar }}" style="height:40px;border:1px solid #CBD8E2;border-radius:10px;background:#fff;color:#0B3B5C;font-weight:600;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px"><span class="material-symbols-outlined" style="font-size:18px">forum</span>Request Clarification</button>
+          <button onClick="{{ dlComp }}" style="height:40px;border:1px solid #CBD8E2;border-radius:10px;background:#fff;color:#0B3B5C;font-weight:600;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px"><span class="material-symbols-outlined" style="font-size:18px">download</span>Download Comparison</button>
+          <div style="margin-top:6px;font-size:12px;line-height:1.5;color:#6B7F8E">The platform never selects a provider automatically. The lowest quotation is not the default winner.</div>
+        </div>
+      </aside>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isEng }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <sc-for list="{{ engs }}" as="e" hint-placeholder-count="2">
+        <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:24px">
+          <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap">
+            <div><div style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#0A5A7A">{{ e.id }} · {{ e.rfq }}</div><div style="font-weight:600;font-size:18px;margin-top:4px">{{ e.title }}</div><div style="font-size:13.5px;color:#5A7083;margin-top:4px">{{ e.prov }} · Selected quotation {{ e.value }}</div></div>
+            <span style="align-self:flex-start;font-size:12px;font-weight:600;padding:5px 11px;border-radius:7px;background:{{ e.sbg }};color:{{ e.sfg }}">{{ e.status }}</span>
+          </div>
+          <div style="margin-top:20px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+            <sc-for list="{{ e.steps }}" as="st" hint-placeholder-count="4"><div style="display:flex;flex-direction:column;gap:8px"><div style="height:5px;border-radius:5px;background:{{ st.bar }}"></div><div style="font-size:12.5px;font-weight:600;color:{{ st.fg }}">{{ st.label }}</div></div></sc-for>
+          </div>
+          <div style="margin-top:18px;display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+            <sc-for list="{{ e.docs }}" as="d" hint-placeholder-count="2"><span style="display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border:1px solid #E2E9EF;border-radius:9px;font-size:13px"><span class="material-symbols-outlined" style="font-size:17px;color:#0B6E8E">description</span>{{ d }}</span></sc-for>
+            <button onClick="{{ e.upload }}" style="height:34px;padding:0 12px;border:1.5px dashed #CBD8E2;border-radius:9px;background:#fff;color:#0A5A7A;font-weight:600;font-size:12.5px;cursor:pointer">+ Upload document</button>
+          </div>
+          <sc-if value="{{ e.hasFeedback }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top:16px;padding:14px 16px;border-radius:12px;background:#F8FAFC;font-size:13.5px"><span style="color:#B4610E;font-weight:600">{{ e.stars }}</span> · {{ e.fbText }}</div>
+          </sc-if>
+          <div style="margin-top:18px;padding-top:16px;border-top:1px solid #EEF2F5;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+            <button onClick="{{ e.dl }}" style="height:38px;padding:0 14px;border:1px solid #CBD8E2;border-radius:10px;background:#fff;color:#0B3B5C;font-weight:600;font-size:13px;cursor:pointer">Download quotation</button>
+            <button onClick="{{ e.complete }}" style="display:{{ e.completeD }};height:38px;padding:0 14px;border:0;border-radius:10px;background:#17704A;color:#fff;font-weight:600;font-size:13px;cursor:pointer">Record completion</button>
+            <button onClick="{{ e.feedback }}" style="display:{{ e.fbD }};height:38px;padding:0 14px;border:0;border-radius:10px;background:#0B4F71;color:#fff;font-weight:600;font-size:13px;cursor:pointer">Submit feedback</button>
+            <button onClick="{{ e.grievance }}" style="height:38px;padding:0 14px;border:0;border-radius:10px;background:transparent;color:#A3321F;font-weight:600;font-size:13px;cursor:pointer">Raise grievance</button>
+            <span style="margin-left:auto;font-size:12.5px;color:#6B7F8E">{{ e.note }}</span>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}">
+    <div style="display:grid;grid-template-columns:{{ twoCol }};gap:18px;align-items:start">
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:24px">
+        <h3 style="margin:0 0 4px;font-size:17px">Organisation and contact</h3><div style="font-size:13px;color:#6B7F8E;margin-bottom:18px">Changes to PAN, GSTIN or legal name are re-verified.</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px 18px">
+          <sc-for list="{{ profFields }}" as="f" hint-placeholder-count="8"><label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">{{ f.k }}<input value="{{ f.v }}" disabled="{{ f.lock }}" style="height:42px;padding:0 12px;border:1px solid #CFDBE4;border-radius:10px;font-size:14px;outline:none;background:{{ f.bg }};color:#0B2A42;font-family:{{ f.ff }}"></label></sc-for>
+        </div>
+        <div style="margin-top:18px;display:flex;justify-content:flex-end"><button onClick="{{ saveProfile }}" style="height:42px;padding:0 20px;border:0;border-radius:10px;background:#0B4F71;color:#fff;font-weight:600;font-size:14px;cursor:pointer">Save changes</button></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:22px">
+          <div style="font-weight:600;font-size:15px;margin-bottom:6px">Procurement history</div>
+          <sc-for list="{{ history }}" as="h" hint-placeholder-count="4"><div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #EEF2F5;font-size:13.5px"><span class="material-symbols-outlined" style="color:#0B6E8E;font-size:19px">{{ h.icon }}</span><div><div>{{ h.t }}</div><div style="font-size:12px;color:#6B7F8E">{{ h.d }}</div></div></div></sc-for>
+        </div>
+        <div style="background:#fff;border:1px solid #E2E9EF;border-radius:16px;padding:22px">
+          <div style="font-weight:600;font-size:15px;margin-bottom:4px">Notification preferences</div>
+          <sc-for list="{{ prefs }}" as="p" hint-placeholder-count="3"><div onClick="{{ p.toggle }}" style="display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #EEF2F5;font-size:13.5px;cursor:pointer"><span>{{ p.label }}</span><span style="width:38px;height:22px;border-radius:11px;background:{{ p.bg }};position:relative;transition:background .15s"><span style="position:absolute;top:3px;left:{{ p.x }};width:16px;height:16px;border-radius:50%;background:#fff;transition:left .15s"></span></span></div></sc-for>
+          <button onClick="{{ support }}" style="margin-top:14px;width:100%;height:40px;border:1px solid #CBD8E2;border-radius:10px;background:#fff;color:#0B3B5C;font-weight:600;font-size:13px;cursor:pointer">Raise a support request</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+  </main>
+</div>
+
+<sc-if value="{{ propOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeProp }}" style="position:fixed;inset:0;z-index:60;background:rgba(8,30,46,.4)"></div>
+  <div style="position:fixed;top:0;right:0;bottom:0;z-index:61;width:min(580px,100vw);background:#fff;box-shadow:-20px 0 50px rgba(0,0,0,.15);display:flex;flex-direction:column">
+    <div style="padding:20px 24px;border-bottom:1px solid #EEF2F5;display:flex;justify-content:space-between;align-items:flex-start"><div><div style="font-size:12.5px;color:#6B7F8E">Proposal · v{{ pp.ver }} · valid until {{ pp.valid }}</div><div style="font-weight:700;font-size:19px;margin-top:4px">{{ pp.prov }}</div></div><button onClick="{{ closeProp }}" style="width:36px;height:36px;border:0;border-radius:9px;background:#F1F5F8;cursor:pointer;display:grid;place-items:center"><span class="material-symbols-outlined">close</span></button></div>
+    <div style="flex:1;overflow:auto;padding:22px 24px;display:flex;flex-direction:column;gap:18px;font-size:14px;line-height:1.6;color:#2E4A5F">
+      <div><div style="font-weight:600;color:#0B2A42;margin-bottom:4px">Technical proposal</div>{{ pp.tech }}</div>
+      <div><div style="font-weight:600;color:#0B2A42;margin-bottom:4px">Methodology</div>{{ pp.method }}</div>
+      <div><div style="font-weight:600;color:#0B2A42;margin-bottom:4px">Scope</div>{{ pp.scope }}</div>
+      <div><div style="font-weight:600;color:#0B2A42;margin-bottom:4px">Team</div>{{ pp.team }}</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#EEF2F5;border:1px solid #EEF2F5;border-radius:12px;overflow:hidden">
+        <div style="background:#F8FAFC;padding:12px"><div style="font-size:11.5px;color:#6B7F8E">Fee</div><b>{{ pp.feeTxt }}</b></div><div style="background:#F8FAFC;padding:12px"><div style="font-size:11.5px;color:#6B7F8E">GST</div><b>{{ pp.taxTxt }}</b></div><div style="background:#F8FAFC;padding:12px"><div style="font-size:11.5px;color:#6B7F8E">Other</div><b>{{ pp.travelTxt }}</b></div><div style="background:#F8FAFC;padding:12px"><div style="font-size:11.5px;color:#6B7F8E">Total</div><b>{{ pp.totalTxt }}</b></div>
+      </div>
+      <div><div style="font-weight:600;color:#0B2A42;margin-bottom:6px">Payment milestones</div><sc-for list="{{ pp.ms }}" as="m" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #EEF2F5"><span>{{ m.l }}</span><b>{{ m.p }}%</b></div></sc-for></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><span style="display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border:1px solid #E2E9EF;border-radius:9px;font-size:13px"><span class="material-symbols-outlined" style="font-size:17px;color:#0B6E8E">picture_as_pdf</span>Technical proposal.pdf</span><span style="display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border:1px solid #E2E9EF;border-radius:9px;font-size:13px"><span class="material-symbols-outlined" style="font-size:17px;color:#0B6E8E">picture_as_pdf</span>Financial proposal.pdf</span></div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ selOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;z-index:70;background:rgba(8,30,46,.5);display:grid;place-items:center;padding:20px">
+    <div style="width:100%;max-width:560px;max-height:90vh;overflow:auto;background:#fff;border-radius:18px;box-shadow:0 30px 70px rgba(0,0,0,.25)">
+      <div style="height:4px;background:linear-gradient(90deg,#0B3B5C,#0E7A9A)"></div>
+      <div style="padding:26px 28px;display:flex;flex-direction:column;gap:16px">
+        <div><h3 style="margin:0;font-size:20px">Select provider</h3><div style="margin-top:6px;font-size:14px;color:#5A7083">{{ sel.prov }} for {{ cr.id }}</div></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Selected quotation value (₹)<input name="value" value="{{ selF.value }}" onChange="{{ setSel }}" style="height:42px;padding:0 12px;border:1px solid #CFDBE4;border-radius:10px;font-size:14px;outline:none"></label>
+          <label style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Agreed start date *<input name="start" type="date" value="{{ selF.start }}" onChange="{{ setSel }}" style="height:42px;padding:0 12px;border:1px solid {{ selB.start }};border-radius:10px;font-size:14px;outline:none"></label>
+          <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:500;color:#4A6275">Selection remarks *<textarea name="remarks" value="{{ selF.remarks }}" onChange="{{ setSel }}" rows="3" placeholder="Why this provider? e.g. strongest methodology and relevant bank-appraisal experience" style="padding:10px 12px;border:1px solid {{ selB.remarks }};border-radius:10px;font-size:14px;outline:none;resize:vertical"></textarea><span style="color:#C2412D;font-size:12px">{{ selE.remarks }}</span></label>
+          <button onClick="{{ togglePo }}" style="grid-column:1/-1;display:flex;align-items:center;gap:12px;padding:14px;border:1.5px dashed {{ poBc }};border-radius:12px;background:{{ poBg }};cursor:pointer;text-align:left"><span class="material-symbols-outlined" style="color:#0B6E8E">{{ poIcon }}</span><div><div style="font-weight:600;font-size:13.5px;color:#0B2A42">{{ poLabel }}</div><div style="font-size:12px;color:#6B7F8E">Purchase order or engagement letter (optional)</div></div></button>
+        </div>
+        <label style="display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:12px;background:#FDF6EC;font-size:13px;line-height:1.5;color:#7A4A0C;cursor:pointer"><input type="checkbox" checked="{{ selF.ack }}" onChange="{{ toggleAck }}" style="accent-color:#B4610E;width:17px;height:17px;margin-top:2px">I understand that selection on BDS Marketplace is not proof of a legally executed service contract, and that payment and contract terms are settled directly with the provider.</label>
+        <div style="color:#C2412D;font-size:12px;margin-top:-8px">{{ selE.ack }}</div>
+        <div style="display:flex;justify-content:flex-end;gap:8px"><button onClick="{{ closeSel }}" style="height:42px;padding:0 18px;border:1px solid #CBD8E2;border-radius:10px;background:#fff;color:#0B3B5C;font-weight:600;font-size:14px;cursor:pointer">Cancel</button><button onClick="{{ confirmSel }}" style="height:42px;padding:0 20px;border:0;border-radius:10px;background:#17704A;color:#fff;font-weight:600;font-size:14px;cursor:pointer">Confirm selection</button></div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;z-index:70;background:rgba(8,30,46,.5);display:grid;place-items:center;padding:20px">
+    <div style="width:100%;max-width:500px;background:#fff;border-radius:18px;box-shadow:0 30px 70px rgba(0,0,0,.25);overflow:hidden">
+      <div style="height:4px;background:linear-gradient(90deg,#0B3B5C,#0E7A9A)"></div>
+      <div style="padding:26px 28px">
+        <h3 style="margin:0;font-size:20px">{{ modal.title }}</h3>
+        <div style="margin-top:8px;font-size:14px;line-height:1.6;color:#5A7083">{{ modal.text }}</div>
+        <sc-if value="{{ modalStars }}" hint-placeholder-val="{{ false }}"><div style="margin-top:14px;display:flex;gap:4px"><sc-for list="{{ starBtns }}" as="b" hint-placeholder-count="5"><button onClick="{{ b.pick }}" style="border:0;background:none;cursor:pointer;padding:0;color:{{ b.fg }}"><span class="material-symbols-outlined" style="font-size:32px;font-variation-settings:'FILL' 1">star</span></button></sc-for></div></sc-if>
+        <sc-if value="{{ modalInput }}" hint-placeholder-val="{{ false }}"><textarea value="{{ modalText }}" onChange="{{ setModalText }}" rows="3" placeholder="{{ modal.ph }}" style="margin-top:14px;width:100%;padding:10px 12px;border:1px solid #CFDBE4;border-radius:10px;font-size:14px;outline:none;resize:vertical"></textarea></sc-if>
+        <sc-if value="{{ modalDate }}" hint-placeholder-val="{{ false }}"><input type="date" value="{{ modalText }}" onChange="{{ setModalText }}" style="margin-top:14px;width:100%;height:42px;padding:0 12px;border:1px solid #CFDBE4;border-radius:10px;font-size:14px;outline:none"></sc-if>
+        <div style="margin-top:22px;display:flex;justify-content:flex-end;gap:8px">
+          <button onClick="{{ closeModal }}" style="height:42px;padding:0 18px;border:1px solid #CBD8E2;border-radius:10px;background:#fff;color:#0B3B5C;font-weight:600;font-size:14px;cursor:pointer">Cancel</button>
+          <button onClick="{{ modalOk }}" style="height:42px;padding:0 20px;border:0;border-radius:10px;background:{{ modal.okBg }};color:#fff;font-weight:600;font-size:14px;cursor:pointer">{{ modal.ok }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:80;background:#0B2A42;color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;box-shadow:0 14px 34px rgba(0,0,0,.25);display:flex;gap:8px;align-items:center"><span class="material-symbols-outlined" style="font-size:19px;color:#7FD3A8">check_circle</span>{{ toast }}</div>
+</sc-if>
+
+<div style="position:fixed;right:18px;bottom:18px;z-index:50;display:flex;align-items:center;gap:4px;padding:5px;background:#0B2A42;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.25);font-size:12.5px">
+  <span style="color:#8FA6B5;padding:0 8px;font-weight:600;letter-spacing:.6px;font-size:11px">PROTOTYPE</span>
+  <a href="index.html" style="padding:7px 10px;border-radius:8px;color:#CFE0EA;text-decoration:none">Public</a>
+  <a href="seller-onboarding.html" style="padding:7px 10px;border-radius:8px;color:#CFE0EA;text-decoration:none">Seller onboarding</a>
+  <a href="buyer-onboarding.html" style="padding:7px 10px;border-radius:8px;color:#CFE0EA;text-decoration:none">Buyer onboarding</a>
+  <a href="seller-portal.html" style="padding:7px 10px;border-radius:8px;color:#CFE0EA;text-decoration:none">Seller</a>
+  <a href="purchaser-portal.html" style="padding:7px 10px;border-radius:8px;background:#1C4560;color:#fff;text-decoration:none">Purchaser</a>
+  <a href="admin-portal.html" style="padding:7px 10px;border-radius:8px;color:#CFE0EA;text-decoration:none">Admin</a>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const ST={'Draft':['#EEF1F4','#4A6275'],'Submitted':['#E3F2F8','#0B5E7E'],'Published':['#E3F2F8','#0B5E7E'],'Responses Received':['#DDF1F7','#0A5A7A'],'Under Evaluation':['#FDEFD9','#B4610E'],'Provider Selected':['#E5F5EC','#17704A'],'Closed':['#E9EDF1','#2E4A5F'],'Cancelled':['#FBE9E5','#A3321F'],'Expired':['#FBE9E5','#A3321F'],'No Response':['#FBE9E5','#A3321F'],'Under Review':['#FDEFD9','#B4610E'],'Shortlisted':['#DDF1F7','#0A5A7A'],'Accepted':['#E5F5EC','#17704A'],'Rejected':['#FBE9E5','#A3321F'],'Clarification Requested':['#FDEFD9','#B4610E'],'Engagement Initiated':['#E3F2F8','#0B5E7E'],'In Progress':['#E3F2F8','#0B5E7E'],'Completed':['#E5F5EC','#17704A']};
+const sc=s=>{const c=ST[s]||['#EEF1F4','#4A6275'];return {sbg:c[0],sfg:c[1]};};
+const inr=n=>'₹'+Math.round(n||0).toLocaleString('en-IN');
+const CATS=[['bmc','Business & Management Consultancy',['Business plans','DPR / project reports','Feasibility studies','Strategy & process advisory']],['fin','Finance & Credit Facilitation',['Loan documentation','Financial modelling','Subsidy guidance','Credit facilitation']],['ltc','Legal, Tax & Compliance',['GST','Accounting','Audit','Registrations','Legal & regulatory']],['dit','Digital Transformation & IT',['Websites','ERP','CRM','Cybersecurity']],['mkt','Marketing & Market Access',['Branding','Export consultancy','Market research','Buyer linkages']],['hr','HR & Skill Development',['Recruitment','Training','Capacity building']],['qp','Quality & Productivity',['ISO','ZED','Lean manufacturing']],['sus','Sustainability & Energy',['Energy audits','Renewable energy','ESG']]];
+const catName=id=>(CATS.find(c=>c[0]===id)||[0,'—'])[1];
+const PROV=[
+{id:'abc',name:'ABC Business Consulting Pvt Ltd',cats:['bmc','fin'],ex:['DPR','Financial Modelling','Project Consultancy'],state:'Uttar Pradesh',city:'Lucknow',exp:12,mode:'Hybrid',rating:4.7,hue:230,cert:'iso'},
+{id:'pra',name:'Prayas Project Consultants',cats:['bmc'],ex:['DPR','Feasibility Studies'],state:'Maharashtra',city:'Pune',exp:7,mode:'Onsite',rating:4.3,hue:30,cert:''},
+{id:'sah',name:'Sahyadri Finserv Advisors LLP',cats:['bmc','fin'],ex:['Project Finance','DPR','Credit Facilitation'],state:'Maharashtra',city:'Mumbai',exp:15,mode:'Hybrid',rating:4.6,hue:300,cert:'emp'},
+{id:'kav',name:'Kavach Compliance Partners LLP',cats:['ltc'],ex:['GST','Statutory Audit','Registrations'],state:'Maharashtra',city:'Pune',exp:9,mode:'Online',rating:4.5,hue:160,cert:'emp'},
+{id:'nir',name:'Nirmaan Digital Solutions Pvt Ltd',cats:['dit'],ex:['ERP','CRM','Cybersecurity'],state:'Karnataka',city:'Bengaluru',exp:11,mode:'Hybrid',rating:4.6,hue:280,cert:'iso'},
+{id:'qua',name:'QualiServe Certifications Pvt Ltd',cats:['qp'],ex:['ZED','ISO 9001','Lean Manufacturing'],state:'Tamil Nadu',city:'Coimbatore',exp:14,mode:'Onsite',rating:4.8,hue:200,cert:'emp'},
+{id:'har',name:'Harit Energy Auditors',cats:['sus'],ex:['Energy Audit','Rooftop Solar','ESG Reporting'],state:'Rajasthan',city:'Jaipur',exp:10,mode:'Onsite',rating:4.6,hue:140,cert:'emp'},
+{id:'uda',name:'Udaan Export Consultants',cats:['mkt'],ex:['Export Readiness','Market Research','Buyer Linkages'],state:'Gujarat',city:'Ahmedabad',exp:15,mode:'Hybrid',rating:4.4,hue:60,cert:''},
+{id:'sam',name:'Samarth Skills Foundation',cats:['hr'],ex:['Supervisor Training','Capacity Building'],state:'Madhya Pradesh',city:'Bhopal',exp:8,mode:'Onsite',rating:4.3,hue:20,cert:''}];
+const SERV=[['s1','Detailed Project Report (DPR) Preparation','abc','bmc','DPR / project reports',45000,'per assignment','3–4 weeks'],['s2','Financial Modelling for Term Loans','abc','fin','Financial modelling',30000,'fixed fee','2 weeks'],['s4','GST Registration & Monthly Compliance','kav','ltc','GST',2500,'per month','Ongoing'],['s6','ERP Implementation for Manufacturing MSMEs','nir','dit','ERP',0,'on request','10–14 weeks'],['s7','Export Readiness & Buyer Linkage Programme','uda','mkt','Export consultancy',60000,'per assignment','8 weeks'],['s8','Shop-floor Supervisor Training','sam','hr','Training',12000,'per day','3–5 days'],['s9','ZED Certification Support (Bronze to Gold)','qua','qp','ZED',75000,'per assignment','6–10 weeks'],['s10','Energy Audit for MSME Units','har','sus','Energy audits',40000,'fixed fee','2–3 weeks'],['s11','Feasibility Study for Manufacturing Expansion','pra','bmc','Feasibility studies',35000,'per assignment','3 weeks'],['s12','Project Finance Advisory','sah','fin','Credit facilitation',0,'on request','4–6 weeks']].map(([id,title,prov,cat,sub,fee,model,dur])=>({id,title,prov,cat,sub,fee,model,dur}));
+const QUOTES={'BDS-RFQ-0001':[
+{prov:'abc',fee:45000,travel:6000,weeks:4,valid:'31 Dec 2026',ver:1,status:'Under Review',sTech:8,sExp:9,method:'Site visit in week 2, bank-format DPR with DSCR, IRR and sensitivity',del:'DPR, projection workbook, lender query support',exp:'12 yrs · 60+ DPRs',tech:'Detailed assessment of the CNC capacity expansion with market demand from existing OEM customers, technical evaluation of machine quotations and a five-year projection set aligned to lender formats.',team:'Rakesh Srivastava (CA), Neha Tiwari (MBA Finance), Imran Ali',ms:[['Advance',30],['Draft DPR',40],['Final DPR',30]]},
+{prov:'pra',fee:38000,travel:0,weeks:5,valid:'15 Dec 2026',ver:1,status:'Under Review',sTech:7,sExp:6,method:'Remote data collection, one site visit, standard DPR template',del:'DPR, summary financials',exp:'7 yrs · 25 DPRs',tech:'Standard DPR covering market, technical and financial sections, prepared from data shared by the promoter with one site visit.',team:'Amit Kale (MBA), one analyst',ms:[['Advance',50],['Final DPR',50]]},
+{prov:'sah',fee:62000,travel:8000,weeks:3,valid:'10 Jan 2027',ver:2,status:'Clarification Requested',sTech:9,sExp:9,method:'Two site visits, lender pre-discussion, CMA data included',del:'DPR, CMA data, lender presentation, query support',exp:'15 yrs · project finance specialists',tech:'End-to-end support including a pre-discussion with two lenders, DPR, CMA data and a lender presentation, delivered in three weeks.',team:'Kiran Desai (CA, ex-banker), two analysts',ms:[['Advance',40],['Draft DPR',30],['Sanction support',30]]}],
+'BDS-RFQ-0007':[
+{prov:'kav',fee:30000,travel:0,weeks:52,valid:'30 Nov 2026',ver:1,status:'Under Review',sTech:8,sExp:8,method:'Monthly retainer, shared folder, filing before due dates',del:'Monthly GSTR-1/3B, annual return, reconciliation',exp:'9 yrs · 300+ MSME clients',tech:'Annual GST compliance retainer.',team:'Pooja Kulkarni (FCA)',ms:[['Quarterly in advance',100]]},
+{prov:'abc',fee:24000,travel:0,weeks:52,valid:'05 Dec 2026',ver:1,status:'Under Review',sTech:6,sExp:6,method:'Monthly retainer with quarterly review',del:'Monthly returns, reconciliation',exp:'12 yrs · general practice',tech:'GST compliance as part of an advisory retainer.',team:'Imran Ali',ms:[['Monthly',100]]}]};
+class Component extends DCLogic {
+  _rs=()=>this.setState({vw:window.innerWidth});
+  componentWillUnmount(){window.removeEventListener('resize',this._rs);}
+  state={screen:'dash',notif:false,toast:'',modal:null,modalText:'',stars:0,topQ:'',heroQ:'',fq:'',ff:{cat:'',state:'',mode:'',exp:'',cert:''},compareId:'BDS-RFQ-0001',prop:null,sel:null,selF:{},selErr:{},shortlist:{},scores:{},w:{tech:40,exp:25,time:15,cost:20},rfqTab:'all',
+    rfqs:[{id:'BDS-RFQ-0001',title:'DPR Preparation',cat:'bmc',date:'30 Oct 2026',responses:3,invited:4,deadline:'20 Nov 2026',status:'Under Evaluation',loc:'Pune, Maharashtra',budget:'₹40,000 – ₹60,000'},{id:'BDS-RFQ-0007',title:'GST Compliance Retainer',cat:'ltc',date:'05 Nov 2026',responses:2,invited:3,deadline:'22 Nov 2026',status:'Responses Received',loc:'Pune, Maharashtra',budget:'Not disclosed'},{id:'BDS-RFQ-0008',title:'ZED Certification Support',cat:'qp',date:'09 Nov 2026',responses:0,invited:3,deadline:'30 Nov 2026',status:'Published',loc:'Pune, Maharashtra',budget:'Up to ₹80,000'},{id:'BDS-RFQ-0010',title:'Energy Audit – Chakan Plant',cat:'sus',date:'11 Nov 2026',responses:0,invited:0,deadline:'—',status:'Draft',loc:'Pune, Maharashtra',budget:'—'},{id:'BDS-RFQ-0000',title:'DPR – Precision Components Expansion',cat:'bmc',date:'12 Jun 2026',responses:3,invited:3,deadline:'26 Jun 2026',status:'Closed',loc:'Pune, Maharashtra',budget:'₹50,000'},{id:'BDS-RFQ-0005',title:'Website Redesign',cat:'dit',date:'02 Sep 2026',responses:0,invited:2,deadline:'20 Sep 2026',status:'No Response',loc:'Online',budget:'₹30,000'}],
+    engs:[{id:'BDS-ENG-0038',rfq:'BDS-RFQ-0006',title:'GST Registration Amendment',prov:'Kavach Compliance Partners LLP',value:'₹5,900',stage:2,docs:['Engagement letter.pdf'],status:'In Progress',provDone:true,fb:null},{id:'BDS-ENG-0031',rfq:'BDS-RFQ-0000',title:'DPR – Precision Components Expansion',prov:'ABC Business Consulting Pvt Ltd',value:'₹48,000',stage:3,docs:['Work order WO-0612.pdf','Final DPR.pdf'],status:'Completed',provDone:true,fb:{stars:5,t:'Clear methodology; DPR went through appraisal with minor queries.'}}],
+    cStep:1,cMax:1,cDone:null,cf:{title:'',cat:'',sub:'',desc:'',scope:'',del:'',ind:'Auto components',state:'Maharashtra',district:'Pune',mode:'Hybrid',bmin:'',bmax:'',dur:'',exp:'Any',start:'',deadline:'',dist:'select',inv:[],att:[]},cErr:{},
+    prefs:{email:true,sms:true,wa:false}};
+  componentDidMount(){const p=new URLSearchParams(location.search);const svc=p.get('rfq'),prov=p.get('prov');if(svc!==null||prov){const s=SERV.find(x=>x.id===svc);const pv=PROV.find(x=>x.id===prov);this.setState(st=>({screen:'create',cf:{...st.cf,title:s?s.title:'',cat:s?s.cat:pv?pv.cats[0]:'',sub:s?s.sub:'',inv:pv?[pv.id]:[]}}));this.flash('Signed in. Your RFQ has been started from the selected '+(s?'service':'provider')+'.');}}
+  go(screen,x={}){this.setState({screen,notif:false,...x});window.scrollTo({top:0});}
+  flash(t){this.setState({toast:t});clearTimeout(this._t);this._t=setTimeout(()=>this.setState({toast:''}),2800);}
+  startRfq(svc,prov){const s=svc&&SERV.find(x=>x.id===svc);const pv=PROV.find(x=>x.id===(prov||(s&&s.prov)));this.go('create',{cStep:1,cMax:1,cDone:null,cErr:{},cf:{...this.state.cf,title:s?s.title:'',cat:s?s.cat:pv?pv.cats[0]:'',sub:s?s.sub:'',inv:pv?[pv.id]:[],dist:'select'}});}
+  renderVals(){
+    if(!this._rsOn){this._rsOn=1;window.addEventListener('resize',this._rs);}const vw=this.state.vw||window.innerWidth,compact=vw<1100,narrow=vw<1280;
+    const s=this.state,cf=s.cf;
+    const titles={dash:['Overview','Dashboard'],services:['Discover','Find Services'],providers:['Discover','Find Providers'],create:['My RFQs','Create New RFQ'],rfqs:['Procurement','My RFQs'],quotes:['Procurement','Quotations Received'],comps:['Procurement','Comparisons'],compare:['Comparisons','Quotation Comparison'],eng:['Delivery','Engagements'],profile:['Account','Profile & History']};
+    const navDef=[['dash','Dashboard','home'],['services','Find Services','travel_explore'],['providers','Find Providers','groups'],['rfqs','My RFQs','description'],['quotes','Quotations','request_quote',5],['comps','Comparisons','balance'],['eng','Engagements','handshake'],['profile','Profile','account_circle']];
+    const nav=navDef.map(([k,label,icon,badge])=>{const a=s.screen===k||(k==='rfqs'&&s.screen==='create')||(k==='comps'&&s.screen==='compare');return {label,icon,badge:badge||'',badgeD:badge&&!compact?'inline-flex':'none',bg:a?'#DDF1F7':'transparent',fg:a?'#0A5A7A':'#2E4A5F',fw:a?600:500,go:()=>this.go(k)};});
+    const prov=id=>PROV.find(p=>p.id===id);
+    const openCompare=id=>this.go('compare',{compareId:id});
+    // find
+    const fql=s.fq.toLowerCase(),ff=s.ff;
+    const svcResults=SERV.filter(x=>{const p=prov(x.prov);return (!fql||(x.title+' '+p.name+' '+p.ex.join(' ')).toLowerCase().includes(fql))&&(!ff.cat||x.cat===ff.cat)&&(!ff.state||p.state===ff.state)&&(!ff.mode||p.mode===ff.mode)&&(!ff.exp||p.exp>=+ff.exp)&&(!ff.cert||p.cert===ff.cert);}).map(x=>{const p=prov(x.prov);return {...x,catName:catName(x.cat),provName:p.name,loc:p.city+', '+p.state,mode:p.mode,feeTxt:x.fee?inr(x.fee):'Custom quotation',rfq:()=>this.startRfq(x.id)};});
+    const provResults=PROV.filter(p=>(!fql||(p.name+' '+p.ex.join(' ')).toLowerCase().includes(fql))&&(!ff.cat||p.cats.includes(ff.cat))&&(!ff.state||p.state===ff.state)&&(!ff.mode||p.mode===ff.mode)&&(!ff.exp||p.exp>=+ff.exp)&&(!ff.cert||p.cert===ff.cert)).map(p=>({...p,ini:p.name.split(' ').filter(w=>/^[A-Z]/.test(w)).slice(0,2).map(w=>w[0]).join(''),avBg:`oklch(0.93 0.035 ${p.hue})`,avFg:`oklch(0.4 0.1 ${p.hue})`,exTxt:p.ex.join(' | '),loc:p.city+', '+p.state,rfq:()=>this.startRfq(null,p.id)}));
+    // create
+    const ceK=['title','cat','sub','desc','scope','del','state','district','deadline','bmax','inv'];const ce={},cb={};ceK.forEach(k=>{ce[k]=s.cErr[k]||'';cb[k]=s.cErr[k]?'#D9644F':'#CFDBE4';});
+    const vStep=n=>{const e={};const req=k=>{if(!String(cf[k]||'').trim())e[k]='Required';};if(n===1){['title','cat','sub','desc','scope','del'].forEach(req);}if(n===2){['state','district'].forEach(req);if(!cf.deadline)e.deadline='A valid submission deadline is required';else if(new Date(cf.deadline)<new Date())e.deadline='Deadline must be in the future';if(cf.bmin&&cf.bmax&&+cf.bmax<+cf.bmin)e.bmax='Must be more than the lower limit';}if(n===3&&cf.dist==='select'&&!cf.inv.length)e.inv='Select at least one provider';return e;};
+    const cNext=()=>{const e=vStep(s.cStep);if(Object.keys(e).length){this.setState({cErr:e});return;}if(s.cStep<4){this.setState({cStep:s.cStep+1,cMax:Math.max(s.cMax,s.cStep+1),cErr:{}});window.scrollTo({top:0});return;}
+      const id='BDS-RFQ-00'+(11+s.rfqs.filter(r=>/^BDS-RFQ-001[1-9]/.test(r.id)).length);const invited=cf.dist==='select'?cf.inv.map(i=>prov(i).name):cf.dist==='rec'?PROV.filter(p=>p.cats.includes(cf.cat)).slice(0,3).map(p=>p.name):[];
+      const dl=new Date(cf.deadline).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+      this.setState(st=>({cDone:{id,invited,dist:cf.dist},rfqs:[{id,title:cf.title,cat:cf.cat,date:'12 Nov 2026',responses:0,invited:invited.length,deadline:dl,status:cf.dist==='admin'?'Submitted':'Published',loc:cf.district+', '+cf.state,budget:cf.bmin||cf.bmax?inr(+cf.bmin)+' – '+inr(+cf.bmax):'Not disclosed'},...st.rfqs]}));window.scrollTo({top:0});};
+    const selCat=CATS.find(c=>c[0]===cf.cat);
+    const chip=on=>({bg:on?'#EAF5F9':'#fff',fg:on?'#0A5A7A':'#2E4A5F',bc:on?'#0B6E8E':'#CFDBE4'});
+    const dlTxt=cf.deadline?new Date(cf.deadline).toLocaleString('en-IN',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}):'—';
+    // rfqs
+    const filt={all:()=>true,open:r=>['Published','Responses Received','Under Evaluation','Submitted'].includes(r.status),draft:r=>r.status==='Draft',closed:r=>['Closed','Provider Selected'].includes(r.status),other:r=>['Cancelled','Expired','No Response'].includes(r.status)};
+    const act=(label,go,primary)=>({label,go,bg:primary?'#0B4F71':'#fff',fg:primary?'#fff':'#0B3B5C',bc:primary?'#0B4F71':'#CBD8E2'});
+    const setRfq=(id,patch)=>this.setState(st=>({rfqs:st.rfqs.map(r=>r.id===id?{...r,...patch}:r)}));
+    const rfqActions=r=>{const a=[];if(r.responses&&!['Closed','Cancelled','Provider Selected'].includes(r.status))a.push(act('View responses',()=>openCompare(r.id),true));if(r.status==='Draft')a.push(act('Edit',()=>this.startRfq(),true));if(['Published','Responses Received','Under Evaluation','Submitted'].includes(r.status)){a.push(act('Extend',()=>this.setState({modal:{kind:'date',title:'Extend deadline',text:`Invited providers will be notified of the new deadline for ${r.id}.`,ok:'Extend deadline',okBg:'#0B4F71',onOk:v=>{if(!v)return;setRfq(r.id,{deadline:new Date(v).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})});this.flash('Deadline extended');}},modalText:''})));a.push(act('Cancel',()=>this.setState({modal:{kind:'input',title:'Cancel RFQ?',text:`Invited providers will be informed that ${r.id} has been cancelled. Please give a reason.`,ph:'Reason for cancellation',ok:'Cancel RFQ',okBg:'#A3321F',onOk:()=>{setRfq(r.id,{status:'Cancelled'});this.flash(r.id+' cancelled');}},modalText:''})));}if(r.status==='Provider Selected')a.push(act('Close',()=>{setRfq(r.id,{status:'Closed'});this.flash(r.id+' closed');}));if(!a.length)a.push(act('View',()=>this.flash('Opening '+r.id)));return a;};
+    // compare
+    const cr0=s.rfqs.find(r=>r.id===s.compareId)||s.rfqs[0];const qs=QUOTES[cr0.id]||[];
+    const totals=qs.map(q=>q.fee*1.18+q.travel),minT=Math.min(...totals),minW=Math.min(...qs.map(q=>q.weeks));
+    const w=s.w,wTotal=w.tech+w.exp+w.time+w.cost;
+    const scoreOf=(q,i)=>{const k=cr0.id+i;const sc0=s.scores[k]||{};const t=+(sc0.tech??q.sTech),e=+(sc0.exp??q.sExp),tm=+(minW/q.weeks*10).toFixed(1),c=+(minT/totals[i]*10).toFixed(1);return {t,e,tm,c,total:wTotal?((t*w.tech+e*w.exp+tm*w.time+c*w.cost)/wTotal):0};};
+    const scs=qs.map(scoreOf);const best=Math.max(...scs.map(x=>x.total));
+    const selected=cr0.status==='Provider Selected'||cr0.status==='Closed';
+    const setScore=(i,k)=>e=>{const v=Math.max(1,Math.min(10,+e.target.value||1));this.setState(st=>({scores:{...st.scores,[cr0.id+i]:{...(st.scores[cr0.id+i]||{}),[k]:v}}}));};
+    const cq=qs.map((q,i)=>{const p=prov(q.prov),sl=!!s.shortlist[cr0.id+i],top=scs[i].total===best;return {letter:'ABC'[i],prov:p.name,slFg:sl?'#0B6E8E':'#B5C3CD',slFill:sl?1:0,slD:sl?'inline-block':'none',headBg:top?'#F3FAF6':'#fff',topD:top?'block':'none',
+      shortlist:()=>{this.setState(st=>({shortlist:{...st.shortlist,[cr0.id+i]:!sl}}));this.flash(sl?'Removed from shortlist':p.name+' shortlisted');},
+      sTech:scs[i].t,sExp:scs[i].e,sTime:scs[i].tm,sCost:scs[i].c,onTech:setScore(i,'tech'),onExp:setScore(i,'exp'),score:scs[i].total.toFixed(1),scoreW:(scs[i].total*10)+'%',scoreFg:top?'#17704A':'#0B6E8E',
+      view:()=>this.setState({prop:{rfq:cr0.id,i}}),selLabel:selected?'Selection recorded':'Select Provider',selBg:selected?'#9FB6C4':'#17704A',
+      select:()=>{if(selected)return;this.setState({sel:{i},selF:{value:String(Math.round(totals[i])),start:'2026-12-01',remarks:'',ack:false,po:false},selErr:{}});}};});
+    const cell=(v,opt={})=>({v,fw:opt.b?600:400,fg:opt.fg||'#0B2A42'});
+    const cRows=[['Professional fee',qs.map(q=>cell(inr(q.fee)))],['Taxes (GST 18%)',qs.map(q=>cell(inr(q.fee*.18)))],['Travel / other',qs.map(q=>cell(inr(q.travel)))],['Total',qs.map((q,i)=>cell(inr(totals[i])+(totals[i]===minT?'  · lowest':''),{b:1}))],['Timeline',qs.map(q=>cell(q.weeks+' weeks'))],['Methodology',qs.map(q=>cell(q.method,{fg:'#2E4A5F'}))],['Deliverables',qs.map(q=>cell(q.del,{fg:'#2E4A5F'}))],['Experience',qs.map(q=>cell(q.exp))],['Quotation validity',qs.map(q=>cell(q.valid+' · v'+q.ver))]].map(([label,cells],i)=>({label,cells,bg:i===3?'#FAFCFD':'#fff'}));
+    const pq=s.prop&&QUOTES[s.prop.rfq][s.prop.i];
+    const pp=pq?{...pq,prov:prov(pq.prov).name,scope:'Accepted as stated',feeTxt:inr(pq.fee),taxTxt:inr(pq.fee*.18),travelTxt:inr(pq.travel),totalTxt:inr(pq.fee*1.18+pq.travel),ms:pq.ms.map(([l,p])=>({l,p}))}:{ms:[]};
+    const selQ=s.sel&&qs[s.sel.i];
+    const selE={remarks:s.selErr.remarks||'',ack:s.selErr.ack||''},selB={remarks:selE.remarks?'#D9644F':'#CFDBE4',start:s.selErr.start?'#D9644F':'#CFDBE4'};
+    const confirmSel=()=>{const f=s.selF,e={};if(!f.remarks||!f.remarks.trim())e.remarks='Selection remarks are required';if(!f.ack)e.ack='Please confirm you understand';if(!f.start)e.start='1';if(Object.keys(e).length){this.setState({selErr:e});return;}const id='BDS-ENG-00'+(45+s.engs.length-2);const p=prov(selQ.prov);
+      this.setState(st=>({sel:null,rfqs:st.rfqs.map(r=>r.id===cr0.id?{...r,status:'Provider Selected'}:r),engs:[{id,rfq:cr0.id,title:cr0.title,prov:p.name,value:inr(+f.value),stage:0,docs:f.po?['Purchase order.pdf']:[],status:'Engagement Initiated',provDone:false,fb:null},...st.engs],screen:'eng'}));window.scrollTo({top:0});this.flash(`Engagement ${id} created. ${p.name} has been notified.`);};
+    // engagements
+    const engs=s.engs.map((e,i)=>{const set=patch=>this.setState(st=>({engs:st.engs.map((x,j)=>j===i?{...x,...patch}:x)}));return {...e,...sc(e.status),steps:['Selected','Engagement Initiated','In Progress','Completed'].map((label,j)=>({label,bar:j<=e.stage?(e.stage===3?'#17704A':'#0B6E8E'):'#E6EDF2',fg:j<=e.stage?'#0B2A42':'#8A9BA8'})),
+      hasFeedback:!!e.fb,stars:e.fb?'★'.repeat(e.fb.stars)+'☆'.repeat(5-e.fb.stars):'',fbText:e.fb?e.fb.t:'',
+      completeD:e.stage<3&&e.provDone?'inline-block':'none',fbD:e.stage===3&&!e.fb?'inline-block':'none',
+      note:e.stage===3?'Completed · payment settled outside the platform':e.provDone?'Provider has confirmed completion':'Awaiting provider progress',
+      dl:()=>this.flash('Downloading quotation for '+e.rfq),upload:()=>{set({docs:[...e.docs,'Document '+(e.docs.length+1)+'.pdf']});this.flash('Document uploaded');},
+      complete:()=>this.setState({modal:{title:'Record completion?',text:`Confirm that ${e.prov} has completed ${e.title}. You can submit feedback next.`,ok:'Record completion',okBg:'#17704A',onOk:()=>{set({stage:3,status:'Completed'});this.flash('Completion recorded');}}}),
+      feedback:()=>this.setState({stars:0,modalText:'',modal:{kind:'stars',title:'Rate this engagement',text:'Only purchasers with a recorded engagement can rate a provider.',ph:'What went well, and what could improve?',ok:'Submit feedback',okBg:'#0B4F71',onOk:(t,st)=>{set({fb:{stars:st||5,t:t||'No comments'}});this.flash('Thank you. Feedback submitted.');}}}),
+      grievance:()=>this.setState({modalText:'',modal:{kind:'input',title:'Raise a grievance',text:'Your complaint will be logged with a reference number and reviewed by the support team.',ph:'Describe the issue',ok:'Submit grievance',okBg:'#A3321F',onOk:()=>this.flash('Grievance GRV-2026-0142 registered')}})};});
+    const M=s.modal||{};
+    const hr=new Date().getHours();
+    const activeQuotes=Object.entries(QUOTES).flatMap(([rfq,arr])=>arr.map((q,i)=>({...q,rfq,i})));
+    return {
+      nav,crumb:titles[s.screen][0],title:titles[s.screen][1],
+      isDash:s.screen==='dash',isFind:s.screen==='services'||s.screen==='providers',findServices:s.screen==='services',findProviders:s.screen==='providers',isCreate:s.screen==='create',isRfqs:s.screen==='rfqs',isQuotes:s.screen==='quotes',isComps:s.screen==='comps',isCompare:s.screen==='compare',isEng:s.screen==='eng',isProfile:s.screen==='profile',
+      notifOpen:s.notif,toggleNotif:()=>this.setState({notif:!s.notif}),
+      notifs:[{icon:'request_quote',t:'New quotation received from Sahyadri Finserv Advisors LLP for BDS-RFQ-0001 (v2).',when:'1 hour ago'},{icon:'forum',t:'Prayas Project Consultants asked a clarification on BDS-RFQ-0001.',when:'Yesterday'},{icon:'campaign',t:'BDS-RFQ-0008 has been shared with 3 verified providers.',when:'3 days ago'}],
+      today:new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).toUpperCase(),
+      topQ:s.topQ,setTopQ:e=>this.setState({topQ:e.target.value}),topKey:e=>{if(e.key==='Enter')this.go('services',{fq:s.topQ});},
+      heroQ:s.heroQ,setHeroQ:e=>this.setState({heroQ:e.target.value}),heroKey:e=>{if(e.key==='Enter')this.go('services',{fq:s.heroQ});},heroSearch:()=>this.go('services',{fq:s.heroQ}),
+      goCreate:()=>this.startRfq(),goRfqs:()=>this.go('rfqs'),goDash:()=>this.go('dash'),openCompare1:()=>openCompare('BDS-RFQ-0001'),
+      kpis:[{label:'Open RFQs',v:s.rfqs.filter(filt.open).length,icon:'description',accent:'#0B6E8E',soft:'#DDF1F7',tag:'',tagD:'none',go:()=>this.go('rfqs',{rfqTab:'open'})},{label:'Quotations received',v:5,icon:'request_quote',accent:'#E07B20',soft:'#FDF1E4',tag:'',tagD:'none',go:()=>this.go('quotes')},{label:'Comparison pending',v:2,icon:'balance',accent:'#B4610E',soft:'#FDEFD9',tag:'action due',tagD:'inline-block',go:()=>this.go('comps')},{label:'Active engagements',v:s.engs.filter(e=>e.stage<3).length,icon:'handshake',accent:'#17704A',soft:'#E5F5EC',tag:'',tagD:'none',go:()=>this.go('eng')}],
+      minis:[{label:'Total RFQs',v:s.rfqs.length},{label:'Selected providers',v:s.engs.length},{label:'Completed engagements',v:s.engs.filter(e=>e.stage===3).length}],
+      recent:s.rfqs.slice(0,4).map(r=>({...r,...sc(r.status),respTxt:r.responses?r.responses+' quotation'+(r.responses>1?'s':'')+' received':r.status==='Draft'?'draft':'awaiting responses',icon:r.responses?'mark_email_unread':'description',ibg:r.responses?'#FDF1E4':'#DDF1F7',ifg:r.responses?'#B4610E':'#0B5E7E',open:()=>r.responses?openCompare(r.id):this.go('rfqs')})),
+      quick:[{label:'Create RFQ',icon:'add_box',go:()=>this.startRfq()},{label:'Find a Service',icon:'travel_explore',go:()=>this.go('services')},{label:'Find a Provider',icon:'groups',go:()=>this.go('providers')},{label:'Compare Quotations',icon:'balance',go:()=>openCompare('BDS-RFQ-0001')},{label:'Track Engagement',icon:'handshake',go:()=>this.go('eng')}],
+      fq:s.fq,setFq:e=>this.setState({fq:e.target.value}),ff,setFf:e=>{const {name,value}=e.target;this.setState(st=>({ff:{...st.ff,[name]:value}}));},findPh:s.screen==='services'?'Search services':'Search providers or expertise',
+      catOpts:CATS.map(c=>({id:c[0],name:c[1]})),stateOpts:['Uttar Pradesh','Maharashtra','Karnataka','Gujarat','Madhya Pradesh','Tamil Nadu','Rajasthan','Delhi','Telangana','West Bengal'],indOpts:['Manufacturing','Auto components','Textiles & apparel','Food processing','Engineering','Pharma & chemicals','Services & trade'],
+      svcResults,provResults,findCount:s.screen==='services'?svcResults.length:provResults.length,findNoun:s.screen==='services'?'services':'providers',
+      // create
+      createDone:!!s.cDone,createForm:!s.cDone,newRfqId:s.cDone?s.cDone.id:'',notified:s.cDone?s.cDone.invited:[],
+      distText:s.cDone?(s.cDone.dist==='admin'?'Your RFQ has been sent to an RFQ manager for matching. You will be notified when providers are invited.':`${s.cDone.invited.length} verified provider${s.cDone.invited.length===1?' has':'s have'} been notified. Quotations will appear in My RFQs as they arrive.`):'',
+      cSteps:['Requirement','Location & budget','Providers','Review'].map((label,i)=>{const n=i+1,cur=n===s.cStep,done=n<s.cStep;return {n:done?'✓':n,label,bg:cur?'#fff':'transparent',bc:cur?'#0B6E8E':'#E2E9EF',cbg:done?'#17704A':cur?'#0B4F71':'#E6EDF2',cfg:done||cur?'#fff':'#6B7F8E',fg:cur||done?'#0B2A42':'#6B7F8E',go:()=>{if(n<=s.cMax)this.setState({cStep:n,cErr:{}});}};}),
+      c1:s.cStep===1,c2:s.cStep===2,c3:s.cStep===3,c4:s.cStep===4,cf,ce,cb,
+      setCf:e=>{const {name,value}=e.target;this.setState(st=>({cf:{...st.cf,[name]:value,...(name==='cat'?{sub:'',inv:[]}:{})},cErr:{...st.cErr,[name]:''}}));},
+      cSubOpts:selCat?selCat[2]:[],cModes:['Online','Onsite','Hybrid'].map(m=>({label:m,...chip(cf.mode===m),pick:()=>this.setState(st=>({cf:{...st.cf,mode:m}}))})),
+      cAttach:cf.att.map((name,i)=>({name,remove:()=>this.setState(st=>({cf:{...st.cf,att:st.cf.att.filter((_,j)=>j!==i)}}))})),
+      addAttach:()=>this.setState(st=>({cf:{...st.cf,att:[...st.cf.att,['Machine quotations.pdf','Financials FY23–FY26.xlsx','Plant layout.pdf','Udyam certificate.pdf'][st.cf.att.length%4]]}})),
+      distOpts:[['select','Select specific providers','checklist','Invite verified providers you choose.'],['rec','Recommended providers','auto_awesome','Platform matches by category, location and experience.'],['admin','Administrator-assisted','support_agent','An RFQ manager finds and invites providers for you.']].map(([k,label,icon,d])=>({label,icon,d,...chip(cf.dist===k),bg:cf.dist===k?'#F2F9FC':'#fff',pick:()=>this.setState(st=>({cf:{...st.cf,dist:k},cErr:{}}))})),
+      distSelect:cf.dist==='select',distRec:cf.dist==='rec',distAdmin:cf.dist==='admin',invitedCount:cf.inv.length,
+      provPick:PROV.filter(p=>!cf.cat||p.cats.includes(cf.cat)).map(p=>({...p,exTxt:p.ex.join(', '),loc:p.city,on:cf.inv.includes(p.id),toggle:()=>this.setState(st=>({cErr:{},cf:{...st.cf,inv:st.cf.inv.includes(p.id)?st.cf.inv.filter(x=>x!==p.id):[...st.cf.inv,p.id]}}))})),
+      recProv:PROV.filter(p=>p.cats.includes(cf.cat)).slice(0,3).map(p=>({name:p.name,why:[catName(cf.cat).split(' ')[0],p.exp+' yrs experience',p.mode.toLowerCase()+' delivery'].join(', ')})),
+      review:[['RFQ title',cf.title],['Category',catName(cf.cat)+' · '+cf.sub],['Requirement',cf.desc],['Scope of work',cf.scope],['Deliverables',cf.del],['Industry and location',cf.ind+' · '+cf.district+', '+cf.state+' · '+cf.mode],['Budget and duration',(cf.bmin||cf.bmax?inr(+cf.bmin)+' – '+inr(+cf.bmax):'Not disclosed')+' · '+(cf.dur||'Duration not specified')+' · Start '+(cf.start||'flexible')],['Deadline',dlTxt],['Attachments',cf.att.join(', ')||'None'],['Provider distribution',cf.dist==='select'?cf.inv.map(i=>prov(i).name).join(', '):cf.dist==='rec'?'Recommended providers':'Administrator-assisted matching']].map(([k,v])=>({k,v:v||'—'})),
+      cPrev:()=>{if(s.cStep>1)this.setState({cStep:s.cStep-1,cErr:{}});else this.go('rfqs');},cPrevLabel:s.cStep>1?'Back':'Cancel',cNext,cNextLabel:s.cStep<4?'Continue':'Submit RFQ',
+      cSaveDraft:()=>{if(!cf.title.trim()){this.setState({cErr:{title:'Add a title to save a draft'},cStep:1});return;}this.setState(st=>({rfqs:[{id:'BDS-RFQ-D'+(st.rfqs.length+1),title:cf.title,cat:cf.cat,date:'12 Nov 2026',responses:0,invited:0,deadline:'—',status:'Draft',loc:'—',budget:'—'},...st.rfqs],screen:'rfqs'}));this.flash('Draft saved');},
+      autofillRfq:()=>this.setState(st=>({cErr:{},cf:{...st.cf,title:st.cf.title||'DPR for CNC machining capacity expansion',cat:st.cf.cat||'bmc',sub:st.cf.sub||'DPR / project reports',desc:'We plan to add four CNC turning centres and one VMC to serve new OEM orders. We need a bank-ready DPR for a ₹2.8 Cr term loan.',scope:'Market assessment, technical feasibility of the proposed machines, five-year financial projections and support during lender appraisal.',del:'Bank-format DPR\nProjection workbook with DSCR and IRR\nLender query support',bmin:'40000',bmax:'60000',dur:'4 weeks',exp:'5+ years',start:'2026-12-01',deadline:'2026-11-30T17:00',att:st.cf.att.length?st.cf.att:['Machine quotations.pdf'],inv:st.cf.inv.length?st.cf.inv:['abc','sah']}})),
+      // rfqs
+      rfqTabs:[['all','All'],['open','Open'],['draft','Drafts'],['closed','Closed'],['other','Cancelled / expired']].map(([k,label])=>{const on=s.rfqTab===k;return {label,n:s.rfqs.filter(filt[k]).length,bg:on?'#0B4F71':'#fff',fg:on?'#fff':'#2E4A5F',bc:on?'#0B4F71':'#DCE5EC',pick:()=>this.setState({rfqTab:k})};}),
+      rfqRows:s.rfqs.filter(filt[s.rfqTab]).map(r=>({...r,...sc(r.status),catName:catName(r.cat),actions:rfqActions(r)})),
+      allQuotes:activeQuotes.map(q=>({...q,...sc(s.shortlist[q.rfq+q.i]?'Shortlisted':q.status),rfqTitle:(s.rfqs.find(r=>r.id===q.rfq)||{}).title,prov:prov(q.prov).name,totalTxt:inr(q.fee*1.18+q.travel),status:s.shortlist[q.rfq+q.i]?'Shortlisted':q.status,view:()=>this.setState({prop:{rfq:q.rfq,i:q.i}})})),
+      comps:Object.keys(QUOTES).map(id=>{const r=s.rfqs.find(x=>x.id===id);const t=QUOTES[id].map(q=>q.fee*1.18+q.travel);return {id,title:r.title,status:r.status,...sc(r.status),n:QUOTES[id].length,range:inr(Math.min(...t))+' – '+inr(Math.max(...t)),open:()=>openCompare(id)};}),
+      cr:{...cr0,...sc(cr0.status)},cq,cRows,gridCols:`200px repeat(${qs.length},minmax(0,1fr))`,w,
+      weights:[['tech','Technical approach'],['exp','Relevant experience'],['time','Timeline'],['cost','Commercial']].map(([k,label])=>({label,v:w[k],on:e=>{const v=+e.target.value;this.setState(st=>({w:{...st.w,[k]:v}}));}})),
+      wTotal,wNote:wTotal===100?'· balanced':'· scores are normalised',wBg:wTotal===100?'#E5F5EC':'#FDEFD9',wFg:wTotal===100?'#17704A':'#B4610E',
+      reqClar:()=>this.setState({modalText:'',modal:{kind:'input',title:'Request clarification',text:'Your question goes to all providers who quoted on '+cr0.id+'. They cannot see each other\'s answers.',ph:'e.g. Please confirm whether CMA data is included',ok:'Send request',okBg:'#0B4F71',onOk:()=>this.flash('Clarification request sent to '+qs.length+' providers')}}),
+      dlComp:()=>this.flash('Comparison report for '+cr0.id+' downloaded (PDF)'),
+      propOpen:!!pq,pp,closeProp:()=>this.setState({prop:null}),
+      selOpen:!!selQ,sel:selQ?{prov:prov(selQ.prov).name}:{},selF:s.selF,selE,selB,
+      setSel:e=>{const {name,value}=e.target;this.setState(st=>({selF:{...st.selF,[name]:value},selErr:{...st.selErr,[name]:''}}));},
+      toggleAck:()=>this.setState(st=>({selF:{...st.selF,ack:!st.selF.ack},selErr:{...st.selErr,ack:''}})),
+      togglePo:()=>this.setState(st=>({selF:{...st.selF,po:!st.selF.po}})),poIcon:s.selF.po?'task':'upload_file',poLabel:s.selF.po?'Purchase order.pdf · uploaded':'Upload purchase order',poBc:s.selF.po?'#7FC4A0':'#CBD8E2',poBg:s.selF.po?'#F1FAF5':'#fff',
+      closeSel:()=>this.setState({sel:null}),confirmSel,
+      engs,
+      profFields:[['Organisation name','Shree Ganesh Auto Components',1],['Constitution','Partnership',1],['PAN','AAKFS4321M',1,1],['GSTIN','27AAKFS4321M1Z2',1,1],['Purchaser type','Small enterprise'],['Industry sector','Auto components'],['Contact person','Sunil Deshmukh'],['Designation','Managing Partner'],['Mobile','+91 98220 12345'],['Email','sunil@shreeganeshauto.in'],['Registered address','Plot 14, MIDC Chakan Phase II, Pune'],['Website','https://shreeganeshauto.in']].map(([k,v,lock,mono])=>({k,v,lock:!!lock,bg:lock?'#F4F7FA':'#fff',ff:mono?"'IBM Plex Mono',monospace":'inherit'})),
+      saveProfile:()=>this.flash('Profile updated'),
+      history:[['description','RFQ BDS-RFQ-0008 published','09 Nov 2026'],['request_quote','3 quotations received for BDS-RFQ-0001','11 Nov 2026'],['handshake','Engagement BDS-ENG-0038 initiated','20 Oct 2026'],['task_alt','BDS-ENG-0031 completed and rated','14 Aug 2026']].map(([icon,t,d])=>({icon,t,d})),
+      prefs:[['email','Email alerts'],['sms','SMS alerts'],['wa','WhatsApp notifications']].map(([k,label])=>({label,bg:s.prefs[k]?'#0B6E8E':'#CBD8E2',x:s.prefs[k]?'19px':'3px',toggle:()=>this.setState(st=>({prefs:{...st.prefs,[k]:!st.prefs[k]}}))})),
+      support:()=>this.flash('Support request SR-2304 created'),
+      modalOpen:!!s.modal,modal:{title:M.title||'',text:M.text||'',ok:M.ok||'OK',okBg:M.okBg||'#0B4F71',ph:M.ph||''},modalInput:M.kind==='input'||M.kind==='stars',modalStars:M.kind==='stars',modalDate:M.kind==='date',
+      modalText:s.modalText,setModalText:e=>this.setState({modalText:e.target.value}),
+      starBtns:[1,2,3,4,5].map(n=>({fg:n<=s.stars?'#E0A030':'#DCE5EC',pick:()=>this.setState({stars:n})})),
+      modalOk:()=>{const fn=M.onOk;const t=s.modalText,st=s.stars;this.setState({modal:null});fn&&fn(t,st);},closeModal:()=>this.setState({modal:null}),
+      hasToast:!!s.toast,toast:s.toast,shellCols:compact?'80px minmax(0,1fr)':'264px minmax(0,1fr)',sideTextD:compact?'none':'block',wideD:compact?'none':'block',twoCol:narrow?'minmax(0,1fr)':'minmax(0,1fr) 330px',twoColL:narrow?'minmax(0,1fr)':'320px minmax(0,1fr)'
+    };
+  }
+}
+</script>
+</body>
+</html>

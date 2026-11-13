@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300..500,0..1,0&display=block" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#F3F6F9;font-family:'IBM Plex Sans',system-ui,sans-serif;color:#0B2A42;-webkit-font-smoothing:antialiased}
+a{color:#0A5A7A;text-decoration:none}a:hover{color:#0B3B5C;text-decoration:underline}
+.material-symbols-outlined{font-size:20px;line-height:1;vertical-align:middle}
+input,select,textarea,button{font-family:inherit}
+::placeholder{color:#94A4B0}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+<header style="position:sticky;top:0;z-index:40;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid #E2E9EF">
+  <div style="height:66px;display:flex;align-items:center;gap:18px;padding:0 24px">
+    <a href="index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0">
+      <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#0B3B5C,#0E7A9A);display:grid;place-items:center;color:#fff;font-weight:700;font-size:12px">BDS</div>
+      <div style="display:{{ wideD }}"><div style="font-weight:700;font-size:15.5px;color:#0B3B5C;line-height:1.1">BDS Marketplace</div><div style="font-size:10px;letter-spacing:1.6px;color:#6B7F8E;font-weight:600;margin-top:3px">PURCHASER ONBOARDING</div></div>
+    </a>
+    <div style="flex:1;min-width:120px;display:flex;align-items:center;gap:12px">
+      <div style="flex:1;height:6px;border-radius:6px;background:#E6EDF2;overflow:hidden"><div style="height:100%;width:{{ pctW }};background:linear-gradient(90deg,#0B4F71,#0E8AAE);border-radius:6px;transition:width .4s ease"></div></div>
+      <span style="font-size:13px;font-weight:600;color:#0B3B5C;white-space:nowrap">{{ pct }}% complete</span>
+    </div>
+    <span style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:#6B7F8E;white-space:nowrap"><span class="material-symbols-outlined" style="font-size:17px;color:{{ savedFg }}">{{ savedIcon }}</span>{{ savedText }}</span>
+    <image-slot id="sidbi-logo-buyer-onb" shape="rect" placeholder="SIDBI logo" fit="contain" style="width:92px;height:40px;flex-shrink:0;display:{{ wideD }}"></image-slot>
+    <a href="purchaser-portal.html" onClick="{{ saveExit }}" style="height:38px;padding:0 14px;border:1px solid #CBD8E2;border-radius:10px;background:#fff;color:#0B3B5C;font-weight:600;font-size:13px;display:inline-flex;align-items:center;text-decoration:none;white-space:nowrap">Save &amp; exit</a>
+  </div>
+</header>
+
+<sc-if value="{{ isFlow }}" hint-placeholder-val="{{ true }}">
+<div style="flex:1;width:100%;max-width:1440px;margin:0 auto;padding:24px;display:grid;grid-template-columns:{{ cols }};gap:24px;align-items:start">
+
+  <aside style="display:{{ railD }};position:sticky;top:90px;flex-direction:column;gap:14px">
+    <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:10px">
+      <sc-for list="{{ steps }}" as="st" hint-placeholder-count="6">
+        <button onClick="{{ st.go }}" style="width:100%;display:flex;align-items:flex-start;gap:12px;padding:12px;border:0;border-radius:12px;background:{{ st.bg }};cursor:pointer;text-align:left;transition:background .15s" style-hover="background:{{ st.hov }}">
+          <span style="width:30px;height:30px;border-radius:50%;flex-shrink:0;display:grid;place-items:center;background:{{ st.cbg }};color:{{ st.cfg }};border:{{ st.cbd }};font-size:13px;font-weight:700"><span class="material-symbols-outlined" style="font-size:17px;display:{{ st.iconD }}">{{ st.icon }}</span><span style="display:{{ st.numD }}">{{ st.n }}</span></span>
+          <span style="flex:1;min-width:0;padding-top:1px"><span style="display:block;font-size:14px;font-weight:600;color:{{ st.fg }}">{{ st.label }}</span><span style="display:block;margin-top:2px;font-size:12px;color:{{ st.subFg }}">{{ st.sub }}</span></span>
+        </button>
+      </sc-for>
+    </div>
+    <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:18px">
+      <div style="display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;border-radius:10px;background:#FDF1E4;color:#B4610E;display:grid;place-items:center"><span class="material-symbols-outlined">support_agent</span></div><div><div style="font-weight:600;font-size:14px">Need help?</div><div style="font-size:12.5px;color:#6B7F8E">Mon–Sat, 9:30–6:00</div></div></div>
+      <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px">
+        <button onClick="{{ openCall }}" style="display:flex;align-items:center;gap:8px;height:38px;padding:0 12px;border:1px solid #E2E9EF;border-radius:10px;background:#fff;color:#0B3B5C;font-weight:600;font-size:13px;cursor:pointer"><span class="material-symbols-outlined" style="font-size:18px;color:#0B6E8E">call</span>Request a call back</button>
+        <button onClick="{{ openChat }}" style="display:flex;align-items:center;gap:8px;height:38px;padding:0 12px;border:1px solid #E2E9EF;border-radius:10px;background:#fff;color:#0B3B5C;font-weight:600;font-size:13px;cursor:pointer"><span class="material-symbols-outlined" style="font-size:18px;color:#0B6E8E">chat</span>Chat with us</button>
+      </div>
+    </div>
+  </aside>
+
+  <section style="min-width:0;display:flex;flex-direction:column;gap:16px">
+    <div style="display:{{ miniD }};gap:6px;overflow-x:auto;padding-bottom:2px">
+      <sc-for list="{{ steps }}" as="st" hint-placeholder-count="6"><button onClick="{{ st.go }}" style="flex-shrink:0;display:flex;align-items:center;gap:6px;height:34px;padding:0 12px 0 6px;border:1px solid {{ st.mbc }};border-radius:99px;background:{{ st.mbg }};color:{{ st.fg }};font-size:12.5px;font-weight:600;cursor:pointer"><span style="width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:{{ st.cbg }};color:{{ st.cfg }};font-size:11px"><span class="material-symbols-outlined" style="font-size:14px;display:{{ st.iconD }}">{{ st.icon }}</span><span style="display:{{ st.numD }}">{{ st.n }}</span></span>{{ st.short }}</button></sc-for>
+    </div>
+
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap">
+      <div style="min-width:0">
+        <div style="font-size:12px;letter-spacing:1.4px;font-weight:700;color:#0B6E8E">{{ stepEyebrow }}</div>
+        <h1 style="margin:6px 0 0;font-size:28px;line-height:1.2;font-weight:700;letter-spacing:-.2px">{{ stepTitle }}</h1>
+        <p style="margin:6px 0 0;font-size:14.5px;line-height:1.55;color:#5A7083;max-width:620px;text-wrap:pretty">{{ stepDesc }}</p>
+      </div>
+      <button onClick="{{ autofill }}" style="display:{{ autoD }};align-items:center;gap:6px;height:36px;padding:0 12px;border:1px dashed #9CCFE0;border-radius:10px;background:#F4FAFC;color:#0A5A7A;font-weight:600;font-size:12.5px;cursor:pointer"><span class="material-symbols-outlined" style="font-size:17px">auto_fix_high</span>Autofill sample</button>
+    </div>
+
+    <sc-if value="{{ sStart }}" hint-placeholder-val="{{ true }}">
+      <div style="position:relative;overflow:hidden;border-radius:20px;background:linear-gradient(120deg,#0B3B5C 0%,#0B4F71 55%,#0E6E8E 100%);padding:28px 30px;color:#fff">
+        <div style="position:absolute;right:-70px;top:-100px;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.07)"></div>
+        <div style="position:relative;font-size:22px;font-weight:700">Welcome, {{ firstName }}</div>
+        <div style="position:relative;margin-top:6px;font-size:14.5px;color:#D5EAF2;max-width:560px;line-height:1.55">Set up your enterprise profile once. We use it to verify your account and to match you with the right service providers.</div>
+        <div style="position:relative;margin-top:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px">
+          <sc-for list="{{ promises }}" as="p" hint-placeholder-count="3"><div style="display:flex;gap:10px;align-items:center;padding:12px 14px;border-radius:12px;background:rgba(255,255,255,.1)"><span class="material-symbols-outlined" style="color:#A8DCEC">{{ p.icon }}</span><div><div style="font-weight:600;font-size:14px">{{ p.t }}</div><div style="font-size:12px;color:#C7E2EC">{{ p.d }}</div></div></div></sc-for>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:24px">
+        <div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline"><div style="font-weight:600;font-size:16px">Who are you buying for?</div><span style="font-size:12px;color:#C2412D">{{ e.kind }}</span></div>
+        <div style="margin-top:4px;font-size:13.5px;color:#5A7083">This decides what we ask and which documents you’ll need.</div>
+        <div style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px">
+          <sc-for list="{{ kinds }}" as="k" hint-placeholder-count="4">
+            <button onClick="{{ k.pick }}" style="position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:18px;border:1.5px solid {{ k.bc }};border-radius:14px;background:{{ k.bg }};cursor:pointer;text-align:left;transition:all .15s;box-shadow:{{ k.sh }}" style-hover="border-color:#0B6E8E">
+              <span class="material-symbols-outlined" style="position:absolute;top:14px;right:14px;font-size:22px;color:#0B6E8E;font-variation-settings:'FILL' 1;display:{{ k.ckD }}">check_circle</span>
+              <span style="width:44px;height:44px;border-radius:12px;background:{{ k.ibg }};color:{{ k.ifg }};display:grid;place-items:center"><span class="material-symbols-outlined" style="font-size:24px">{{ k.icon }}</span></span>
+              <span style="font-weight:600;font-size:15px;color:#0B2A42">{{ k.label }}</span>
+              <span style="font-size:12.5px;line-height:1.5;color:#5A7083">{{ k.d }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:24px">
+        <div style="font-weight:600;font-size:16px">What you can do on BDS Marketplace</div>
+        <div style="margin-top:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+          <sc-for list="{{ can }}" as="c" hint-placeholder-count="3"><div style="padding:16px;border-radius:14px;background:#F7FAFC;border:1px solid #E6EDF2"><div style="display:flex;align-items:center;justify-content:space-between"><span style="width:38px;height:38px;border-radius:10px;background:#E1F2F8;color:#0B5E7E;display:grid;place-items:center"><span class="material-symbols-outlined">{{ c.icon }}</span></span><span style="font-size:11px;font-weight:700;letter-spacing:.4px;color:{{ c.tagFg }};background:{{ c.tagBg }};padding:3px 8px;border-radius:6px">{{ c.tag }}</span></div><div style="margin-top:12px;font-weight:600;font-size:14px">{{ c.t }}</div><div style="margin-top:4px;font-size:12.5px;line-height:1.5;color:#5A7083">{{ c.d }}</div></div></sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ sEnt }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:24px">
+        <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap">
+          <div style="display:flex;gap:12px;align-items:center"><div style="width:40px;height:40px;border-radius:11px;background:#E1F2F8;color:#0B5E7E;display:grid;place-items:center"><span class="material-symbols-outlined">bolt</span></div><div><div style="font-weight:600;font-size:15.5px">Quick start with Udyam</div><div style="font-size:12.5px;color:#6B7F8E">We fetch your enterprise name, classification, activity and address.</div></div></div>
+          <div style="display:flex;padding:3px;background:#F1F5F8;border-radius:10px"><sc-for list="{{ udOpts }}" as="o" hint-placeholder-count="2"><button onClick="{{ o.pick }}" style="height:32px;padding:0 12px;border:0;border-radius:8px;background:{{ o.bg }};color:{{ o.fg }};box-shadow:{{ o.sh }};font-weight:600;font-size:12.5px;cursor:pointer">{{ o.label }}</button></sc-for></div>
+        </div>
+        <sc-if value="{{ udYes }}" hint-placeholder-val="{{ true }}">
+          <div style="margin-top:16px;display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap">
+            <div style="flex:1 1 260px;position:relative">
+              <input name="udyam" value="{{ f.udyam }}" onChange="{{ setUp }}" onFocus="{{ focus }}" placeholder="UDYAM-XX-00-0000000" style="width:100%;height:48px;padding:0 42px 0 14px;border:1.5px solid {{ b.udyam }};border-radius:11px;font-size:15px;letter-spacing:.6px;font-family:'IBM Plex Mono',monospace;outline:none;color:#0B2A42" style-focus="border-color:#0B6E8E;box-shadow:0 0 0 4px #E1F2F8">
+              <span class="material-symbols-outlined" style="position:absolute;right:12px;top:14px;color:#17704A;font-variation-settings:'FILL' 1;display:{{ ok.udyam }}">check_circle</span>
+              <div style="margin-top:6px;font-size:12px;color:{{ hc.udyam }}">{{ h.udyam }}</div>
+            </div>
+            <button onClick="{{ fetchUd }}" style="height:48px;padding:0 18px;border:0;border-radius:11px;background:{{ fetchBg }};color:#fff;font-weight:600;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;white-space:nowrap"><span class="material-symbols-outlined" style="font-size:19px;animation:{{ spinAnim }}">{{ fetchIcon }}</span>{{ fetchLabel }}</button>
+          </div>
+          <sc-if value="{{ fetched }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top:14px;padding:14px 16px;border-radius:13px;background:#EAF7F0;border:1px solid #CBE9D8">
+              <div style="display:flex;gap:8px;align-items:center;font-size:13px;font-weight:600;color:#14583A"><span class="material-symbols-outlined" style="font-size:19px;color:#17704A">task_alt</span>Fetched from Udyam records. Review the highlighted fields below.</div>
+              <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px"><sc-for list="{{ udFacts }}" as="x" hint-placeholder-count="3"><span style="display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px;border-radius:8px;background:#fff;font-size:12.5px;color:#14583A"><span class="material-symbols-outlined" style="font-size:16px">{{ x.icon }}</span>{{ x.t }}</span></sc-for></div>
+            </div>
+          </sc-if>
+        </sc-if>
+        <sc-if value="{{ udNo }}" hint-placeholder-val="{{ false }}"><div style="margin-top:14px;display:flex;gap:10px;align-items:center;padding:11px 14px;border-radius:11px;background:#F4F9FB;color:#2E4A5F;font-size:13px"><span class="material-symbols-outlined" style="font-size:19px;color:#0B6E8E">info</span>No problem. Fill your details below and we’ll verify them from your PAN.</div></sc-if>
+      </div>
+
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:24px">
+        <div style="font-weight:600;font-size:15.5px">Organisation</div>
+        <div style="margin-top:18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px">
+          <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:7px"><span style="display:flex;gap:8px;align-items:center;font-size:13px;font-weight:600;color:#1E3A50">Organisation name <span style="color:#C2412D">*</span><span style="display:{{ af.org }};font-size:11px;font-weight:600;color:#17704A;background:#E5F5EC;padding:2px 7px;border-radius:6px">From Udyam</span></span><span style="position:relative;display:block"><input name="org" value="{{ f.org }}" onChange="{{ set }}" onFocus="{{ focus }}" style="width:100%;height:46px;padding:0 40px 0 14px;border:1.5px solid {{ b.org }};border-radius:11px;font-size:14.5px;outline:none;background:{{ bg.org }};color:#0B2A42" style-focus="border-color:#0B6E8E;box-shadow:0 0 0 4px #E1F2F8"><span class="material-symbols-outlined" style="position:absolute;right:12px;top:13px;color:#17704A;font-variation-settings:'FILL' 1;display:{{ ok.org }}">check_circle</span></span><span style="font-size:12px;color:{{ hc.org }}">{{ h.org }}</span></label>
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="display:flex;gap:8px;align-items:center;font-size:13px;font-weight:600;color:#1E3A50">Purchaser category <span style="color:#C2412D">*</span><span style="display:{{ af.ptype }};font-size:11px;font-weight:600;color:#17704A;background:#E5F5EC;padding:2px 7px;border-radius:6px">From Udyam</span></span><select name="ptype" value="{{ f.ptype }}" onChange="{{ set }}" onFocus="{{ focus }}" style="width:100%;height:46px;padding:0 12px;border:1.5px solid {{ b.ptype }};border-radius:11px;font-size:14.5px;background:{{ bg.ptype }};color:#0B2A42;outline:none"><option value="">Select</option><sc-for list="{{ ptypes }}" as="o" hint-placeholder-count="0"><option value="{{ o }}">{{ o }}</option></sc-for></select><span style="font-size:12px;color:{{ hc.ptype }}">{{ h.ptype }}</span></label>
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="display:flex;gap:8px;align-items:center;font-size:13px;font-weight:600;color:#1E3A50">Constitution <span style="color:#C2412D">*</span><span style="display:{{ af.constitution }};font-size:11px;font-weight:600;color:#17704A;background:#E5F5EC;padding:2px 7px;border-radius:6px">From Udyam</span></span><select name="constitution" value="{{ f.constitution }}" onChange="{{ set }}" onFocus="{{ focus }}" style="width:100%;height:46px;padding:0 12px;border:1.5px solid {{ b.constitution }};border-radius:11px;font-size:14.5px;background:{{ bg.constitution }};color:#0B2A42;outline:none"><option value="">Select</option><sc-for list="{{ constitutions }}" as="o" hint-placeholder-count="0"><option value="{{ o }}">{{ o }}</option></sc-for></select><span style="font-size:12px;color:{{ hc.constitution }}">{{ h.constitution }}</span></label>
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="display:flex;gap:8px;align-items:center;font-size:13px;font-weight:600;color:#1E3A50">Industry sector <span style="color:#C2412D">*</span><span style="display:{{ af.industry }};font-size:11px;font-weight:600;color:#17704A;background:#E5F5EC;padding:2px 7px;border-radius:6px">Suggested</span></span><select name="industry" value="{{ f.industry }}" onChange="{{ set }}" onFocus="{{ focus }}" style="width:100%;height:46px;padding:0 12px;border:1.5px solid {{ b.industry }};border-radius:11px;font-size:14.5px;background:{{ bg.industry }};color:#0B2A42;outline:none"><option value="">Select</option><sc-for list="{{ industries }}" as="o" hint-placeholder-count="0"><option value="{{ o }}">{{ o }}</option></sc-for></select><span style="font-size:12px;color:{{ hc.industry }}">{{ h.industry }}</span></label>
+          <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:7px"><span style="display:flex;gap:8px;align-items:center;font-size:13px;font-weight:600;color:#1E3A50">Business activity <span style="font-weight:500;color:#8A9BA8">Optional</span><span style="display:{{ af.activity }};font-size:11px;font-weight:600;color:#17704A;background:#E5F5EC;padding:2px 7px;border-radius:6px">From NIC code</span></span><input name="activity" value="{{ f.activity }}" onChange="{{ set }}" onFocus="{{ focus }}" placeholder="e.g. Precision-machined auto components" style="width:100%;height:46px;padding:0 14px;border:1.5px solid #D3DEE6;border-radius:11px;font-size:14.5px;outline:none;background:{{ bg.activity }};color:#0B2A42" style-focus="border-color:#0B6E8E;box-shadow:0 0 0 4px #E1F2F8"><span style="font-size:12px;color:#7A8D9C">{{ h.activity }}</span></label>
+        </div>
+        <div style="margin-top:20px;font-size:13px;font-weight:600;color:#1E3A50">Number of employees <span style="font-weight:500;color:#8A9BA8">Optional</span></div>
+        <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ empOpts }}" as="t" hint-placeholder-count="4"><button onClick="{{ t.pick }}" style="height:40px;padding:0 14px;border:1.5px solid {{ t.bc }};border-radius:10px;background:{{ t.bg }};color:{{ t.fg }};font-weight:600;font-size:13px;cursor:pointer">{{ t.label }}</button></sc-for></div>
+      </div>
+
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:24px">
+        <div style="font-weight:600;font-size:15.5px">Tax registrations</div>
+        <div style="margin-top:18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px">
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="display:flex;gap:8px;align-items:center;font-size:13px;font-weight:600;color:#1E3A50">PAN <span style="color:#C2412D">*</span><span style="display:{{ af.pan }};font-size:11px;font-weight:600;color:#17704A;background:#E5F5EC;padding:2px 7px;border-radius:6px">From Udyam</span></span><span style="position:relative;display:block"><input name="pan" value="{{ f.pan }}" onChange="{{ setUp }}" onFocus="{{ focus }}" placeholder="AAAAA9999A" style="width:100%;height:46px;padding:0 40px 0 14px;border:1.5px solid {{ b.pan }};border-radius:11px;font-size:14.5px;letter-spacing:.6px;font-family:'IBM Plex Mono',monospace;outline:none;background:{{ bg.pan }};color:#0B2A42" style-focus="border-color:#0B6E8E;box-shadow:0 0 0 4px #E1F2F8"><span class="material-symbols-outlined" style="position:absolute;right:12px;top:13px;color:#17704A;font-variation-settings:'FILL' 1;display:{{ ok.pan }}">check_circle</span></span><span style="font-size:12px;color:{{ hc.pan }}">{{ h.pan }}</span></label>
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:600;color:#1E3A50">GSTIN <span style="font-weight:500;color:#8A9BA8">Optional</span></span><span style="position:relative;display:block"><input name="gstin" value="{{ f.gstin }}" onChange="{{ setUp }}" onFocus="{{ focus }}" placeholder="15 characters" style="width:100%;height:46px;padding:0 40px 0 14px;border:1.5px solid {{ b.gstin }};border-radius:11px;font-size:14.5px;letter-spacing:.6px;font-family:'IBM Plex Mono',monospace;outline:none;color:#0B2A42" style-focus="border-color:#0B6E8E;box-shadow:0 0 0 4px #E1F2F8"><span class="material-symbols-outlined" style="position:absolute;right:12px;top:13px;color:#17704A;font-variation-settings:'FILL' 1;display:{{ ok.gstin }}">check_circle</span></span><span style="font-size:12px;color:{{ hc.gstin }}">{{ h.gstin }}</span></label>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ sContact }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:24px">
+        <div style="font-weight:600;font-size:15.5px">Contact person</div>
+        <div style="margin-top:18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px">
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:600;color:#1E3A50">Full name <span style="color:#C2412D">*</span></span><span style="position:relative;display:block"><input name="cname" value="{{ f.cname }}" onChange="{{ set }}" onFocus="{{ focus }}" style="width:100%;height:46px;padding:0 40px 0 14px;border:1.5px solid {{ b.cname }};border-radius:11px;font-size:14.5px;outline:none;color:#0B2A42" style-focus="border-color:#0B6E8E;box-shadow:0 0 0 4px #E1F2F8"><span class="material-symbols-outlined" style="position:absolute;right:12px;top:13px;color:#17704A;font-variation-settings:'FILL' 1;display:{{ ok.cname }}">check_circle</span></span><span style="font-size:12px;color:{{ hc.cname }}">{{ h.cname }}</span></label>
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:600;color:#1E3A50">Designation <span style="color:#C2412D">*</span></span><span style="position:relative;display:block"><input name="cdesig" value="{{ f.cdesig }}" onChange="{{ set }}" onFocus="{{ focus }}" placeholder="e.g. Director, Purchase Manager" style="width:100%;height:46px;padding:0 40px 0 14px;border:1.5px solid {{ b.cdesig }};border-radius:11px;font-size:14.5px;outline:none;color:#0B2A42" style-focus="border-color:#0B6E8E;box-shadow:0 0 0 4px #E1F2F8"><span class="material-symbols-outlined" style="position:absolute;right:12px;top:13px;color:#17704A;font-variation-settings:'FILL' 1;display:{{ ok.cdesig }}">check_circle</span></span><span style="font-size:12px;color:{{ hc.cdesig }}">{{ h.cdesig }}</span></label>
+        </div>
+        <div style="margin-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px">
+          <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid #E2E9EF;border-radius:12px;background:#FAFCFD"><span class="material-symbols-outlined" style="color:#0B6E8E">smartphone</span><div style="flex:1;min-width:0"><div style="font-size:12px;color:#6B7F8E">Mobile</div><div style="font-weight:600;font-size:14px">+91 {{ f.cmobile }}</div></div><span style="display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:#17704A"><span class="material-symbols-outlined" style="font-size:17px;font-variation-settings:'FILL' 1">verified</span>Verified</span></div>
+          <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid #E2E9EF;border-radius:12px;background:#FAFCFD"><span class="material-symbols-outlined" style="color:#0B6E8E">mail</span><div style="flex:1;min-width:0"><div style="font-size:12px;color:#6B7F8E">Email</div><div style="font-weight:600;font-size:14px;overflow:hidden;text-overflow:ellipsis">{{ f.cemail }}</div></div><span style="display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:#17704A"><span class="material-symbols-outlined" style="font-size:17px;font-variation-settings:'FILL' 1">verified</span>Verified</span></div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:24px">
+        <div style="display:flex;gap:8px;align-items:center;font-weight:600;font-size:15.5px">Business address<span style="display:{{ af.addr1 }};font-size:11px;font-weight:600;color:#17704A;background:#E5F5EC;padding:2px 7px;border-radius:6px">From Udyam</span></div>
+        <div style="margin-top:4px;font-size:12.5px;color:#6B7F8E">Used to find providers near you and for onsite assignments.</div>
+        <div style="margin-top:18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px">
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:600;color:#1E3A50">PIN code <span style="color:#C2412D">*</span></span><span style="position:relative;display:block"><input name="pin" value="{{ f.pin }}" onChange="{{ setPin }}" onFocus="{{ focus }}" inputmode="numeric" placeholder="6 digits" style="width:100%;height:46px;padding:0 40px 0 14px;border:1.5px solid {{ b.pin }};border-radius:11px;font-size:15px;letter-spacing:1px;font-family:'IBM Plex Mono',monospace;outline:none;background:{{ bg.pin }};color:#0B2A42" style-focus="border-color:#0B6E8E;box-shadow:0 0 0 4px #E1F2F8"><span class="material-symbols-outlined" style="position:absolute;right:12px;top:13px;color:#17704A;font-variation-settings:'FILL' 1;display:{{ ok.pin }}">check_circle</span></span><span style="font-size:12px;color:{{ hc.pin }}">{{ h.pin }}</span></label>
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:600;color:#1E3A50">State <span style="color:#C2412D">*</span></span><select name="state" value="{{ f.state }}" onChange="{{ set }}" onFocus="{{ focus }}" style="width:100%;height:46px;padding:0 12px;border:1.5px solid {{ b.state }};border-radius:11px;font-size:14.5px;background:{{ bg.state }};color:#0B2A42;outline:none"><option value="">Select state</option><sc-for list="{{ states }}" as="o" hint-placeholder-count="0"><option value="{{ o }}">{{ o }}</option></sc-for></select><span style="font-size:12px;color:{{ hc.state }}">{{ h.state }}</span></label>
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:600;color:#1E3A50">District <span style="color:#C2412D">*</span></span><select name="district" value="{{ f.district }}" onChange="{{ set }}" onFocus="{{ focus }}" style="width:100%;height:46px;padding:0 12px;border:1.5px solid {{ b.district }};border-radius:11px;font-size:14.5px;background:{{ bg.district }};color:#0B2A42;outline:none"><option value="">Select district</option><sc-for list="{{ districts }}" as="o" hint-placeholder-count="0"><option value="{{ o }}">{{ o }}</option></sc-for></select><span style="font-size:12px;color:{{ hc.district }}">{{ h.district }}</span></label>
+          <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:600;color:#1E3A50">Address line 1 <span style="color:#C2412D">*</span></span><span style="position:relative;display:block"><input name="addr1" value="{{ f.addr1 }}" onChange="{{ set }}" onFocus="{{ focus }}" placeholder="Plot, building, street" style="width:100%;height:46px;padding:0 40px 0 14px;border:1.5px solid {{ b.addr1 }};border-radius:11px;font-size:14.5px;outline:none;background:{{ bg.addr1 }};color:#0B2A42" style-focus="border-color:#0B6E8E;box-shadow:0 0 0 4px #E1F2F8"><span class="material-symbols-outlined" style="position:absolute;right:12px;top:13px;color:#17704A;font-variation-settings:'FILL' 1;display:{{ ok.addr1 }}">check_circle</span></span><span style="font-size:12px;color:{{ hc.addr1 }}">{{ h.addr1 }}</span></label>
+          <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:600;color:#1E3A50">Address line 2 <span style="font-weight:500;color:#8A9BA8">Optional</span></span><input name="addr2" value="{{ f.addr2 }}" onChange="{{ set }}" onFocus="{{ focus }}" placeholder="Industrial area, landmark" style="width:100%;height:46px;padding:0 14px;border:1.5px solid #D3DEE6;border-radius:11px;font-size:14.5px;outline:none;background:{{ bg.addr2 }};color:#0B2A42" style-focus="border-color:#0B6E8E;box-shadow:0 0 0 4px #E1F2F8"></label>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ sNeeds }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:24px">
+        <div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline"><div style="font-weight:600;font-size:15.5px">Services you’re interested in <span style="color:#C2412D">*</span> <span style="font-weight:500;font-size:13px;color:#8A9BA8">Pick all that apply</span></div><span style="font-size:12px;color:#C2412D">{{ e.cats }}</span></div>
+        <div style="margin-top:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px">
+          <sc-for list="{{ catCards }}" as="c" hint-placeholder-count="8">
+            <button onClick="{{ c.toggle }}" style="position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:14px;border:1.5px solid {{ c.bc }};border-radius:13px;background:{{ c.bg }};cursor:pointer;text-align:left;min-height:104px;transition:all .15s" style-hover="border-color:#0B6E8E">
+              <span class="material-symbols-outlined" style="position:absolute;top:12px;right:12px;font-size:20px;color:#0B6E8E;font-variation-settings:'FILL' {{ c.fill }}">{{ c.ck }}</span>
+              <span style="width:38px;height:38px;border-radius:10px;background:{{ c.ibg }};color:{{ c.ifg }};display:grid;place-items:center"><span class="material-symbols-outlined">{{ c.icon }}</span></span>
+              <span style="font-size:13.5px;font-weight:600;line-height:1.3;color:#0B2A42">{{ c.name }}</span>
+            </button>
+          </sc-for>
+        </div>
+        <label style="margin-top:20px;display:flex;flex-direction:column;gap:7px"><span style="display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:#1E3A50"><span>What do you need help with first? <span style="font-weight:500;color:#8A9BA8">Optional</span></span><span style="font-weight:500;color:#8A9BA8">{{ needCount }}/300</span></span><textarea name="need" value="{{ f.need }}" onChange="{{ set }}" onFocus="{{ focus }}" rows="3" placeholder="e.g. A bank-ready DPR for a ₹2 crore CNC machine expansion" style="width:100%;padding:12px 14px;border:1.5px solid #D3DEE6;border-radius:11px;font-size:14.5px;line-height:1.6;outline:none;resize:vertical;color:#0B2A42" style-focus="border-color:#0B6E8E;box-shadow:0 0 0 4px #E1F2F8"></textarea></label>
+      </div>
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:24px">
+        <div style="font-weight:600;font-size:15.5px">Preferences</div>
+        <div style="margin-top:4px;font-size:12.5px;color:#6B7F8E">Used for recommendations. You can set these again on each RFQ.</div>
+        <div style="margin-top:18px;display:flex;justify-content:space-between;gap:10px;align-items:baseline"><div style="font-size:13px;font-weight:600;color:#1E3A50">When do you plan to start? <span style="color:#C2412D">*</span></div><span style="font-size:12px;color:#C2412D">{{ e.timeline }}</span></div>
+        <div style="margin-top:10px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px">
+          <sc-for list="{{ timeCards }}" as="m" hint-placeholder-count="3"><button onClick="{{ m.pick }}" style="display:flex;align-items:center;gap:12px;padding:14px;border:1.5px solid {{ m.bc }};border-radius:13px;background:{{ m.bg }};cursor:pointer;text-align:left"><span class="material-symbols-outlined" style="font-size:24px;color:{{ m.ifg }}">{{ m.icon }}</span><span style="flex:1"><span style="display:block;font-weight:600;font-size:14px;color:#0B2A42">{{ m.label }}</span><span style="display:block;font-size:12px;color:#6B7F8E;margin-top:2px">{{ m.d }}</span></span><span class="material-symbols-outlined" style="font-size:20px;color:#0B6E8E;font-variation-settings:'FILL' {{ m.fill }}">{{ m.ck }}</span></button></sc-for>
+        </div>
+        <div style="margin-top:22px;display:flex;justify-content:space-between;gap:10px;align-items:baseline"><div style="font-size:13px;font-weight:600;color:#1E3A50">Where should providers be based? <span style="color:#C2412D">*</span></div><span style="font-size:12px;color:#C2412D">{{ e.loc }}</span></div>
+        <div style="margin-top:10px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px">
+          <sc-for list="{{ locCards }}" as="m" hint-placeholder-count="3"><button onClick="{{ m.pick }}" style="display:flex;align-items:center;gap:12px;padding:14px;border:1.5px solid {{ m.bc }};border-radius:13px;background:{{ m.bg }};cursor:pointer;text-align:left"><span class="material-symbols-outlined" style="font-size:24px;color:{{ m.ifg }}">{{ m.icon }}</span><span style="flex:1;min-width:0"><span style="display:block;font-weight:600;font-size:14px;color:#0B2A42">{{ m.label }}</span><span style="display:block;font-size:12px;color:#6B7F8E;margin-top:2px">{{ m.d }}</span></span><span class="material-symbols-outlined" style="font-size:20px;color:#0B6E8E;font-variation-settings:'FILL' {{ m.fill }}">{{ m.ck }}</span></button></sc-for>
+        </div>
+        <div style="margin-top:22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px">
+          <div><div style="font-size:13px;font-weight:600;color:#1E3A50">Typical budget per assignment <span style="font-weight:500;color:#8A9BA8">Optional</span></div><div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ budgetOpts }}" as="t" hint-placeholder-count="5"><button onClick="{{ t.pick }}" style="height:38px;padding:0 13px;border:1.5px solid {{ t.bc }};border-radius:10px;background:{{ t.bg }};color:{{ t.fg }};font-weight:600;font-size:13px;cursor:pointer">{{ t.label }}</button></sc-for></div></div>
+          <div><div style="font-size:13px;font-weight:600;color:#1E3A50">Preferred delivery <span style="font-weight:500;color:#8A9BA8">Optional</span></div><div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ modeOpts }}" as="t" hint-placeholder-count="4"><button onClick="{{ t.pick }}" style="height:38px;padding:0 13px;border:1.5px solid {{ t.bc }};border-radius:10px;background:{{ t.bg }};color:{{ t.fg }};font-weight:600;font-size:13px;cursor:pointer">{{ t.label }}</button></sc-for></div></div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:20px 24px">
+        <div onClick="{{ toggleAlerts }}" style="display:flex;align-items:center;gap:14px;cursor:pointer">
+          <span style="width:42px;height:24px;border-radius:12px;background:{{ alertBg }};position:relative;flex-shrink:0;transition:background .2s"><span style="position:absolute;top:3px;left:{{ alertX }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left .2s"></span></span>
+          <div><div style="font-weight:600;font-size:14.5px">Email me new services in these categories</div><div style="font-size:12.5px;color:#6B7F8E;margin-top:2px">A weekly digest. Turn off anytime from settings.</div></div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ sDocs }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:24px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap"><div style="font-weight:600;font-size:15.5px">Mandatory documents</div><span style="font-size:12.5px;font-weight:600;color:{{ docFg }}">{{ docDone }} of {{ docReq }} uploaded</span></div>
+        <div style="margin-top:4px;font-size:12.5px;color:#6B7F8E">Based on your answers. PDF, JPG or PNG up to 5 MB. Only the verification team sees these files.</div>
+        <div style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px">
+          <sc-for list="{{ reqDocRows }}" as="d" hint-placeholder-count="2">
+            <div onClick="{{ d.act }}" style="display:flex;flex-direction:column;gap:10px;padding:16px;border:1.5px {{ d.bs }} {{ d.bc }};border-radius:14px;background:{{ d.bg }};cursor:pointer;transition:all .15s;min-height:132px" style-hover="border-color:#0B6E8E">
+              <div style="display:flex;align-items:center;gap:10px"><span style="width:38px;height:38px;border-radius:10px;background:{{ d.ibg }};color:{{ d.ifg }};display:grid;place-items:center;flex-shrink:0"><span class="material-symbols-outlined">{{ d.icon }}</span></span><span style="flex:1;font-weight:600;font-size:14px;line-height:1.3">{{ d.label }}</span></div>
+              <div style="font-size:12.5px;line-height:1.45;color:{{ d.subFg }};flex:1">{{ d.sub }}</div>
+              <div style="display:{{ d.barD }};height:4px;border-radius:4px;background:#E6EDF2;overflow:hidden"><div style="height:100%;width:{{ d.pct }};background:#0B6E8E;transition:width .2s"></div></div>
+              <div style="display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:{{ d.cFg }}"><span class="material-symbols-outlined" style="font-size:17px">{{ d.cIcon }}</span>{{ d.cta }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="margin-top:8px;font-size:12px;color:#C2412D">{{ e.docs }}</div>
+      </div>
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:24px">
+        <div style="font-weight:600;font-size:15.5px">Optional <span style="font-weight:500;font-size:13px;color:#8A9BA8">Helps providers quote accurately</span></div>
+        <div style="margin-top:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px">
+          <sc-for list="{{ optDocRows }}" as="d" hint-placeholder-count="2">
+            <div onClick="{{ d.act }}" style="display:flex;align-items:center;gap:12px;padding:14px;border:1.5px {{ d.bs }} {{ d.bc }};border-radius:14px;background:{{ d.bg }};cursor:pointer" style-hover="border-color:#0B6E8E"><span style="width:38px;height:38px;border-radius:10px;background:{{ d.ibg }};color:{{ d.ifg }};display:grid;place-items:center;flex-shrink:0"><span class="material-symbols-outlined">{{ d.icon }}</span></span><div style="flex:1;min-width:0"><div style="font-weight:600;font-size:14px">{{ d.label }}</div><div style="font-size:12px;color:{{ d.subFg }};margin-top:2px">{{ d.sub }}</div></div><span class="material-symbols-outlined" style="color:{{ d.cFg }}">{{ d.cIcon }}</span></div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ sReview }}" hint-placeholder-val="{{ false }}">
+      <sc-if value="{{ hasMissing }}" hint-placeholder-val="{{ false }}">
+        <div style="background:#FFF8EE;border:1px solid #F3D9AE;border-radius:18px;padding:20px 22px">
+          <div style="display:flex;gap:10px;align-items:center;font-weight:600;font-size:15px;color:#7A4A0C"><span class="material-symbols-outlined" style="color:#B4610E">error</span>{{ missingCount }} items need attention before you can submit</div>
+          <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px">
+            <sc-for list="{{ missing }}" as="m" hint-placeholder-count="2"><div style="display:flex;align-items:center;gap:10px;font-size:13.5px;color:#5C3A0A"><span style="width:6px;height:6px;border-radius:50%;background:#B4610E"></span><span style="flex:1"><b>{{ m.section }}:</b> {{ m.text }}</span><button onClick="{{ m.fix }}" style="height:30px;padding:0 12px;border:1px solid #E8C48C;border-radius:8px;background:#fff;color:#7A4A0C;font-weight:600;font-size:12.5px;cursor:pointer">Fix</button></div></sc-for>
+          </div>
+        </div>
+      </sc-if>
+      <sc-for list="{{ review }}" as="r" hint-placeholder-count="4">
+        <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;overflow:hidden">
+          <div style="display:flex;align-items:center;gap:12px;padding:16px 22px;border-bottom:1px solid #EEF2F5">
+            <span class="material-symbols-outlined" style="color:{{ r.sFg }};font-variation-settings:'FILL' 1">{{ r.sIcon }}</span>
+            <div style="flex:1;font-weight:600;font-size:15px">{{ r.title }}</div>
+            <button onClick="{{ r.edit }}" style="display:inline-flex;align-items:center;gap:4px;height:32px;padding:0 12px;border:1px solid #CBD8E2;border-radius:9px;background:#fff;color:#0B3B5C;font-weight:600;font-size:12.5px;cursor:pointer"><span class="material-symbols-outlined" style="font-size:16px">edit</span>Edit</button>
+          </div>
+          <div style="padding:14px 22px 18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px 20px">
+            <sc-for list="{{ r.items }}" as="i" hint-placeholder-count="4"><div style="min-width:0"><div style="font-size:12px;color:#6B7F8E">{{ i.k }}</div><div style="margin-top:3px;font-size:14px;font-weight:500;color:{{ i.fg }};overflow-wrap:anywhere">{{ i.v }}</div></div></sc-for>
+          </div>
+        </div>
+      </sc-for>
+      <label style="display:flex;gap:12px;align-items:flex-start;padding:18px 20px;border-radius:18px;background:#fff;border:1.5px solid {{ declBc }};font-size:13.5px;line-height:1.6;color:#2E4A5F;cursor:pointer"><input type="checkbox" checked="{{ f.declared }}" onChange="{{ toggleDeclare }}" style="accent-color:#0B4F71;width:18px;height:18px;margin-top:2px;flex-shrink:0"><span>I confirm that the details are true and that I am authorised to procure services on behalf of this organisation. I agree that RFQ details I publish may be shared with the providers I invite.</span></label>
+    </sc-if>
+
+    <div style="position:sticky;bottom:16px;z-index:20;margin-top:4px;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border:1px solid #E2E9EF;border-radius:16px;box-shadow:0 12px 32px rgba(11,42,66,.1);padding:12px 14px;display:flex;align-items:center;gap:10px">
+      <button onClick="{{ prev }}" style="display:{{ prevD }};align-items:center;gap:6px;height:44px;padding:0 16px;border:1px solid #CBD8E2;border-radius:11px;background:#fff;color:#0B3B5C;font-weight:600;font-size:14px;cursor:pointer"><span class="material-symbols-outlined" style="font-size:18px">arrow_back</span>Back</button>
+      <div style="flex:1;min-width:0;font-size:12.5px;color:#6B7F8E;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ footHint }}</div>
+      <button onClick="{{ next }}" style="display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 22px;border:0;border-radius:11px;background:{{ nextBg }};color:#fff;font-weight:600;font-size:14.5px;cursor:pointer;box-shadow:0 6px 16px {{ nextSh }};transition:transform .1s" style-active="transform:scale(.98)">{{ nextLabel }}<span class="material-symbols-outlined" style="font-size:18px">{{ nextIcon }}</span></button>
+    </div>
+  </section>
+
+  <aside style="display:{{ previewD }};position:sticky;top:90px;flex-direction:column;gap:14px">
+    <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:18px">
+      <div style="display:flex;gap:12px;align-items:center">
+        <div style="width:48px;height:48px;border-radius:13px;background:linear-gradient(135deg,#0B3B5C,#0E7A9A);color:#fff;display:grid;place-items:center;font-weight:700;font-size:16px;flex-shrink:0">{{ pv.ini }}</div>
+        <div style="min-width:0"><div style="font-weight:700;font-size:15px;line-height:1.3;color:{{ pv.nameFg }}">{{ pv.name }}</div><div style="margin-top:2px;font-size:12.5px;color:#6B7F8E">{{ pv.loc }}</div></div>
+      </div>
+      <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:6px">
+        <span style="display:{{ pv.udD }};align-items:center;gap:4px;font-size:11.5px;font-weight:600;color:#17704A;background:#E5F5EC;padding:3px 8px;border-radius:6px"><span class="material-symbols-outlined" style="font-size:14px">verified</span>{{ pv.cls }}</span>
+        <span style="display:{{ pv.indD }};font-size:11.5px;font-weight:600;color:#0B5E7E;background:#E1F2F8;padding:3px 8px;border-radius:6px">{{ f.industry }}</span>
+        <span style="display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;color:#B4610E;background:#FDEFD9;padding:3px 8px;border-radius:6px"><span class="material-symbols-outlined" style="font-size:14px">hourglass_top</span>Not yet submitted</span>
+      </div>
+    </div>
+    <div style="background:#fff;border:1px solid #E2E9EF;border-radius:18px;padding:18px;box-shadow:0 10px 30px rgba(11,42,66,.06)">
+      <div style="font-size:12px;letter-spacing:1.4px;font-weight:700;color:#6B7F8E">PROVIDER MATCHES</div>
+      <sc-if value="{{ mt.has }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:10px;display:flex;align-items:baseline;gap:8px"><span style="font-size:36px;font-weight:700;color:#0B3B5C;line-height:1">{{ mt.count }}</span><span style="font-size:13.5px;color:#2E4A5F">verified providers</span></div>
+        <div style="margin-top:4px;font-size:12.5px;color:#6B7F8E">{{ mt.sub }}</div>
+        <div style="margin-top:14px;display:flex;flex-direction:column;gap:10px">
+          <sc-for list="{{ mt.rows }}" as="r" hint-placeholder-count="0"><div><div style="display:flex;justify-content:space-between;gap:8px;font-size:12.5px"><span style="color:#2E4A5F;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span><span style="font-weight:600;color:#0B3B5C">{{ r.n }}</span></div><div style="margin-top:5px;height:5px;border-radius:5px;background:#EEF2F5;overflow:hidden"><div style="height:100%;width:{{ r.w }};background:#0E8AAE;border-radius:5px;transition:width .3s"></div></div></div></sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{ mt.empty }}" hint-placeholder-val="{{ true }}"><div style="margin-top:10px;font-size:13px;line-height:1.55;color:#6B7F8E">Choose service categories in <b style="color:#2E4A5F">Your needs</b> to see how many verified providers match.</div></sc-if>
+    </div>
+    <div style="background:#F4F9FB;border:1px solid #D9EAF1;border-radius:18px;padding:18px">
+      <div style="display:flex;gap:8px;align-items:center;font-weight:600;font-size:14px;color:#0B3B5C"><span class="material-symbols-outlined" style="color:#0B6E8E">lightbulb</span>{{ tip.t }}</div>
+      <div style="margin-top:8px;font-size:13px;line-height:1.6;color:#2E4A5F">{{ tip.d }}</div>
+    </div>
+  </aside>
+</div>
+</sc-if>
+
+<sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+  <div style="flex:1;padding:32px 24px 80px">
+    <div style="max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:18px">
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:24px;overflow:hidden;box-shadow:0 20px 50px rgba(11,42,66,.08)">
+        <div style="position:relative;overflow:hidden;background:linear-gradient(120deg,#0B3B5C,#0E6E8E);padding:36px 40px;color:#fff">
+          <div style="position:absolute;right:-60px;top:-90px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.06)"></div>
+          <div style="position:relative;display:flex;gap:18px;align-items:center;flex-wrap:wrap">
+            <div style="width:64px;height:64px;border-radius:50%;background:#fff;color:#17704A;display:grid;place-items:center;flex-shrink:0"><span class="material-symbols-outlined" style="font-size:40px;font-variation-settings:'FILL' 1">check_circle</span></div>
+            <div style="flex:1;min-width:240px"><h1 style="margin:0;font-size:26px">You’re all set, {{ firstName }}</h1><div style="margin-top:6px;font-size:14.5px;color:#D5EAF2">{{ f.org }} is registered. Confirmation sent to {{ f.cemail }}.</div></div>
+            <div style="display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;background:rgba(255,255,255,.12);font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600">BDS-PUR-26-01127<button onClick="{{ copyId }}" style="border:0;background:none;color:#A8DCEC;cursor:pointer;padding:0;display:grid"><span class="material-symbols-outlined" style="font-size:19px">content_copy</span></button></div>
+          </div>
+        </div>
+        <div style="padding:28px 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:28px">
+          <div>
+            <div style="font-weight:600;font-size:15px">Account status</div>
+            <div style="margin-top:14px;display:flex;flex-direction:column">
+              <sc-for list="{{ track }}" as="t" hint-placeholder-count="4">
+                <div style="display:flex;gap:14px">
+                  <div style="display:flex;flex-direction:column;align-items:center"><div style="width:28px;height:28px;border-radius:50%;background:{{ t.bg }};color:{{ t.fg }};display:grid;place-items:center;flex-shrink:0"><span class="material-symbols-outlined" style="font-size:16px">{{ t.icon }}</span></div><div style="width:2px;flex:1;min-height:16px;background:{{ t.line }};display:{{ t.lineD }}"></div></div>
+                  <div style="padding-bottom:16px"><div style="font-weight:600;font-size:14px;color:{{ t.tfg }}">{{ t.label }}</div><div style="font-size:12.5px;color:#6B7F8E;margin-top:2px">{{ t.sub }}</div></div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="font-weight:600;font-size:15px">Start here</div>
+            <a href="purchaser-portal.html" style="display:flex;align-items:center;gap:12px;padding:16px;border-radius:14px;background:#0B4F71;color:#fff;text-decoration:none"><span class="material-symbols-outlined" style="font-size:24px">post_add</span><span style="flex:1"><span style="display:block;font-weight:600;font-size:14.5px">Draft your first RFQ</span><span style="display:block;font-size:12.5px;color:#C7E2EC;margin-top:2px">Describe the need, invite providers, compare quotes</span></span><span class="material-symbols-outlined">arrow_forward</span></a>
+            <a href="index.html" style="display:flex;align-items:center;gap:12px;padding:16px;border-radius:14px;border:1px solid #DCE5EC;color:#0B2A42;text-decoration:none"><span class="material-symbols-outlined" style="font-size:24px;color:#0B6E8E">travel_explore</span><span style="flex:1"><span style="display:block;font-weight:600;font-size:14.5px">Browse services</span><span style="display:block;font-size:12.5px;color:#6B7F8E;margin-top:2px">Fixed-price services from verified providers</span></span><span class="material-symbols-outlined" style="color:#8A9BA8">arrow_forward</span></a>
+          </div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #E2E9EF;border-radius:20px;padding:24px 28px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap"><div style="font-weight:600;font-size:16px">Recommended for you</div><span style="font-size:12.5px;color:#6B7F8E">Based on your categories and location preference</span></div>
+        <div style="margin-top:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px">
+          <sc-for list="{{ recs }}" as="p" hint-placeholder-count="3">
+            <div style="display:flex;flex-direction:column;gap:10px;padding:16px;border:1px solid #E2E9EF;border-radius:14px">
+              <div style="display:flex;gap:10px;align-items:center"><div style="width:40px;height:40px;border-radius:11px;background:{{ p.bg }};color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px;flex-shrink:0">{{ p.ini }}</div><div style="min-width:0"><div style="font-weight:600;font-size:14px;line-height:1.3">{{ p.name }}</div><div style="font-size:12px;color:#6B7F8E">{{ p.city }}</div></div></div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap"><span style="font-size:11.5px;font-weight:600;color:#0B5E7E;background:#E1F2F8;padding:3px 8px;border-radius:6px">{{ p.cat }}</span><span style="display:inline-flex;align-items:center;gap:3px;font-size:12px;font-weight:600;color:#7A4A0C"><span class="material-symbols-outlined" style="font-size:15px;color:#E0A030;font-variation-settings:'FILL' 1">star</span>{{ p.rating }}</span></div>
+              <a href="index.html" style="margin-top:auto;font-size:13px;font-weight:600">View profile</a>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <button onClick="{{ backToReview }}" style="align-self:center;height:40px;padding:0 16px;border:0;background:none;color:#0A5A7A;font-weight:600;font-size:13.5px;cursor:pointer">View submitted details</button>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ confirmOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;z-index:60;background:rgba(8,30,46,.5);display:grid;place-items:center;padding:20px">
+    <div style="width:100%;max-width:460px;background:#fff;border-radius:20px;padding:28px;box-shadow:0 30px 70px rgba(0,0,0,.25)">
+      <div style="width:48px;height:48px;border-radius:13px;background:#E5F5EC;color:#17704A;display:grid;place-items:center"><span class="material-symbols-outlined" style="font-size:26px">send</span></div>
+      <h3 style="margin:16px 0 0;font-size:20px">Submit your profile?</h3>
+      <div style="margin-top:8px;font-size:14px;line-height:1.6;color:#5A7083">You can browse and shortlist providers right away. Organisation name, PAN and Udyam can only be changed through support after submission.</div>
+      <div style="margin-top:22px;display:flex;justify-content:flex-end;gap:8px"><button onClick="{{ closeConfirm }}" style="height:44px;padding:0 18px;border:1px solid #CBD8E2;border-radius:11px;background:#fff;color:#0B3B5C;font-weight:600;font-size:14px;cursor:pointer">Not yet</button><button onClick="{{ doSubmit }}" style="height:44px;padding:0 20px;border:0;border-radius:11px;background:#17704A;color:#fff;font-weight:600;font-size:14px;cursor:pointer">Submit</button></div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:50%;top:82px;transform:translateX(-50%);z-index:80;background:#0B2A42;color:#fff;padding:11px 16px;border-radius:12px;font-size:13.5px;box-shadow:0 14px 34px rgba(0,0,0,.25);display:flex;gap:8px;align-items:center"><span class="material-symbols-outlined" style="font-size:19px;color:{{ toastIc }}">{{ toastIcon }}</span>{{ toast }}</div>
+</sc-if>
+
+<div style="position:fixed;left:18px;bottom:18px;z-index:50;display:flex;align-items:center;gap:4px;padding:5px;background:#0B2A42;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.25);font-size:12.5px">
+  <span style="color:#8FA6B5;padding:0 8px;font-weight:600;letter-spacing:.6px;font-size:11px">PROTOTYPE</span>
+  <a href="index.html" style="padding:7px 10px;border-radius:8px;color:#CFE0EA;text-decoration:none">Public</a>
+  <a href="seller-onboarding.html" style="padding:7px 10px;border-radius:8px;color:#CFE0EA;text-decoration:none">Seller onboarding</a>
+  <a href="buyer-onboarding.html" style="padding:7px 10px;border-radius:8px;background:#1C4560;color:#fff;text-decoration:none">Buyer onboarding</a>
+  <a href="seller-portal.html" style="padding:7px 10px;border-radius:8px;color:#CFE0EA;text-decoration:none">Seller</a>
+  <a href="purchaser-portal.html" style="padding:7px 10px;border-radius:8px;color:#CFE0EA;text-decoration:none">Purchaser</a>
+  <a href="admin-portal.html" style="padding:7px 10px;border-radius:8px;color:#CFE0EA;text-decoration:none">Admin</a>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const CATS=[['bmc','Business & Management Consultancy','business_center',18],['fin','Finance & Credit Facilitation','account_balance',14],['ltc','Legal, Tax & Compliance','gavel',26],['dit','Digital Transformation & IT','devices',21],['mkt','Marketing & Market Access','campaign',12],['hr','HR & Skill Development','school',9],['qp','Quality & Productivity','workspace_premium',15],['sus','Sustainability & Energy','eco',11]];
+const CONST=['Proprietorship','Partnership','LLP','Private Limited Company','Public Limited Company','Society / Trust / Section 8 Company','Other eligible organisation'];
+const PTYPES=['Micro','Small','Medium','Startup / Entrepreneur','Industry Association','Large Enterprise','Institutional Purchaser','Other eligible organisation'];
+const IND=['Manufacturing','Auto components','Textiles & apparel','Food processing','Engineering','Pharma & chemicals','Services & trade'];
+const DIST={'Uttar Pradesh':['Lucknow','Kanpur Nagar','Barabanki'],'Maharashtra':['Pune','Mumbai','Nagpur'],'Karnataka':['Bengaluru','Mysuru','Belagavi'],'Gujarat':['Ahmedabad','Rajkot','Surat'],'Madhya Pradesh':['Bhopal','Indore','Jabalpur'],'Tamil Nadu':['Coimbatore','Chennai','Tiruppur'],'Rajasthan':['Jaipur','Jodhpur','Bhilwara'],'Delhi':['New Delhi','South Delhi'],'Telangana':['Hyderabad','Rangareddy'],'West Bengal':['Kolkata','Howrah']};
+const UDST={UP:'Uttar Pradesh',MH:'Maharashtra',KR:'Karnataka',GJ:'Gujarat',MP:'Madhya Pradesh',TN:'Tamil Nadu',RJ:'Rajasthan',DL:'Delhi',TS:'Telangana',WB:'West Bengal'};
+const PINS={'208001':['Uttar Pradesh','Kanpur Nagar'],'226001':['Uttar Pradesh','Lucknow'],'411001':['Maharashtra','Pune'],'400001':['Maharashtra','Mumbai'],'560001':['Karnataka','Bengaluru'],'380001':['Gujarat','Ahmedabad'],'462001':['Madhya Pradesh','Bhopal'],'641001':['Tamil Nadu','Coimbatore'],'302001':['Rajasthan','Jaipur'],'110001':['Delhi','New Delhi'],'500001':['Telangana','Hyderabad'],'700001':['West Bengal','Kolkata']};
+const PROVS=[['ABC Business Consulting Pvt Ltd','Lucknow, Uttar Pradesh',['bmc','fin'],'4.7','#0B6E8E'],['Kavach Compliance Partners LLP','Pune, Maharashtra',['ltc'],'4.5','#3B7A57'],['Nirmaan Digital Solutions Pvt Ltd','Bengaluru, Karnataka',['dit'],'4.6','#5B4B9A'],['Udaan Export Consultants','Ahmedabad, Gujarat',['mkt'],'4.4','#A0702A'],['Samarth Skills Foundation','Bhopal, Madhya Pradesh',['hr'],'4.3','#A4513A'],['QualiServe Certifications Pvt Ltd','Coimbatore, Tamil Nadu',['qp'],'4.8','#2A6F97'],['Harit Energy Auditors','Jaipur, Rajasthan',['sus'],'4.6','#4E7D2F']];
+const STEPS=[['start','Get started','Start','Who you’re buying for','1 min'],['ent','Enterprise details','Enterprise','Udyam, PAN and sector','2 min'],['contact','Contact & address','Contact','Who we talk to, and where','1 min'],['needs','Your needs','Needs','What you’re looking for','1 min'],['docs','Documents','Documents','Quick verification','1 min'],['review','Review & submit','Review','Check and submit','1 min']];
+const STORE='bds-buyer-onboarding';
+const BLANK={kind:'',hasUd:'yes',udyam:'',udInfo:null,org:'',ptype:'',constitution:'',industry:'',activity:'',emp:'',pan:'',gstin:'',cname:'Anita Verma',cdesig:'',cmobile:'94150 22871',cemail:'anita@shaktiauto.in',pin:'',state:'',district:'',addr1:'',addr2:'',cats:[],need:'',timeline:'',loc:'',budget:'',mode:'',alerts:true,uploads:{},declared:false,auto:{}};
+const TIPS={start:['Free for purchasers','Registering, browsing services and requesting quotations cost nothing. You pay providers directly for the work you award.'],udyam:['Why Udyam helps','Udyam lets us verify your enterprise instantly and fill most of this form. Your MSME classification also appears to providers when you send RFQs.'],org:['Use your registered name','It should match your PAN and Udyam certificate. Providers see this name on your RFQs.'],ptype:['Category affects eligibility','Some services and schemes are only open to micro and small enterprises.'],pan:['PAN is mandatory','We use PAN to verify your organisation, even if you’re not Udyam registered.'],gstin:['Add GSTIN for tax invoices','Providers can raise GST invoices in your name, so you can claim input tax credit.'],activity:['Be specific','Providers use your activity to understand your plant and process before they quote.'],pin:['Start with PIN','We fill state and district from your PIN code.'],need:['A short brief helps','Mention the outcome you want, rough scale and any deadline. We’ll use it to pre-fill your first RFQ.'],ent:['Details stay private','Only verified providers you invite to an RFQ can see your organisation details.'],contact:['One login, one contact','You can add more team members as users after your account is set up.'],needs:['This shapes your home page','We use these choices to recommend services and providers. Nothing here is binding.'],docs:['Clear scans approve faster','Upload colour scans with all four corners visible.'],review:['Almost done','After submitting, you can browse and shortlist right away while we check your account.']};
+class Component extends DCLogic {
+  _rs=()=>this.setState({vw:window.innerWidth});
+  state={step:'start',f:{...BLANK},err:{},visited:{start:true},focus:'',fetching:false,confirm:false,done:false,toast:'',toastKind:'ok',saved:null};
+  componentDidMount(){window.addEventListener('resize',this._rs);if(!new URLSearchParams(location.search).get('new')){try{const s=JSON.parse(localStorage.getItem(STORE)||'null');if(s)this.setState({f:{...BLANK,...s.f},visited:s.visited||{start:true},step:s.step||'start',saved:s.at,done:!!s.done});}catch(e){}}}
+  componentWillUnmount(){window.removeEventListener('resize',this._rs);clearTimeout(this._as);}
+  componentDidUpdate(pp,ps){if(ps.f!==this.state.f){clearTimeout(this._as);this._as=setTimeout(()=>this.persist(),900);}}
+  persist(){const at=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});try{localStorage.setItem(STORE,JSON.stringify({f:this.state.f,visited:this.state.visited,step:this.state.step,at,done:this.state.done}));}catch(e){}if(this.state.saved!==at)this.setState({saved:at});}
+  flash(t,kind='ok'){this.setState({toast:t,toastKind:kind});clearTimeout(this._t);this._t=setTimeout(()=>this.setState({toast:''}),2600);}
+  docList(){const f=this.state.f;return [
+    {id:'pan',label:'PAN card',icon:'badge',req:true,why:'Of the organisation, or of the proprietor for proprietorships'},
+    {id:'udyam',label:'Udyam registration certificate',icon:'verified',req:f.hasUd==='yes',why:'The certificate for the Udyam number you entered'},
+    {id:'gst',label:'GST registration certificate',icon:'receipt_long',req:!!f.gstin,why:'Required because you entered a GSTIN'},
+    {id:'auth',label:'Authorisation letter',icon:'assignment_ind',req:f.kind==='assoc'||f.kind==='inst',why:'Letter or board resolution authorising '+(f.cname||'the contact person')+' to procure services'},
+    {id:'dpiit',label:'DPIIT recognition certificate',icon:'rocket_launch',req:false,why:'If you are a recognised startup'},
+    {id:'profile',label:'Company profile',icon:'folder_open',req:false,why:'Products, plant and capacity. Shared only with invited providers'}].filter(d=>d.req||d.id!=='dpiit'||f.kind==='startup');}
+  errs(step){const f=this.state.f,e={};const req=(k,m)=>{if(!String(f[k]||'').trim())e[k]=m||'This field is required';};
+    if(step==='start'&&!f.kind)e.kind='Choose one to continue';
+    if(step==='ent'){if(f.hasUd==='yes'&&!/^UDYAM-[A-Z]{2}-\d{2}-\d{7}$/.test(f.udyam))e.udyam='Format UDYAM-XX-00-0000000';req('org','Enter the organisation name');req('ptype','Select a category');req('constitution','Select constitution');req('industry','Select a sector');if(!/^[A-Z]{5}\d{4}[A-Z]$/.test(f.pan))e.pan='PAN format is AAAAA9999A';if(f.gstin){if(!/^\d{2}[A-Z]{5}\d{4}[A-Z][A-Z\d]Z[A-Z\d]$/.test(f.gstin))e.gstin='Enter a valid 15-character GSTIN';else if(/^[A-Z]{5}\d{4}[A-Z]$/.test(f.pan)&&f.gstin.slice(2,12)!==f.pan)e.gstin='This GSTIN belongs to a different PAN';}}
+    if(step==='contact'){req('cname');req('cdesig');if(!/^\d{6}$/.test(f.pin))e.pin='Enter a 6-digit PIN code';req('state','Select a state');req('district','Select a district');req('addr1','Enter the street address');}
+    if(step==='needs'){if(!f.cats.length)e.cats='Pick at least one';if(!f.timeline)e.timeline='Choose one';if(!f.loc)e.loc='Choose one';}
+    if(step==='docs'){const miss=this.docList().filter(d=>d.req&&f.uploads[d.id]!=='done');if(miss.length)e.docs='Still needed: '+miss.map(d=>d.label).join(', ');}
+    if(step==='review'&&!f.declared)e.declared='Accept the declaration';
+    return e;}
+  renderVals(){
+    const s=this.state,f=s.f,vw=s.vw||window.innerWidth,step=s.step;
+    const idx=STEPS.findIndex(x=>x[0]===step),cur=STEPS[idx];
+    const E={};STEPS.forEach(([k])=>E[k]=this.errs(k));
+    const doneSteps=STEPS.filter(([k])=>k!=='review'&&!Object.keys(E[k]).length).length;
+    const pct=Math.round(((doneSteps+(f.declared?1:0))/STEPS.length)*100);
+    const docs=this.docList(),reqDocs=docs.filter(d=>d.req),docDone=reqDocs.filter(d=>f.uploads[d.id]==='done').length;
+    const goStep=k=>{this.setState(st=>({step:k,visited:{...st.visited,[k]:true},err:{},focus:''}));window.scrollTo({top:0,behavior:'smooth'});};
+    const set=e=>{const {name,value}=e.target;this.setState(st=>({f:{...st.f,[name]:name==='need'?value.slice(0,300):value,...(name==='state'?{district:''}:{}),auto:{...st.f.auto,[name]:false}},err:{...st.err,[name]:''}}));};
+    const setUp=e=>{e.target.value=e.target.value.toUpperCase();set(e);};
+    const setPin=e=>{const v=e.target.value.replace(/\D/g,'').slice(0,6);const hit=PINS[v];this.setState(st=>({f:{...st.f,pin:v,...(hit?{state:hit[0],district:hit[1]}:{}),auto:{...st.f.auto,pin:false,state:!!hit,district:!!hit}},err:{...st.err,pin:'',state:'',district:''}}));};
+    const shownErr=s.err,stepE=E[step]||{};
+    const HELP={udyam:f.udInfo?'Verified with Udyam records':'Find it on your Udyam certificate',org:'As on your PAN and Udyam certificate',ptype:'',constitution:'',industry:'',activity:f.auto.activity?'Edit if it doesn’t describe what you make or do':'Helps providers understand your operations',pan:'10 characters, e.g. AAFCS4521M',gstin:f.gstin&&!stepE.gstin?'Matches your PAN':'Add it if you want GST invoices',cname:'',cdesig:'',pin:PINS[f.pin]?'Found: '+PINS[f.pin][1]+', '+PINS[f.pin][0]:f.pin.length===6?'PIN not in our lookup, select state and district':'We’ll fill state and district for you',state:'',district:'',addr1:'',addr2:''};
+    const FIELDS=Object.keys(HELP);
+    const b={},h={},hc={},ok={},bg={},af={};FIELDS.forEach(k=>{const er=shownErr[k];const valid=f[k]&&!stepE[k];b[k]=er?'#D9644F':valid?'#9FD3B8':'#D3DEE6';h[k]=er||HELP[k];hc[k]=er?'#C2412D':(k==='pin'&&PINS[f.pin])||(k==='udyam'&&f.udInfo)||(k==='gstin'&&valid)?'#17704A':'#7A8D9C';ok[k]=valid&&!er?'block':'none';bg[k]=f.auto[k]?'#F3FAF6':'#fff';af[k]=f.auto[k]?'inline-block':'none';});
+    const pill=(on,pick)=>({bg:on?'#0B4F71':'#fff',fg:on?'#fff':'#2E4A5F',bc:on?'#0B4F71':'#D3DEE6',pick});
+    const setF=(k,v)=>()=>this.setState(st=>({f:{...st.f,[k]:st.f[k]===v&&k!=='timeline'&&k!=='loc'?'':v},err:{...st.err,[k]:''}}));
+    const upload=id=>{const u=f.uploads[id];if(typeof u==='number')return;if(u==='done'){this.setState(st=>{const x={...st.f.uploads};delete x[id];return {f:{...st.f,uploads:x}};});return;}let p=0;this.setState(st=>({f:{...st.f,uploads:{...st.f.uploads,[id]:0}},err:{...st.err,docs:''}}));const iv=setInterval(()=>{p+=20;this.setState(st=>({f:{...st.f,uploads:{...st.f.uploads,[id]:p>=100?'done':p}}}));if(p>=100)clearInterval(iv);},160);};
+    const docRow=d=>{const u=f.uploads[d.id],up=u==='done',busy=typeof u==='number';return {...d,act:()=>upload(d.id),bs:up?'solid':'dashed',bc:up?'#9FD3B8':'#C5D3DD',bg:up?'#F3FAF6':'#FBFCFD',ibg:up?'#17704A':'#E1F2F8',ifg:up?'#fff':'#0B5E7E',icon:up?'task':d.icon,sub:up?d.id+'_'+((f.org||'org').split(' ')[0]).toLowerCase()+'.pdf · 380 KB · format check passed':busy?'Uploading and scanning…':d.why,subFg:up?'#14583A':'#6B7F8E',barD:busy?'block':'none',pct:(busy?u:0)+'%',cta:up?'Uploaded · click to remove':busy?u+'%':'Click to upload or drop file',cIcon:up?'check_circle':busy?'progress_activity':'cloud_upload',cFg:up?'#17704A':'#0A5A7A'};};
+    const next=()=>{const e=E[step];if(Object.keys(e).length){this.setState({err:e});this.flash('Please complete the highlighted fields','err');return;}if(step==='review'){const bad=STEPS.find(([k])=>k!=='review'&&Object.keys(E[k]).length);if(bad){goStep(bad[0]);setTimeout(()=>this.setState({err:E[bad[0]]}),0);return;}this.setState({confirm:true});return;}this.persist();goStep(STEPS[idx+1][0]);};
+    const missing=STEPS.filter(([k])=>k!=='review').flatMap(([k,label])=>Object.values(E[k]).map(text=>({section:label,text,fix:()=>{goStep(k);setTimeout(()=>this.setState({err:E[k]}),0);}})));
+    const val=(v,fb='Not provided')=>({v:v||fb,fg:v?'#0B2A42':'#A3B1BB'});
+    const rv=(k,items)=>{const bad=Object.keys(E[k]).length;return {title:STEPS.find(x=>x[0]===k)[1],sIcon:bad?'error':'check_circle',sFg:bad?'#B4610E':'#17704A',edit:()=>goStep(k),items:items.map(([kk,v,fb])=>({k:kk,...val(v,fb)}))};};
+    const catName=id=>(CATS.find(c=>c[0]===id)||[])[1];
+    const locLabel={district:'Same district',state:'Same state',any:'Anywhere in India'}[f.loc];
+    const factor={district:.3,state:.55,any:1}[f.loc]||1;
+    const mrows=f.cats.map(id=>{const c=CATS.find(x=>x[0]===id);return {name:c[1],raw:Math.max(1,Math.round(c[3]*factor))};});
+    const mmax=Math.max(1,...mrows.map(r=>r.raw));
+    const mcount=mrows.reduce((a,r)=>a+r.raw,0);
+    const tipKey=TIPS[s.focus]?s.focus:step;const tip=TIPS[tipKey]||TIPS.start;
+    const ini=(f.org||'?').replace(/[^A-Za-z ]/g,'').split(' ').filter(w=>/^[A-Z]/.test(w)&&!['Pvt','Ltd','LLP'].includes(w)).slice(0,2).map(w=>w[0]).join('')||'?';
+    const wide=vw>=1280,mid=vw>=1000;
+    const recs=[...PROVS.filter(p=>p[2].some(c=>f.cats.includes(c))),...PROVS.filter(p=>!p[2].some(c=>f.cats.includes(c)))].slice(0,3).map(([name,city,cats,rating,bgc])=>({name,city,rating,bg:bgc,cat:catName(cats.find(c=>f.cats.includes(c))||cats[0]),ini:name.split(' ').slice(0,2).map(w=>w[0]).join('')}));
+    return {
+      wideD:vw>=1100?'block':'none',cols:wide?'250px minmax(0,1fr) 300px':mid?'240px minmax(0,1fr)':'minmax(0,1fr)',railD:mid?'flex':'none',previewD:wide?'flex':'none',miniD:mid?'none':'flex',
+      pct,pctW:pct+'%',savedText:s.saved?'Saved '+s.saved:'Autosave on',savedIcon:s.saved?'cloud_done':'cloud_sync',savedFg:s.saved?'#17704A':'#8A9BA8',saveExit:()=>this.persist(),
+      isFlow:!s.done,isDone:s.done,f,e:shownErr,b,h,hc,ok,bg,af,set,setUp,setPin,focus:e=>this.setState({focus:e.target.name}),
+      steps:STEPS.map(([k,label,short,sub,time],i)=>{const c=k===step,bad=Object.keys(E[k]).length,vis=s.visited[k],done=!bad&&vis&&k!=='review',warn=vis&&bad&&!c&&k!=='review';return {label,short,n:i+1,sub:done?'Complete':warn?bad+' to fix':sub+' · '+time,go:()=>goStep(k),bg:c?'#EAF5F9':'transparent',hov:c?'#EAF5F9':'#F6F9FB',cbg:c?'#0B4F71':done?'#17704A':warn?'#FDEFD9':'#fff',cfg:c||done?'#fff':warn?'#B4610E':'#6B7F8E',cbd:c||done||warn?'0':'1.5px solid #CBD8E2',icon:done&&!c?'check':warn?'priority_high':'',iconD:(done&&!c)||warn?'inline':'none',numD:(done&&!c)||warn?'none':'inline',fg:c?'#0B3B5C':'#2E4A5F',subFg:done?'#17704A':warn?'#B4610E':'#8A9BA8',mbg:c?'#EAF5F9':'#fff',mbc:c?'#0B6E8E':'#DCE5EC'};}),
+      stepEyebrow:'STEP '+(idx+1)+' OF '+STEPS.length,
+      stepTitle:{start:'Let’s set up your purchaser account',ent:'Tell us about your enterprise',contact:'Contact and address',needs:'What are you looking for?',docs:'Verify your organisation',review:'Review and submit'}[step],
+      stepDesc:{start:'About 6 minutes. Your progress saves automatically.',ent:'Have your Udyam number handy and we’ll fill most of this for you.',contact:'Who providers and our team should talk to, and where your unit is.',needs:'Helps us recommend the right services and providers. You can change this anytime.',docs:'We’ve listed only what applies to you.',review:'Check your details. You can start browsing as soon as you submit.'}[step],
+      autoD:step!=='start'&&step!=='review'?'inline-flex':'none',
+      sStart:step==='start',sEnt:step==='ent',sContact:step==='contact',sNeeds:step==='needs',sDocs:step==='docs',sReview:step==='review',
+      firstName:f.cname.split(' ')[0]||'there',
+      promises:[['schedule','About 6 minutes','Six short steps'],['payments','Free to use','No fees for purchasers'],['verified_user','Verified providers','Every provider is checked']].map(([icon,t,d])=>({icon,t,d})),
+      kinds:[['msme','MSME enterprise','factory','Udyam-registered micro, small or medium enterprise'],['startup','Startup or entrepreneur','rocket_launch','Early-stage business, with or without Udyam'],['assoc','Industry association','groups','Buying services for members or a cluster'],['inst','Large enterprise or institution','corporate_fare','Corporates, PSUs, government and academic buyers']].map(([k,label,icon,d])=>{const on=f.kind===k;return {label,icon,d,bc:on?'#0B6E8E':shownErr.kind?'#D9644F':'#DCE5EC',bg:on?'#F2F9FC':'#fff',sh:on?'0 0 0 4px #E1F2F8':'none',ibg:on?'#0B4F71':'#F1F5F8',ifg:on?'#fff':'#0B5E7E',ckD:on?'block':'none',pick:()=>this.setState(st=>({f:{...st.f,kind:k,hasUd:k==='msme'?'yes':st.f.kind===k?st.f.hasUd:'no',ptype:{startup:'Startup / Entrepreneur',assoc:'Industry Association',inst:'Institutional Purchaser'}[k]||(st.f.udInfo?st.f.ptype:'')},err:{}}))};}),
+      can:[['travel_explore','Browse and shortlist','Search services and compare verified providers.','RIGHT AWAY','#17704A','#E5F5EC'],['post_add','Request quotations','Send RFQs to providers you choose or let us recommend.','AFTER CHECK','#B4610E','#FDEFD9'],['star_rate','Award and review','Track work, close assignments and rate providers.','AFTER CHECK','#B4610E','#FDEFD9']].map(([icon,t,d,tag,tagFg,tagBg])=>({icon,t,d,tag,tagFg,tagBg})),
+      udOpts:[['yes','I have Udyam'],['no','I don’t']].map(([k,label])=>({label,bg:f.hasUd===k?'#fff':'transparent',fg:f.hasUd===k?'#0B3B5C':'#5A7083',sh:f.hasUd===k?'0 1px 3px rgba(11,42,66,.12)':'none',pick:()=>this.setState(st=>({f:{...st.f,hasUd:k},err:{...st.err,udyam:''}}))})),
+      udYes:f.hasUd==='yes',udNo:f.hasUd==='no',fetched:!!f.udInfo&&f.hasUd==='yes',
+      udFacts:f.udInfo?[['factory',f.udInfo.cls+' enterprise'],['category',f.udInfo.nic],['event',f.udInfo.since]].map(([icon,t])=>({icon,t})):[],
+      fetchBg:s.fetching?'#5E8DA5':'#0B4F71',fetchIcon:s.fetching?'progress_activity':f.udInfo?'refresh':'download',fetchLabel:s.fetching?'Fetching…':f.udInfo?'Fetch again':'Fetch details',spinAnim:s.fetching?'spin 0.9s linear infinite':'none',
+      fetchUd:()=>{if(!/^UDYAM-[A-Z]{2}-\d{2}-\d{7}$/.test(f.udyam)){this.setState({err:{...s.err,udyam:'Enter a valid Udyam number first'}});return;}this.setState({fetching:true});setTimeout(()=>{const demo=f.udyam==='UDYAM-UP-43-0012876';const stName=UDST[f.udyam.slice(6,8)]||'';const info=demo?{cls:'Small',nic:'NIC 29301 · Parts for motor vehicles',since:'Registered 14 Mar 2021'}:{cls:'Micro',nic:'NIC code on record',since:'Udyam registered'};this.setState(st=>({fetching:false,f:{...st.f,udInfo:info,ptype:st.f.kind==='msme'||!st.f.ptype?info.cls:st.f.ptype,org:demo?'Shakti Auto Components Pvt Ltd':(st.f.org||'Registered enterprise name'),constitution:demo?'Private Limited Company':st.f.constitution,pan:demo?'AAFCS4521M':st.f.pan,industry:demo?'Auto components':st.f.industry,activity:demo?'Manufacture of parts and accessories for motor vehicles':st.f.activity,state:stName||st.f.state,district:demo?'Kanpur Nagar':st.f.district,pin:demo?'208001':st.f.pin,addr1:demo?'Plot 14, Site II':st.f.addr1,addr2:demo?'Panki Industrial Area':st.f.addr2,auto:{...st.f.auto,org:true,ptype:true,constitution:demo,pan:demo,industry:demo,activity:demo,state:!!stName,district:demo,pin:demo,addr1:demo,addr2:demo}},err:{}}));this.flash('Details fetched from Udyam');},1300);},
+      ptypes:PTYPES,constitutions:CONST,industries:IND,states:Object.keys(DIST),districts:f.state?DIST[f.state]:[],
+      empOpts:['1–10','11–50','51–250','250+'].map(label=>({label,...pill(f.emp===label,setF('emp',label))})),
+      catCards:CATS.map(([id,name,icon])=>{const on=f.cats.includes(id);return {name,icon,bc:on?'#0B6E8E':shownErr.cats?'#D9644F':'#DCE5EC',bg:on?'#F2F9FC':'#fff',ibg:on?'#0B4F71':'#E1F2F8',ifg:on?'#fff':'#0B5E7E',ck:on?'check_circle':'add_circle',fill:on?1:0,toggle:()=>this.setState(st=>({f:{...st.f,cats:on?st.f.cats.filter(x=>x!==id):[...st.f.cats,id]},err:{...st.err,cats:''}}))};}),
+      needCount:f.need.length,
+      timeCards:[['now','Right away','bolt','Within the next month'],['soon','In 1–3 months','calendar_month','Planning ahead'],['explore','Just exploring','explore','Comparing options']].map(([k,label,icon,d])=>{const on=f.timeline===k;return {label,icon,d,bc:on?'#0B6E8E':shownErr.timeline?'#D9644F':'#DCE5EC',bg:on?'#F2F9FC':'#fff',ifg:on?'#0B4F71':'#7A8D9C',ck:on?'radio_button_checked':'radio_button_unchecked',fill:on?1:0,pick:setF('timeline',k)};}),
+      locCards:[['district','Same district','location_on',f.district||'Your district'],['state','Same state','map',f.state||'Your state'],['any','Anywhere in India','public','Widest choice, online or onsite']].map(([k,label,icon,d])=>{const on=f.loc===k;return {label,icon,d,bc:on?'#0B6E8E':shownErr.loc?'#D9644F':'#DCE5EC',bg:on?'#F2F9FC':'#fff',ifg:on?'#0B4F71':'#7A8D9C',ck:on?'radio_button_checked':'radio_button_unchecked',fill:on?1:0,pick:setF('loc',k)};}),
+      budgetOpts:['Under ₹50k','₹50k–2L','₹2L–5L','₹5L+','Not sure'].map(label=>({label,...pill(f.budget===label,setF('budget',label))})),
+      modeOpts:['Online','Onsite','Hybrid','No preference'].map(label=>({label,...pill(f.mode===label,setF('mode',label))})),
+      toggleAlerts:()=>this.setState(st=>({f:{...st.f,alerts:!st.f.alerts}})),alertBg:f.alerts?'#0B6E8E':'#CBD8E2',alertX:f.alerts?'21px':'3px',
+      reqDocRows:reqDocs.map(docRow),optDocRows:docs.filter(d=>!d.req).map(docRow),docDone,docReq:reqDocs.length,docFg:docDone===reqDocs.length?'#17704A':'#B4610E',
+      hasMissing:missing.length>0,missing,missingCount:missing.length,
+      review:[rv('ent',[['Organisation',f.org],['Category',f.ptype],['Constitution',f.constitution],['Industry',f.industry],['Udyam',f.hasUd==='yes'?f.udyam+(f.udInfo?' · verified':''):'Not registered'],['PAN',f.pan],['GSTIN',f.gstin]]),rv('contact',[['Contact person',f.cname],['Designation',f.cdesig],['Mobile','+91 '+f.cmobile],['Email',f.cemail],['Address',[f.addr1,f.addr2,f.district,f.state,f.pin].filter(Boolean).join(', ')]]),rv('needs',[['Interested in',f.cats.map(catName).join(', ')],['Timeline',{now:'Right away',soon:'In 1–3 months',explore:'Just exploring'}[f.timeline]],['Provider location',locLabel],['Budget',f.budget],['Delivery',f.mode]]),rv('docs',reqDocs.map(d=>[d.label,f.uploads[d.id]==='done'?'Uploaded':'','Missing']))],
+      declBc:shownErr.declared?'#D9644F':f.declared?'#9FD3B8':'#E2E9EF',toggleDeclare:()=>this.setState(st=>({f:{...st.f,declared:!st.f.declared},err:{...st.err,declared:''}})),
+      prev:()=>{if(idx>0)goStep(STEPS[idx-1][0]);},prevD:idx>0?'inline-flex':'none',next,
+      nextLabel:step==='start'?'Let’s begin':step==='review'?'Submit':'Continue to '+STEPS[idx+1][2].toLowerCase(),nextIcon:step==='review'?'send':'arrow_forward',nextBg:step==='review'?'#17704A':'#0B4F71',nextSh:step==='review'?'rgba(23,112,74,.28)':'rgba(11,79,113,.25)',
+      footHint:step==='docs'?docDone+' of '+reqDocs.length+' mandatory documents uploaded':step==='review'?(missing.length?missing.length+' items to fix':'Everything looks complete'):'Step '+(idx+1)+' of '+STEPS.length+' · '+cur[4],
+      pv:{ini,name:f.org||'Your organisation',nameFg:f.org?'#0B2A42':'#A3B1BB',loc:f.district&&f.state?f.district+', '+f.state:'Location',udD:f.udInfo?'inline-flex':'none',cls:f.udInfo?f.udInfo.cls+' enterprise':'',indD:f.industry?'inline-block':'none'},
+      mt:{has:f.cats.length>0,empty:!f.cats.length,count:mcount,sub:f.loc?locLabel+(f.loc==='district'&&f.district?' · '+f.district:f.loc==='state'&&f.state?' · '+f.state:''):'Across India · set a location preference to narrow',rows:mrows.map(r=>({name:r.name,n:r.raw,w:Math.round(r.raw/mmax*100)+'%'}))},
+      tip:{t:tip[0],d:tip[1]},
+      openCall:()=>this.flash('We’ll call +91 '+f.cmobile+' within 2 working hours'),openChat:()=>this.flash('Chat with the support team opens here'),
+      autofill:()=>{const fill={ent:{hasUd:'yes',udyam:'UDYAM-UP-43-0012876',udInfo:{cls:'Small',nic:'NIC 29301 · Parts for motor vehicles',since:'Registered 14 Mar 2021'},org:'Shakti Auto Components Pvt Ltd',ptype:'Small',constitution:'Private Limited Company',industry:'Auto components',activity:'Manufacture of parts and accessories for motor vehicles',emp:'51–250',pan:'AAFCS4521M',gstin:'09AAFCS4521M1Z8'},contact:{cdesig:'Director',pin:'208001',state:'Uttar Pradesh',district:'Kanpur Nagar',addr1:'Plot 14, Site II',addr2:'Panki Industrial Area'},needs:{cats:['fin','qp','sus'],need:'A bank-ready DPR for a ₹2 crore CNC machining line, and ZED certification support for our Panki unit.',timeline:'soon',loc:'state',budget:'₹2L–5L',mode:'Hybrid'},docs:{uploads:Object.fromEntries(reqDocs.map(d=>[d.id,'done']))}}[step]||{};this.setState(st=>({f:{...st.f,...fill},err:{}}));this.flash('Sample details filled');},
+      confirmOpen:s.confirm,closeConfirm:()=>this.setState({confirm:false}),
+      doSubmit:()=>{this.setState({confirm:false,done:true},()=>this.persist());window.scrollTo({top:0});},
+      backToReview:()=>this.setState({done:false,step:'review'}),copyId:()=>{try{navigator.clipboard.writeText('BDS-PUR-26-01127');}catch(e){}this.flash('Purchaser ID copied');},
+      track:[['Account created','Mobile and email verified',2],['Profile submitted','Purchaser ID generated',2],['Account check','Usually within 1 working day',1],['Send RFQs to providers','Unlocks after the check. Drafts are saved.',0]].map(([label,sub,st],i,a)=>({label,sub,icon:st===2?'check':st===1?'hourglass_top':'radio_button_unchecked',bg:st===2?'#17704A':st===1?'#FDEFD9':'#EEF2F5',fg:st===2?'#fff':st===1?'#B4610E':'#8A9BA8',tfg:st?'#0B2A42':'#8A9BA8',line:st===2?'#17704A':'#E2E9EF',lineD:i<a.length-1?'block':'none'})),
+      recs,
+      hasToast:!!s.toast,toast:s.toast,toastIcon:s.toastKind==='err'?'error':'check_circle',toastIc:s.toastKind==='err'?'#F3A193':'#7FD3A8'
+    };
+  }
+}
+</script>
+</body>
+</html>
